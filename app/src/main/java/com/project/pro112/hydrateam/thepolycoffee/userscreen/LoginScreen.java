@@ -1,6 +1,7 @@
 package com.project.pro112.hydrateam.thepolycoffee.userscreen;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +52,8 @@ public class LoginScreen extends AppCompatActivity {
     TextView txtforgetPassword;
     Button btnLogin, btnSignUp, btnLoginFacebook;
     ACProgressPie progressPie;
+    CheckBox checkBoxRemember;
+    SharedPreferences sharedPreferences;
 
     String TAG = "MainActivity";
     //Đối tượng Nhận Thông Tin Facebook Của Người Dùng:
@@ -60,7 +64,6 @@ public class LoginScreen extends AppCompatActivity {
     private AccessToken accessToken;
     private LoginButton loginButton;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class LoginScreen extends AppCompatActivity {
         AppEventsLogger.activateApp(this);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.screen_login);
+
 
         //Khởi tạo Firebase:
         mAuth = FirebaseAuth.getInstance();
@@ -116,8 +120,8 @@ public class LoginScreen extends AppCompatActivity {
 
     //Login bang Email and Password
     private void loginWithEmailAndPassword() {
-        String email = edtEmailLogin.getText().toString().trim();
-        String password = edtPasswordLogin.getText().toString().trim();
+        final String email = edtEmailLogin.getText().toString().trim();
+        final String password = edtPasswordLogin.getText().toString().trim();
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Email and password can not be empty", Toast.LENGTH_LONG).show();
@@ -136,16 +140,26 @@ public class LoginScreen extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                progressPie.dismiss();
                                 // Sign in success, update UI with the signed-in user's information
+
+                                //Neu nguoi dung da nhap dung account + voi check vao checkbok:
+                                if (checkBoxRemember.isChecked()) {
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("email", email);
+                                    editor.putString("password", password);
+                                    editor.putBoolean("checked", true);
+                                    editor.apply();
+                                } else {
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.remove("email");
+                                    editor.remove("password");
+                                    editor.remove("checked");
+                                    editor.apply();
+                                }
                                 finish();
+                                progressPie.dismiss();
                                 startActivity(new Intent(LoginScreen.this, MainHome.class));
                                 Toast.makeText(LoginScreen.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-
-
-                                //Reset Pass:
-                                edtPasswordLogin.setText("");
-                                edtPasswordLogin.requestFocus();
                             } else {
                                 progressPie.dismiss();
                                 // If sign in fails, display a message to the user.
@@ -214,7 +228,6 @@ public class LoginScreen extends AppCompatActivity {
                 object_infomation_facebook.setGender(gender);
                 object_infomation_facebook.setBirthday(birthday);
 
-
                 //Truyền Object Sang cho Home Screen:
                 Intent moveToHome = new Intent(LoginScreen.this, MainHome.class);
                 moveToHome.putExtra("Info", object_infomation_facebook);
@@ -265,14 +278,13 @@ public class LoginScreen extends AppCompatActivity {
         //Khi Login Lan Tiep Theo Se LogOut Face:
         LoginManager.getInstance().logOut();
 
-        //Nhan Du Lieu Tu SignUpScreen:
-        Intent getEmailAndPassword = getIntent();
-        String emailFromSignUp = getEmailAndPassword.getStringExtra("email");
-        String passwordFromSignUp = getEmailAndPassword.getStringExtra("password");
-
-        //Gan Du Lieu Moi Nhan Duoc Vao 2 truong Email and Pass:
-        edtEmailLogin.setText(emailFromSignUp);
-        edtPasswordLogin.setText(passwordFromSignUp);
+        if (!checkBoxRemember.isChecked()) {
+            //Nhan Email and Password tu SignUpScreen:
+            String email = getIntent().getStringExtra("email");
+            String password = getIntent().getStringExtra("password");
+            edtEmailLogin.setText(email);
+            edtPasswordLogin.setText(password);
+        }
     }
 
     @Override
@@ -283,11 +295,21 @@ public class LoginScreen extends AppCompatActivity {
     private void initView() {
         //Khởi tạo đối tượng:
         txtforgetPassword = (TextView) findViewById(R.id.forgetPassword);
+
+        //FindViewByID:
+        checkBoxRemember = (CheckBox) findViewById(R.id.checkBox);
         loginButton = (LoginButton) findViewById(R.id.btnLoginFacebook);
         btnSignUp = (Button) findViewById(R.id.btnSignUpInLogin);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         edtEmailLogin = (EditText) findViewById(R.id.edtEmailLogin);
         edtPasswordLogin = (EditText) findViewById(R.id.edtPasswordLogin);
         txtLogoApp = (TextView) findViewById(R.id.logoApp);
+
+        //Khởi tạo Preferences Và Nhớ Account:
+        sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
+        edtEmailLogin.setText(sharedPreferences.getString("email", ""));
+        edtPasswordLogin.setText(sharedPreferences.getString("password", ""));
+        checkBoxRemember.setChecked(sharedPreferences.getBoolean("checked", false));
+
     }
 }
