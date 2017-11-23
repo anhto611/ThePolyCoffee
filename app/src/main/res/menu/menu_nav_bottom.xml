@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/mHome"
+            android:icon="@mipmap/ic_home"
+            android:title="Home"
+            app:showAsAction="ifRoom|withText"></item>
+        <item
+            android:id="@+id/mShopping"
+            android:icon="@mipmap/ic_shopping"
+            android:title="Shopping"
+            app:showAsAction="ifRoom|withText"></item>
+        <item
+            android:id="@+id/mLocation"
+            android:icon="@mipmap/ic_location"
+            android:title="Location"
+            app:showAsAction="ifRoom|withText"></item>
+        <item
+            android:id="@+id/mMusic"
+            android:icon="@mipmap/ic_music"
+            android:title="Music"
+            app:showAsAction="ifRoom|withText"></item>
+        <item
+            android:id="@+id/mSettings"
+            android:icon="@mipmap/ic_settings"
+            android:title="Settings"
+            app:showAsAction="ifRoom|withText"></item>
+    </group>
+
+</menu>

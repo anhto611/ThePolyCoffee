@@ -1,0 +1,141 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.project.pro112.hydrateam.thepolycoffee.fragment.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+
+        <ImageView
+            android:id="@+id/mAvatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/avatar_demo">
+
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/mNameUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tô Huyn"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/color_main"
+                android:paddingLeft="8dp"
+                />
+            <TextView
+                android:id="@+id/mRankUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New member"
+                android:textColor="@color/textview_normal"
+                android:paddingLeft="8dp"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/mPointUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="0"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_main"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_star"
+                    android:paddingTop="5dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right">
+                    <Button
+                        android:id="@+id/mHistory"
+                        android:layout_gravity=""
+                        android:drawableRight="@drawable/ic_history"
+                        android:background="@android:color/transparent"
+                        android:text="History"
+                        android:textAllCaps="false"
+                        android:textColor="@color/textview_normal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingTop="5dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progressRank"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="19dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:progressTint="@color/color_main" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New member"
+                android:textColor="@color/textview_normal"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gold"
+                android:textColor="@color/textview_normal"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diamond"
+                android:gravity="right"
+                android:textColor="@color/textview_normal"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

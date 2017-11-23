@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "840244293430",
+    "firebase_url": "https://the-poly-coffe.firebaseio.com",
+    "project_id": "the-poly-coffe",
+    "storage_bucket": "the-poly-coffe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840244293430:android:812d7cf8272e8cf5",
+        "android_client_info": {
+          "package_name": "com.project.pro112.hydrateam.thepolycoffee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840244293430-a66040t1edlkh3i3knes9vuva0k4l7qb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC75rZBHtsk8iM1reGMqZmVmF3Pofjzj0M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
