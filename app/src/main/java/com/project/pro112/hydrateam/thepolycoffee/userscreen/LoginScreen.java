@@ -174,10 +174,6 @@ public class LoginScreen extends AppCompatActivity {
 
                 //Ham Chua Gia Tri Profile User:
                 resultUserFace();
-
-                //Chuyen Sang HomeScreen
-                finish();
-                startActivity(new Intent(LoginScreen.this, MainHome.class));
             }
 
             @Override
@@ -223,6 +219,7 @@ public class LoginScreen extends AppCompatActivity {
                 Intent moveToHome = new Intent(LoginScreen.this, MainHome.class);
                 moveToHome.putExtra("Info", object_infomation_facebook);
                 startActivity(moveToHome);
+                finish();
             }
         });
         //Lấy thông tin từ Sever:
