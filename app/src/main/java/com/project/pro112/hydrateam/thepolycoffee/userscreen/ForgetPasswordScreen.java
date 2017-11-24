@@ -40,7 +40,7 @@ public class ForgetPasswordScreen extends AppCompatActivity {
 
         //Đổi Font:
         Typeface face = Typeface.createFromAsset(getAssets(),
-                "Lobster-Regular.ttf");
+                "fonts/Lobster-Regular.ttf");
         txtForgetPassword.setTypeface(face);
 
         btnResetPassword.setOnClickListener(new View.OnClickListener() {

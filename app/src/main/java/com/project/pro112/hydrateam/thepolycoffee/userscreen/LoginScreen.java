@@ -92,7 +92,7 @@ public class LoginScreen extends AppCompatActivity {
 
         //Đổi font của logoApp:
         Typeface face = Typeface.createFromAsset(getAssets(),
-                "Lobster-Regular.ttf");
+                "fonts/Lobster-Regular.ttf");
         txtLogoApp.setTypeface(face);
 
         //Chuyen sang Dang Ky User:

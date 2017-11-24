@@ -41,7 +41,7 @@ public class SignUpScreen extends AppCompatActivity {
 
         //Đổi Font:
         Typeface face = Typeface.createFromAsset(getAssets(),
-                "Lobster-Regular.ttf");
+                "fonts/Lobster-Regular.ttf");
         textViewRegister.setTypeface(face);
 
         //Sự Kiện Đăng Ký:

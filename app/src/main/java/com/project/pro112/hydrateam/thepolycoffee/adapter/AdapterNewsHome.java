@@ -1,6 +1,8 @@
 package com.project.pro112.hydrateam.thepolycoffee.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.activity.LoadNews;
 import com.project.pro112.hydrateam.thepolycoffee.models.ArticleNews;
 import com.squareup.picasso.Picasso;
 
@@ -39,9 +42,25 @@ public class AdapterNewsHome extends RecyclerView.Adapter<AdapterNewsHome.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ArticleNews articleNews = listNews.get(position);
+        final ArticleNews articleNews = listNews.get(position);
         holder.titleNews.setText(articleNews.getTitle());
         Picasso.with(context).load(articleNews.getImage()).into(holder.imageNews);
+        holder.moreNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, LoadNews.class);
+                intent.putExtra("link", articleNews.getLink());
+                context.startActivity(intent);
+            }
+        });
+        holder.cardViewNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, LoadNews.class);
+                intent.putExtra("link", articleNews.getLink());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -51,15 +70,17 @@ public class AdapterNewsHome extends RecyclerView.Adapter<AdapterNewsHome.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageNews;
-        TextView titleNews, contentNew;
+        TextView titleNews, contentNews;
         Button moreNews;
+        CardView cardViewNews;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageNews = (ImageView) itemView.findViewById(R.id.imageNews);
             titleNews = (TextView) itemView.findViewById(R.id.titleNews);
-            contentNew = (TextView) itemView.findViewById(R.id.contentNews);
+            contentNews = (TextView) itemView.findViewById(R.id.contentNews);
             moreNews = (Button) itemView.findViewById(R.id.moreNews);
+            cardViewNews = (CardView) itemView.findViewById(R.id.cardViewNews);
         }
     }
 }

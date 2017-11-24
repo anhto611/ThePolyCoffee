@@ -63,7 +63,7 @@ public class EditProfileScreen extends AppCompatActivity {
         initView();
         //Doi Font:
         Typeface face = Typeface.createFromAsset(getAssets(),
-                "Lobster-Regular.ttf");
+                "fonts/Lobster-Regular.ttf");
         clickEditPhoto.setTypeface(face);
         textViewSdt.setTypeface(face);
         textViewEmail.setTypeface(face);
