@@ -10,14 +10,14 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
-import com.project.pro112.hydrateam.thepolycoffee.fragment.SettingsFragment;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.HomeFragment;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.LocationGPSFragment;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.MusicFragment;
+import com.project.pro112.hydrateam.thepolycoffee.fragment.SettingsFragment;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.ShoppingFragment;
 import com.project.pro112.hydrateam.thepolycoffee.tool.BottomNavigationViewHelper;
 
-public class MainHome extends AppCompatActivity {
+public class MainHome extends AppCompatActivity{
 
     BottomNavigationView navigationView;
 
@@ -27,8 +27,10 @@ public class MainHome extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main_home);
 
+        //Load FragmentHome khi lần đầu vào.
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutHome, new HomeFragment()).commit();
 
+        //Sự kiện click cho Bottom menu
         navigationView = (BottomNavigationView) findViewById(R.id.mBottom_menu);
         BottomNavigationViewHelper.disableShiftMode(navigationView);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
