@@ -47,13 +47,13 @@
         android:text="Edit Photo"
         android:textAlignment="center"
         android:textColor="#FFF"
-        android:textSize="15sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgAvatarProfile" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
@@ -67,6 +67,8 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextFullNameProfile" />
 
     <EditText
+        android:textSize="15sp"
+        android:textColor="#FFF"
         android:id="@+id/editTextEmailProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,10 +79,10 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textViewBirthDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -92,6 +94,8 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextEmailProfile" />
 
     <EditText
+        android:textSize="15sp"
+        android:textColor="#FFF"
         android:id="@+id/editTextBirthDayProfile"
         android:layout_width="173dp"
         android:layout_height="wrap_content"
@@ -100,7 +104,7 @@
         android:background="@drawable/custom_edittext_login"
         android:inputType="date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewBirthDay" />
 
     <TextView
         android:id="@+id/textViewGender"
@@ -110,10 +114,12 @@
         android:layout_marginTop="16dp"
         android:text="Gender"
         android:textColor="#FFF"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/textViewBirthDay"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmailProfile" />
 
     <EditText
+        android:textSize="15sp"
+        android:textColor="#FFF"
         android:id="@+id/editTextGender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -125,7 +131,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toEndOf="@+id/editTextBirthDayProfile"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewBirthDay" />
 
     <TextView
         android:id="@+id/textViewSdt"
@@ -142,6 +148,8 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextBirthDayProfile" />
 
     <EditText
+        android:textSize="15sp"
+        android:textColor="#FFF"
         android:id="@+id/editTextContactNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -161,7 +169,10 @@
         android:layout_marginEnd="45dp"
         android:layout_marginStart="45dp"
         android:layout_marginTop="8dp"
+        android:textSize="15sp"
+        android:textColor="#FFF"
         android:background="@drawable/custom_edittext_login"
+
         android:inputType="textCapCharacters"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

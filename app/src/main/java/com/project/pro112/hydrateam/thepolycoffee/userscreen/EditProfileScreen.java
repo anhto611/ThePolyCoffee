@@ -2,6 +2,7 @@ package com.project.pro112.hydrateam.thepolycoffee.userscreen;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -30,7 +31,12 @@ public class EditProfileScreen extends AppCompatActivity {
     private static final int SELECT_FILE = 2;
     //Khai bao View:
     CircleImageView imgAvatar;
-    TextView clickEditPhoto;
+    TextView clickEditPhoto,
+            fullnameProfile,
+            textViewEmail,
+            textViewBirthDay,
+            textViewSdt,
+            textViewGender;
     EditText editTextFullNameProfile,
             editTextEmailProfile,
             editTextBirthDayProfile,
@@ -55,6 +61,16 @@ public class EditProfileScreen extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         initView();
+        //Doi Font:
+        Typeface face = Typeface.createFromAsset(getAssets(),
+                "Lobster-Regular.ttf");
+        clickEditPhoto.setTypeface(face);
+        textViewSdt.setTypeface(face);
+        textViewEmail.setTypeface(face);
+        textViewBirthDay.setTypeface(face);
+        fullnameProfile.setTypeface(face);
+        textViewGender.setTypeface(face);
+        btnSave.setTypeface(face);
 
         //Su kien click vao TextView Edit Photo:
         clickEditPhoto.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +172,6 @@ public class EditProfileScreen extends AppCompatActivity {
 
     //Anh Xa View:
     private void initView() {
-        //khởi tạo đối tượng:
         //FIREBASE DATABASE INSTANCE
         mAuth = FirebaseAuth.getInstance();
 //        mUserDatabse = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
@@ -172,6 +187,13 @@ public class EditProfileScreen extends AppCompatActivity {
         editTextGender = (EditText) findViewById(R.id.editTextGender);
         editTextContactNumber = (EditText) findViewById(R.id.editTextContactNumber);
         btnSave = (Button) findViewById(R.id.buttonSaveInfoProfile);
+
+        textViewSdt = (TextView) findViewById(R.id.textViewSdt);
+        textViewEmail = (TextView) findViewById(R.id.textViewEmail);
+        textViewBirthDay = (TextView) findViewById(R.id.textViewBirthDay);
+        fullnameProfile = (TextView) findViewById(R.id.fullnameProfile);
+        textViewGender = (TextView) findViewById(R.id.textViewGender);
+
         //Lam Anh Bo Tron:
     }
 }

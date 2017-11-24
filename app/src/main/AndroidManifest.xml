@@ -40,25 +40,22 @@
         <activity
             android:name=".userscreen.LoginScreen"
             android:theme="@style/AppThemeNoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".userscreen.SignUpScreen"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".activity.MainHome"
-            android:theme="@style/AppThemeNoActionBar"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBar"></activity>
         <activity
             android:name=".userscreen.EditProfileScreen"
             android:theme="@style/AppThemeNoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".userscreen.ForgetPasswordScreen"
