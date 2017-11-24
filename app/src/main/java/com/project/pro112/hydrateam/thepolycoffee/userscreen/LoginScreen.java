@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -67,6 +68,7 @@ public class LoginScreen extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         setContentView(R.layout.screen_login);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
         //Khởi tạo Firebase:
@@ -181,6 +183,10 @@ public class LoginScreen extends AppCompatActivity {
 
                 //Ham Chua Gia Tri Profile User:
                 resultUserFace();
+
+                //Chuyen Sang Home:
+                startActivity(new Intent(LoginScreen.this, MainHome.class));
+                Toast.makeText(LoginScreen.this, "Login With Facebook Successfully", Toast.LENGTH_SHORT).show();
             }
 
             @Override
