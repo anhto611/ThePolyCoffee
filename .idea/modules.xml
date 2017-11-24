@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ThePolyCoffee.iml" filepath="$PROJECT_DIR$/ThePolyCoffee.iml" />
-      <module fileurl="file://C:\Users\Huyn_TQT\Desktop\ThePolyCoffee\ThePolyCoffee.iml" filepath="C:\Users\Huyn_TQT\Desktop\ThePolyCoffee\ThePolyCoffee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ThePolyCoffee_GitHub.iml" filepath="$PROJECT_DIR$/ThePolyCoffee_GitHub.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
