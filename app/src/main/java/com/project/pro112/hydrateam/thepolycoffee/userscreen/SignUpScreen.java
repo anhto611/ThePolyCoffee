@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -34,7 +33,6 @@ public class SignUpScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_screen);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mAuth = FirebaseAuth.getInstance();
         initView();
@@ -87,9 +85,10 @@ public class SignUpScreen extends AppCompatActivity {
 
             //Kiểm Tra Equals Truong Confirm Your Password And Truong Password:
         } else if (!password.equals(confirmPassword)) {
-            Toast.makeText(this, "password incorrect", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Password incorrect", Toast.LENGTH_SHORT).show();
             edtConfirmPasswordSignUp.requestFocus();
             progressPie.dismiss();
+
         } else {
             //Code Dang Ky User:
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -100,8 +99,6 @@ public class SignUpScreen extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 progressPie.dismiss();
 
-                                finish();
-
                                 //Chuyen Du Lieu Vua Dang Ky Sang LoginScreen:
                                 Intent putEmailAndPass = new Intent(SignUpScreen.this, LoginScreen.class);
                                 putEmailAndPass.putExtra("email", email);
@@ -110,6 +107,7 @@ public class SignUpScreen extends AppCompatActivity {
 
                                 Toast.makeText(SignUpScreen.this, "Registration Successfully", Toast.LENGTH_SHORT).show();
 
+                                finish();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 progressPie.dismiss();
@@ -123,10 +121,6 @@ public class SignUpScreen extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //Reset lai 2 truong thong tin:
-        editEmailSignUp.setText("");
-        editPasswordSignUp.setText("");
-        editEmailSignUp.requestFocus();
     }
 
     @Override

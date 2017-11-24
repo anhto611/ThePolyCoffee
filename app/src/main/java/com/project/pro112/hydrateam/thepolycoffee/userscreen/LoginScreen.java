@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -48,7 +47,7 @@ public class LoginScreen extends AppCompatActivity {
     TextView txtLogoApp;
     EditText edtEmailLogin, edtPasswordLogin;
     TextView txtforgetPassword;
-    Button btnLogin, btnSignUp, btnLoginFacebook;
+    Button btnLogin, btnSignUp;
     ACProgressPie progressPie;
 
     String TAG = "MainActivity";
@@ -67,11 +66,24 @@ public class LoginScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.screen_login);
+
 
         //Khởi tạo Firebase:
         mAuth = FirebaseAuth.getInstance();
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                //Checking User:
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                if (user != null) {
+                    Intent moveToHome = new Intent(LoginScreen.this, MainHome.class);
+                    moveToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(moveToHome);
+                }
+            }
+        };
 
         //Ánh Xạ Các View:
         initView();
@@ -116,8 +128,8 @@ public class LoginScreen extends AppCompatActivity {
 
     //Login bang Email and Password
     private void loginWithEmailAndPassword() {
-        String email = edtEmailLogin.getText().toString().trim();
-        String password = edtPasswordLogin.getText().toString().trim();
+        final String email = edtEmailLogin.getText().toString().trim();
+        final String password = edtPasswordLogin.getText().toString().trim();
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Email and password can not be empty", Toast.LENGTH_LONG).show();
@@ -136,16 +148,11 @@ public class LoginScreen extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                progressPie.dismiss();
                                 // Sign in success, update UI with the signed-in user's information
                                 finish();
+                                progressPie.dismiss();
                                 startActivity(new Intent(LoginScreen.this, MainHome.class));
                                 Toast.makeText(LoginScreen.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-
-
-                                //Reset Pass:
-                                edtPasswordLogin.setText("");
-                                edtPasswordLogin.requestFocus();
                             } else {
                                 progressPie.dismiss();
                                 // If sign in fails, display a message to the user.
@@ -214,11 +221,6 @@ public class LoginScreen extends AppCompatActivity {
                 object_infomation_facebook.setGender(gender);
                 object_infomation_facebook.setBirthday(birthday);
 
-
-                //Truyền Object Sang cho Home Screen:
-                Intent moveToHome = new Intent(LoginScreen.this, MainHome.class);
-                moveToHome.putExtra("Info", object_infomation_facebook);
-                startActivity(moveToHome);
                 finish();
             }
         });
@@ -265,29 +267,33 @@ public class LoginScreen extends AppCompatActivity {
         //Khi Login Lan Tiep Theo Se LogOut Face:
         LoginManager.getInstance().logOut();
 
-        //Nhan Du Lieu Tu SignUpScreen:
-        Intent getEmailAndPassword = getIntent();
-        String emailFromSignUp = getEmailAndPassword.getStringExtra("email");
-        String passwordFromSignUp = getEmailAndPassword.getStringExtra("password");
+        //Nhan Email and Password tu SignUpScreen:
+        String email = getIntent().getStringExtra("email");
+        String password = getIntent().getStringExtra("password");
+        edtEmailLogin.setText(email);
+        edtPasswordLogin.setText(password);
 
-        //Gan Du Lieu Moi Nhan Duoc Vao 2 truong Email and Pass:
-        edtEmailLogin.setText(emailFromSignUp);
-        edtPasswordLogin.setText(passwordFromSignUp);
+        mAuth.addAuthStateListener(mAuthStateListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        mAuth.removeAuthStateListener(mAuthStateListener);
+        finish();
     }
 
     private void initView() {
         //Khởi tạo đối tượng:
         txtforgetPassword = (TextView) findViewById(R.id.forgetPassword);
+
+        //FindViewByID:
         loginButton = (LoginButton) findViewById(R.id.btnLoginFacebook);
         btnSignUp = (Button) findViewById(R.id.btnSignUpInLogin);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         edtEmailLogin = (EditText) findViewById(R.id.edtEmailLogin);
         edtPasswordLogin = (EditText) findViewById(R.id.edtPasswordLogin);
         txtLogoApp = (TextView) findViewById(R.id.logoApp);
+
     }
 }
