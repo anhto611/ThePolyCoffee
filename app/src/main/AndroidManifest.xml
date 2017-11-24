@@ -48,7 +48,9 @@
             android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".activity.MainHome"
-            android:theme="@style/AppThemeNoActionBar" />
+            android:theme="@style/AppThemeNoActionBar"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".userscreen.EditProfileScreen"
             android:theme="@style/AppThemeNoActionBar">
