@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
-import com.project.pro112.hydrateam.thepolycoffee.activity.LoadNews;
+import com.project.pro112.hydrateam.thepolycoffee.activity.home.LoadNews;
 import com.project.pro112.hydrateam.thepolycoffee.models.ArticleNews;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +45,7 @@ public class AdapterNewsHome extends RecyclerView.Adapter<AdapterNewsHome.ViewHo
         final ArticleNews articleNews = listNews.get(position);
         holder.titleNews.setText(articleNews.getTitle());
         Picasso.with(context).load(articleNews.getImage()).into(holder.imageNews);
+        holder.contentNews.setText(articleNews.getContent());
         holder.moreNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

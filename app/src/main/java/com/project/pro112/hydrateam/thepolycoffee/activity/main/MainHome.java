@@ -1,4 +1,4 @@
-package com.project.pro112.hydrateam.thepolycoffee.activity;
+package com.project.pro112.hydrateam.thepolycoffee.activity.main;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

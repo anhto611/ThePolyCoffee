@@ -11,7 +11,7 @@
         <item
             android:id="@+id/mShopping"
             android:icon="@mipmap/ic_shopping"
-            android:title="Shopping"
+            android:title="Shop"
             app:showAsAction="ifRoom|withText"></item>
         <item
             android:id="@+id/mLocation"

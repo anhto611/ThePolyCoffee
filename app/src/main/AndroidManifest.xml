@@ -35,7 +35,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".userscreen.LoginScreen">
+            android:name=".userscreen.LoginScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,20 +44,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".userscreen.SignUpScreen" />
-        <activity
-            android:name=".activity.MainHome"
+            android:name=".userscreen.SignUpScreen"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".userscreen.EditProfileScreen" />
+            android:name=".activity.main.MainHome"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".userscreen.ForgetPasswordScreen" />
+            android:name=".userscreen.EditProfileScreen"
+            android:screenOrientation="portrait" />
+        <activity android:name=".userscreen.ForgetPasswordScreen" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".activity.MembershipProgram" />
-        <activity android:name=".activity.OrderHistory" />
-        <activity android:name=".activity.LoadNews"></activity>
+        <activity android:name=".activity.home.MembershipProgram" />
+        <activity android:name=".activity.home.PurchaseHistory" />
+        <activity android:name=".activity.home.LoadNews" />
+        <activity android:name=".activity.settings.Support" />
+        <activity android:name=".activity.settings.About"></activity>
     </application>
 
 </manifest>

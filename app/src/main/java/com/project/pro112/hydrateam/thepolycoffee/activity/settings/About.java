@@ -1,4 +1,4 @@
-package com.project.pro112.hydrateam.thepolycoffee.activity;
+package com.project.pro112.hydrateam.thepolycoffee.activity.settings;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 
-public class OrderHistory extends AppCompatActivity {
+public class About extends AppCompatActivity {
 
     Toolbar toolbar;
     TextView txtTitle;
@@ -16,18 +16,19 @@ public class OrderHistory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_history);
+        setContentView(R.layout.activity_about);
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         txtTitle = (TextView) findViewById(R.id.tvTitleToolbar);
 
         toolbar.setTitle("");
-        txtTitle.setText("Order history");
+        txtTitle.setText("About");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home){

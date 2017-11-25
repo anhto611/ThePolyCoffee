@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
-import com.project.pro112.hydrateam.thepolycoffee.activity.MembershipProgram;
-import com.project.pro112.hydrateam.thepolycoffee.activity.OrderHistory;
+import com.project.pro112.hydrateam.thepolycoffee.activity.home.MembershipProgram;
+import com.project.pro112.hydrateam.thepolycoffee.activity.home.PurchaseHistory;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.AdapterNewsHome;
 import com.project.pro112.hydrateam.thepolycoffee.models.ArticleNews;
 import com.project.pro112.hydrateam.thepolycoffee.tool.DomParser;
@@ -64,7 +63,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         btnHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), OrderHistory.class);
+                Intent intent = new Intent(getActivity(), PurchaseHistory.class);
                 startActivity(intent);
             }
         });
@@ -119,31 +118,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 String img = "";
                 String title;
                 String link;
-//            String content;
+                String content;
                 ArticleNews articleNews;
                 for (int i = 0; i < nodeList.getLength(); i++) {
                     String cdata = nodeListdescription.item(i + 1).getTextContent();
+                    content  = cdata.substring(cdata.indexOf("</div>")+6);
+//                    Log.d("content", content + ".........." + i);
                     Pattern getImg = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>");
-//                Pattern getContent = Pattern.compile(cdata.substring(cdata.indexOf("</div>"), cdata.indexOf("]]>")));
                     Matcher matcherImg = getImg.matcher(cdata);
-//                Matcher matcherContent = getContent.matcher(cdata);
                     if (matcherImg.find()) {
                         img = matcherImg.group(1);
-                        Log.d("hinhanh", img + ".........." + i);
+//                        Log.d("image", img + ".........." + i);
                     }
-//                if (matcherContent.find()) {
-//                    content = matcherContent.group(1);
-//                    Log.d("noidung", content + ".........." + i);
-//                }
                     Element element = (Element) nodeList.item(i);
                     title = domParser.getValue(element, "title");
                     link = domParser.getValue(element, "link");
-//                content = domParser.getValue(element, "pubDate");
-//                Log.d("title", title + ".........." + i);
-//                Log.d("link", link + ".........." + i);
+//                    Log.d("title", title + ".........." + i);
+//                    Log.d("link", link + ".........." + i);
 
 
-                    articleNews = new ArticleNews(title, link, img);
+                    articleNews = new ArticleNews(title, link, img, content);
                     listNews.add(articleNews);
 
                     adapterNewsHome = new AdapterNewsHome(getActivity(), listNews);

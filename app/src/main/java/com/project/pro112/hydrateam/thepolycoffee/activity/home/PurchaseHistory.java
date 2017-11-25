@@ -1,4 +1,4 @@
-package com.project.pro112.hydrateam.thepolycoffee.activity;
+package com.project.pro112.hydrateam.thepolycoffee.activity.home;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 
-public class MembershipProgram extends AppCompatActivity {
+public class PurchaseHistory extends AppCompatActivity {
 
     Toolbar toolbar;
     TextView txtTitle;
@@ -16,19 +16,18 @@ public class MembershipProgram extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_membership_program);
+        setContentView(R.layout.activity_purchase_history);
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         txtTitle = (TextView) findViewById(R.id.tvTitleToolbar);
 
         toolbar.setTitle("");
-        txtTitle.setText("Membership program");
+        txtTitle.setText("Purchase history");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home){

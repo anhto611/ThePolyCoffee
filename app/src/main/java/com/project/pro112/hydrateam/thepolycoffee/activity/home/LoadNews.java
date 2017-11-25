@@ -1,4 +1,4 @@
-package com.project.pro112.hydrateam.thepolycoffee.activity;
+package com.project.pro112.hydrateam.thepolycoffee.activity.home;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

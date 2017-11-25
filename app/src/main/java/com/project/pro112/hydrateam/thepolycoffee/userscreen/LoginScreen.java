@@ -34,7 +34,7 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.project.pro112.hydrateam.thepolycoffee.R;
-import com.project.pro112.hydrateam.thepolycoffee.activity.MainHome;
+import com.project.pro112.hydrateam.thepolycoffee.activity.main.MainHome;
 
 import org.json.JSONException;
 import org.json.JSONObject;

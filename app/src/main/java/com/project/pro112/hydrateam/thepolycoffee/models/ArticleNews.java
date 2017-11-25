@@ -9,10 +9,11 @@ import java.io.Serializable;
 public class ArticleNews implements Serializable {
     private String title, link, image, content;
 
-    public ArticleNews(String title, String link, String image) {
+    public ArticleNews(String title, String link, String image, String content) {
         this.title = title;
         this.link = link;
         this.image = image;
+        this.content = content;
     }
 
     public String getContent() {
