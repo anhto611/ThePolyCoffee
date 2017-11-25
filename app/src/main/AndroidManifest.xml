@@ -3,6 +3,9 @@
     package="com.project.pro112.hydrateam.thepolycoffee">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -33,7 +36,7 @@
         </activity>
         <activity
             android:name=".userscreen.LoginScreen"
-            android:theme="@style/AppThemeNoActionBar">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,16 +45,22 @@
         </activity>
         <activity
             android:name=".userscreen.SignUpScreen"
-            android:theme="@style/AppThemeNoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MainHome"
-            android:theme="@style/AppThemeNoActionBar" />
+            android:name=".activity.main.MainHome"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".userscreen.EditProfileScreen"
-            android:theme="@style/AppThemeNoActionBar" />
+            android:screenOrientation="portrait" />
+        <activity android:name=".userscreen.ForgetPasswordScreen" />
         <activity
-            android:name=".userscreen.ForgetPasswordScreen"
-            android:theme="@style/AppThemeNoActionBar"/>
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".activity.home.MembershipProgram" />
+        <activity android:name=".activity.home.PurchaseHistory" />
+        <activity android:name=".activity.home.LoadNews" />
+        <activity android:name=".activity.settings.Support" />
+        <activity android:name=".activity.settings.About"></activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,13 +33,14 @@ public class ForgetPasswordScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password_screen);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         initView();
         mAuth = FirebaseAuth.getInstance();
 
         //Đổi Font:
         Typeface face = Typeface.createFromAsset(getAssets(),
-                "Lobster-Regular.ttf");
+                "fonts/Lobster-Regular.ttf");
         txtForgetPassword.setTypeface(face);
 
         btnResetPassword.setOnClickListener(new View.OnClickListener() {

@@ -1,14 +1,139 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_main"
     tools:context="com.project.pro112.hydrateam.thepolycoffee.fragment.SettingsFragment">
 
     <TextView
+        android:id="@+id/logoAppSetting"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Settings"
-        android:gravity="center"
-        android:textSize="30sp"/>
+        android:layout_height="wrap_content"
+        android:background="@color/color_main"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:text="The Poly Coffee"
+        android:textAlignment="center"
+        android:textColor="#FFF"
+        android:textSize="40sp" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/accountClick"
+            style="@style/LinearSettings">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_bottom"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/border_circle"
+                    android:src="@mipmap/ic_account" />
+
+                <TextView
+                    style="@style/TextSettings"
+                    android:text="@string/setting_account" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/supportClick"
+            style="@style/LinearSettings">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_bottom"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/border_circle"
+                    android:src="@mipmap/ic_support" />
+
+                <TextView
+                    style="@style/TextSettings"
+                    android:text="@string/setting_support" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/aboutClick"
+            style="@style/LinearSettings">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_bottom"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/border_circle"
+                    android:src="@mipmap/ic_about" />
+
+                <TextView
+                    style="@style/TextSettings"
+                    android:text="@string/setting_about" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_btn_logout"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:background="@drawable/background_button_no_shadow"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_made_with"
+            android:textColor="@android:color/white"/>
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/version"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
