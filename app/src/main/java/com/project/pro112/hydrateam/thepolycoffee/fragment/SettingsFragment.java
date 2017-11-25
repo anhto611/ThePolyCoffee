@@ -69,6 +69,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseAuth.getInstance().signOut();
                         startActivity(new Intent(getContext(), LoginScreen.class));
+
                     }
                 });
                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -91,5 +92,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 }

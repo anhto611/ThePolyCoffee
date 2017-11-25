@@ -120,6 +120,8 @@ public class LoginScreen extends AppCompatActivity {
                 forgetPassword();
             }
         });
+
+
     }
 
     //ForgetPassword:
@@ -129,12 +131,13 @@ public class LoginScreen extends AppCompatActivity {
 
     //Login bang Email and Password
     private void loginWithEmailAndPassword() {
-        final String email = edtEmailLogin.getText().toString().trim();
-        final String password = edtPasswordLogin.getText().toString().trim();
+        String emailLogin = edtEmailLogin.getText().toString().trim();
+        String passwordLogin = edtPasswordLogin.getText().toString().trim();
 
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(emailLogin) || TextUtils.isEmpty(passwordLogin)) {
             Toast.makeText(this, "Email and password can not be empty", Toast.LENGTH_LONG).show();
         } else {
+
             //Hien thi progressPie
             progressPie = new ACProgressPie.Builder(LoginScreen.this)
                     .ringColor(Color.WHITE)
@@ -144,7 +147,7 @@ public class LoginScreen extends AppCompatActivity {
             progressPie.show();
 
             //Code Dang Nhap
-            mAuth.signInWithEmailAndPassword(email, password)
+            mAuth.signInWithEmailAndPassword(emailLogin, passwordLogin)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {

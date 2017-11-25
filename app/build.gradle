@@ -32,10 +32,10 @@ dependencies {
     //Sdk Face
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     //Firebase Authencation
-    compile 'com.google.firebase:firebase-auth:11.6.0'
-    compile 'com.google.firebase:firebase-core:11.6.0'
-    compile 'com.google.firebase:firebase-database:11.6.0'
-    compile 'com.google.firebase:firebase-storage:11.6.0'
+    compile 'com.google.firebase:firebase-auth:9.4.0'
+    compile 'com.google.firebase:firebase-core:9.4.0'
+    compile 'com.google.firebase:firebase-database:9.4.0'
+    compile 'com.google.firebase:firebase-storage:9.4.0'
     //Custome ProgreesDialod:
     compile 'cc.cloudist.acplibrary:library:1.2.1'
     //BO TRÒN HÌNH ẢNH VỚI PICASSO and CircleImageview

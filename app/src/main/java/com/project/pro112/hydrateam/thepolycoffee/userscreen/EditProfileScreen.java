@@ -1,5 +1,6 @@
 package com.project.pro112.hydrateam.thepolycoffee.userscreen;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -63,11 +64,6 @@ public class EditProfileScreen extends AppCompatActivity {
 
     //IMAGE HOLD URI
     Uri imageHoldUri = null;
-
-    //Check Format Email:
-    private void checkEmail(String email) {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,14 +147,12 @@ public class EditProfileScreen extends AppCompatActivity {
         int year = calendar.get(Calendar.YEAR);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(EditProfileScreen.this, new DatePickerDialog.OnDateSetListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                SimpleDateFormat simpleDateFormat = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                     calendar.set(i, i1, i2);
-                    simpleDateFormat = new SimpleDateFormat("dd/MMM/yyyy");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMM/yyyy");
                     editTextBirthDayProfile.setText(simpleDateFormat.format(calendar.getTime()));
-                }
             }
         }, year, month, date);
         datePickerDialog.show();
@@ -227,24 +221,6 @@ public class EditProfileScreen extends AppCompatActivity {
         }
     }
 
-    /* else if (!TextUtils.isEmpty(email)) {
-            String emailPattern = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-            Pattern regex = Pattern.compile(emailPattern);
-            Matcher matcher = regex.matcher(email);
-            if (!matcher.find()) {
-                Toast.makeText(this, "Wrong email format", Toast.LENGTH_SHORT).show();
-                editTextEmailProfile.requestFocus();
-            }
-        } else if (TextUtils.isEmpty(contactNumber)) {
-            Toast.makeText(this, "Contact Number not be empty", Toast.LENGTH_SHORT).show();
-            editTextContactNumber.requestFocus();
-        } else if (TextUtils.isEmpty(birthDay)) {
-            Toast.makeText(this, "Birth Day can not be empty", Toast.LENGTH_SHORT).show();
-            editTextBirthDayProfile.requestFocus();
-        } else if (TextUtils.isEmpty(gender)) {
-            Toast.makeText(this, "Gender can not be empty", Toast.LENGTH_SHORT).show();
-            editTextGender.requestFocus();
-        }*/
     // ActivityResultIntent
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

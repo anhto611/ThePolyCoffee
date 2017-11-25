@@ -105,6 +105,7 @@ public class SignUpScreen extends AppCompatActivity {
                                 Intent putEmailAndPass = new Intent(SignUpScreen.this, LoginScreen.class);
                                 putEmailAndPass.putExtra("email", email);
                                 putEmailAndPass.putExtra("password", password);
+                                FirebaseAuth.getInstance().signOut();
                                 startActivity(putEmailAndPass);
 
                                 Toast.makeText(SignUpScreen.this, "Registration Successfully", Toast.LENGTH_SHORT).show();

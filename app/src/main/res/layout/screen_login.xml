@@ -73,7 +73,7 @@
         android:background="@drawable/custom_button_login"
         android:text="Log In"
         android:textAllCaps="false"
-        android:textColor="#c77366"
+        android:textColor="#FFF"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
