@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    card_view:cardCornerRadius="0dp">
+    <RelativeLayout
+        android:padding="10dp"
+        android:background="@drawable/background_cardview_drinks_and_cakes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/Relayout">
+        <ImageView
+            android:src="@drawable/douong"
+            android:id="@+id/foodImg"
+            android:layout_width="70dp"
+            android:scaleType="fitXY"
+            android:layout_marginRight="10dp"
+            android:layout_height="70dp" />
+        <TextView
+            android:id="@+id/foodName"
+            android:layout_toRightOf="@id/foodImg"
+            android:layout_width="match_parent"
+            android:text="Tên thức ăn"
+            android:textStyle="bold"
+            android:textColor="@color/color_main"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/foodDes"
+            android:layout_toRightOf="@id/foodImg"
+            android:layout_below="@id/foodName"
+            android:layout_width="match_parent"
+            android:text="Miêu tả"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/textview_normal_more"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/foodPri"
+            android:layout_toRightOf="@id/foodImg"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:text="28000VND"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/textview_normal_more"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/btnPlus"
+            android:layout_width="25dp"
+            android:src="@drawable/ic_add_circle_outline_black_24dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
