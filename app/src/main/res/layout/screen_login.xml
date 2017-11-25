@@ -34,7 +34,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/custom_edittext_login"
         android:hint="Email"
-        android:inputType="textMultiLine"
+        android:inputType="textPersonName"
         android:textColor="#cdffffff"
         android:textColorHint="#cdffffff"
         android:textSize="13sp"
