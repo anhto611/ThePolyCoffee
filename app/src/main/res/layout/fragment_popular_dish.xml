@@ -5,7 +5,7 @@
     android:background="#F1ECE9"
     tools:context="com.project.pro112.hydrateam.thepolycoffee.fragment.PopularDish">
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/mRecyclerView"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

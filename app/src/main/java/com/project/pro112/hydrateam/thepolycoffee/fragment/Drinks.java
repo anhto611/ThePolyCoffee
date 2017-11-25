@@ -1,42 +1,42 @@
 package com.project.pro112.hydrateam.thepolycoffee.fragment;
 
 
+import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterDrinksandCakes;
-import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterPolularDish;
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
-import com.project.pro112.hydrateam.thepolycoffee.tool.SpaceBetweenGrid;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PopularDish extends Fragment implements CheckButtonViewCartToHideOrShow{
+public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow{
 
+    public Drinks() {
 
-    public PopularDish() {
-        // Required empty public constructor
     }
+    @SuppressLint("ValidFragment")
+    private boolean isDrinks;
     private RecyclerView mRecyclerView;
-    private GridLayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     private FragmentManager fragmentManager;
-    private int numberOfColums = 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_popular_dish, container, false);
+        View view = inflater.inflate(R.layout.fragment_drinks_and_cakes, container, false);
         mRecyclerView = view.findViewById(R.id.mRecyclerView);
         fragmentManager = getFragmentManager();
         setUpRecyclerView();
@@ -44,24 +44,24 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Toast.makeText(getContext(), "sit", Toast.LENGTH_SHORT).show();
+    }
+
     private void setUpRecyclerView() {
         // không đổi size của card trong content
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new GridLayoutManager(getContext(),numberOfColums);
+        mLayoutManager = new LinearLayoutManager(getContext());
 
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // chọn adapter
-        RecyclerViewAdapterPolularDish mAdapter = new RecyclerViewAdapterPolularDish(getContext(),fragmentManager);
+        RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(),fragmentManager);
         mRecyclerView.setAdapter(mAdapter);
-
-        int spanCount = 2; // 2 columns
-        int spacing = 20; // 20px
-        boolean includeEdge = true;
-        mRecyclerView.addItemDecoration(new SpaceBetweenGrid(spanCount, spacing, includeEdge));
     }
-
     private void hideButtonViewCart() {
         final Button button = (Button) getActivity().findViewById(R.id.btnViewCart);
         if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 5){
@@ -76,8 +76,8 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager mLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-                // có data số 7 đổi lại lại số lượng - 1
-                if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 7){
+                // có data số 5 đổi lại lại số lượng - 1
+                if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 5){
                     // ngay bottom
                     button.setVisibility(View.INVISIBLE);
                 }else{
@@ -90,7 +90,7 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
     @Override
     public void checkButtonTohideorShow() {
         final Button button = (Button) getActivity().findViewById(R.id.btnViewCart);
-        if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 7){
+        if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 5){
             //Its at bottom ..
             button.setVisibility(View.INVISIBLE);
         }else{

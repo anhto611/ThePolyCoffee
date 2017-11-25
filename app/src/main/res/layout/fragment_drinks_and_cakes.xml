@@ -3,11 +3,10 @@
     android:layout_width="match_parent"
     android:background="#F1ECE9"
     android:layout_height="match_parent"
-    tools:context="com.project.pro112.hydrateam.thepolycoffee.fragment.DrinksAndCakes">
+    tools:context="com.project.pro112.hydrateam.thepolycoffee.fragment.Drinks">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecyclerView"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 </FrameLayout>

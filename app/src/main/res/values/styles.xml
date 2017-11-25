@@ -27,6 +27,14 @@
         <item name="android:clickable">true</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
-
-
+    <style name="foodsName">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_main</item>
+    </style>
+    <style name="foodsDes">
+        <item name="android:textSize">12dp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">@color/textview_normal_more</item>
+    </style>
 </resources>

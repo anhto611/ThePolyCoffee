@@ -5,7 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.project.pro112.hydrateam.thepolycoffee.fragment.DrinksAndCakes;
+import com.project.pro112.hydrateam.thepolycoffee.fragment.Cakes;
+import com.project.pro112.hydrateam.thepolycoffee.fragment.Drinks;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.PopularDish;
 
 /**
@@ -26,9 +27,9 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             return new PopularDish();
         } else if(position == 1){
-            return new DrinksAndCakes(true);
+            return new Drinks();
         }else
-            return new DrinksAndCakes(false);
+            return new Cakes();
     }
 
     @Override

@@ -11,24 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
-import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterD;
+import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterDrinksandCakes;
+import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DrinksAndCakes extends Fragment {
+public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
 
-    public DrinksAndCakes() {
+    public Cakes() {
 
     }
     @SuppressLint("ValidFragment")
-    public DrinksAndCakes(boolean isDrinks) {
-        // phân biệt giữa drinks và cakes nếu "true" thì đổ data drinks vào
-        this.isDrinks = isDrinks;
-    }
     private boolean isDrinks;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -55,26 +51,42 @@ public class DrinksAndCakes extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // chọn adapter
-        RecyclerViewAdapterD mAdapter = new RecyclerViewAdapterD(getContext(),fragmentManager);
+        RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(),fragmentManager);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void hideButtonViewCart() {
+    public void hideButtonViewCart() {
         final Button button = (Button) getActivity().findViewById(R.id.btnViewCart);
+        if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 5){
+            //Its at bottom ..
+            button.setVisibility(View.INVISIBLE);
+        }else{
+            button.setVisibility(View.VISIBLE);
+        }
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
                 LinearLayoutManager mLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-                int visibleItemCount = mLayoutManager.getChildCount();
-                int totalItemCount = mLayoutManager.getItemCount();
-                int pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
-                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 5){
+                    //Its at bottom ..
                     button.setVisibility(View.INVISIBLE);
                 }else{
                     button.setVisibility(View.VISIBLE);
                 }
             }
         });
+    }
+
+    @Override
+    public void checkButtonTohideorShow() {
+        final Button button = (Button) getActivity().findViewById(R.id.btnViewCart);
+        if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 5){
+            //Its at bottom ..
+            button.setVisibility(View.INVISIBLE);
+        }else{
+            button.setVisibility(View.VISIBLE);
+        }
     }
 }
