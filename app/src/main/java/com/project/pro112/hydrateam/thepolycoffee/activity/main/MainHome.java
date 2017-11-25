@@ -70,7 +70,7 @@ public class MainHome extends AppCompatActivity{
         super.onStop();
     }
 
-
+    //Nhấn 2 lần Back để thoát App
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {

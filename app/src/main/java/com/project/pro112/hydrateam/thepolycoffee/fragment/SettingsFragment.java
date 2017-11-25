@@ -71,7 +71,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                         startActivity(new Intent(getContext(), LoginScreen.class));
                         //Kết thúc Fragment:
                         getActivity().finish();
-
                     }
                 });
                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

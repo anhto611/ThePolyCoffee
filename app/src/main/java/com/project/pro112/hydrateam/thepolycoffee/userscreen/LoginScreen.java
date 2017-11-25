@@ -303,6 +303,7 @@ public class LoginScreen extends AppCompatActivity {
 
     }
 
+    //Nhấn 2 lần Back để thoát App
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
