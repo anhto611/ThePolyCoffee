@@ -18,4 +18,8 @@
     <style name="FacebookLoginButton">
         <item name="android:background">#00ffffff</item>
     </style>
+
+    <style name="text_mieu_ta">
+
+    </style>
 </resources>
