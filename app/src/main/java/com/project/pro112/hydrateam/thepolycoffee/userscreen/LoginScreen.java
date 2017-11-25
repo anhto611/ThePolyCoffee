@@ -70,7 +70,6 @@ public class LoginScreen extends AppCompatActivity {
         setContentView(R.layout.screen_login);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
         //Khởi tạo Firebase:
         mAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -151,7 +150,6 @@ public class LoginScreen extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
-                                finish();
                                 progressPie.dismiss();
                                 startActivity(new Intent(LoginScreen.this, MainHome.class));
                                 Toast.makeText(LoginScreen.this, "Login Successfully", Toast.LENGTH_SHORT).show();
@@ -226,8 +224,6 @@ public class LoginScreen extends AppCompatActivity {
                 object_infomation_facebook.setEmail(email);
                 object_infomation_facebook.setGender(gender);
                 object_infomation_facebook.setBirthday(birthday);
-
-                finish();
             }
         });
         //Lấy thông tin từ Sever:
@@ -289,6 +285,7 @@ public class LoginScreen extends AppCompatActivity {
         finish();
     }
 
+    //
     private void initView() {
         //Khởi tạo đối tượng:
         txtforgetPassword = (TextView) findViewById(R.id.forgetPassword);

@@ -1,27 +1,37 @@
 package com.project.pro112.hydrateam.thepolycoffee.userscreen;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -42,6 +52,7 @@ public class EditProfileScreen extends AppCompatActivity {
             editTextBirthDayProfile,
             editTextGender, editTextContactNumber;
     Button btnSave;
+
     //FIREBASE AUTHENTICATION FIELDS
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -53,6 +64,10 @@ public class EditProfileScreen extends AppCompatActivity {
     //IMAGE HOLD URI
     Uri imageHoldUri = null;
 
+    //Check Format Email:
+    private void checkEmail(String email) {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +78,7 @@ public class EditProfileScreen extends AppCompatActivity {
         initView();
         //Doi Font:
         Typeface face = Typeface.createFromAsset(getAssets(),
-                "fonts/Lobster-Regular.ttf");
+                "fonts/JosefinSans-Regular.ttf");
         clickEditPhoto.setTypeface(face);
         textViewSdt.setTypeface(face);
         textViewEmail.setTypeface(face);
@@ -87,6 +102,66 @@ public class EditProfileScreen extends AppCompatActivity {
                 saveUserProfile();
             }
         });
+
+        //Su Kien Thay Doi BirthDay Bang Datepicker Dialog:
+        editTextBirthDayProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setBirthDay();
+            }
+        });
+
+        //Su Kien Nhan Nut Gender:
+        editTextGender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setGender();
+            }
+        });
+    }
+
+    //Set Gender:
+    private void setGender() {
+        PopupMenu popupMenu = new PopupMenu(EditProfileScreen.this, editTextGender);
+        getMenuInflater().inflate(R.menu.gender, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.male: {
+                        editTextGender.setText("Male");
+                        break;
+                    }
+                    case R.id.female: {
+                        editTextGender.setText("Female");
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+    }
+
+    //Set BirthDay:
+    private void setBirthDay() {
+        final Calendar calendar = Calendar.getInstance();
+        int date = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(EditProfileScreen.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                SimpleDateFormat simpleDateFormat = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    calendar.set(i, i1, i2);
+                    simpleDateFormat = new SimpleDateFormat("dd/MMM/yyyy");
+                    editTextBirthDayProfile.setText(simpleDateFormat.format(calendar.getTime()));
+                }
+            }
+        }, year, month, date);
+        datePickerDialog.show();
     }
 
     //Code click vao TextView Edit Photo:
@@ -132,10 +207,44 @@ public class EditProfileScreen extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
-    //Code su kien nut save:
+    //Code su kien nut saveProfile:
     private void saveUserProfile() {
+
+        String fullName = editTextFullNameProfile.getText().toString().trim();
+        String email = editTextEmailProfile.getText().toString().trim();
+        String birthDay = editTextBirthDayProfile.getText().toString().trim();
+        String gender = editTextGender.getText().toString().trim();
+        String contactNumber = editTextContactNumber.getText().toString().trim();
+
+        if (TextUtils.isEmpty(fullName)) {
+            editTextFullNameProfile.requestFocus();
+            Toast.makeText(this, "Full Name can not be empty", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(contactNumber)) {
+            Toast.makeText(this, "Contact Number not be empty", Toast.LENGTH_SHORT).show();
+            editTextContactNumber.requestFocus();
+        } else {
+            Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    /* else if (!TextUtils.isEmpty(email)) {
+            String emailPattern = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+            Pattern regex = Pattern.compile(emailPattern);
+            Matcher matcher = regex.matcher(email);
+            if (!matcher.find()) {
+                Toast.makeText(this, "Wrong email format", Toast.LENGTH_SHORT).show();
+                editTextEmailProfile.requestFocus();
+            }
+        } else if (TextUtils.isEmpty(contactNumber)) {
+            Toast.makeText(this, "Contact Number not be empty", Toast.LENGTH_SHORT).show();
+            editTextContactNumber.requestFocus();
+        } else if (TextUtils.isEmpty(birthDay)) {
+            Toast.makeText(this, "Birth Day can not be empty", Toast.LENGTH_SHORT).show();
+            editTextBirthDayProfile.requestFocus();
+        } else if (TextUtils.isEmpty(gender)) {
+            Toast.makeText(this, "Gender can not be empty", Toast.LENGTH_SHORT).show();
+            editTextGender.requestFocus();
+        }*/
     // ActivityResultIntent
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -174,7 +283,9 @@ public class EditProfileScreen extends AppCompatActivity {
     private void initView() {
         //FIREBASE DATABASE INSTANCE
         mAuth = FirebaseAuth.getInstance();
-//        mUserDatabse = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        mUserDatabse = FirebaseDatabase.getInstance().getReference()
+                .child("Users")
+                .child(mAuth.getCurrentUser().getUid());
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         //FindViewByID:
@@ -187,13 +298,13 @@ public class EditProfileScreen extends AppCompatActivity {
         editTextGender = (EditText) findViewById(R.id.editTextGender);
         editTextContactNumber = (EditText) findViewById(R.id.editTextContactNumber);
         btnSave = (Button) findViewById(R.id.buttonSaveInfoProfile);
+        editTextBirthDayProfile.setFocusable(false);
+        editTextGender.setFocusable(false);
 
         textViewSdt = (TextView) findViewById(R.id.textViewSdt);
         textViewEmail = (TextView) findViewById(R.id.textViewEmail);
         textViewBirthDay = (TextView) findViewById(R.id.textViewBirthDay);
         fullnameProfile = (TextView) findViewById(R.id.fullnameProfile);
         textViewGender = (TextView) findViewById(R.id.textViewGender);
-
-        //Lam Anh Bo Tron:
     }
 }

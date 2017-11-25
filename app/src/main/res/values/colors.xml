@@ -10,6 +10,8 @@
     <color name="textview_normal_more">#707070</color>
     <color name="color_main">#B25542</color>
     <color name="bg_main">#E0E0E0</color>
+    <color name="bg_btn_save_profile">#cfcfcf</color>
+    <color name="bg_edt_profile">#cfcfcf</color>
 
 
 </resources>

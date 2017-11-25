@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.activity.settings.About;
 import com.project.pro112.hydrateam.thepolycoffee.activity.settings.Support;
@@ -66,8 +67,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        startActivity(intent);
-//                        getActivity().finish();
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(getContext(), LoginScreen.class));
                     }
                 });
                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
