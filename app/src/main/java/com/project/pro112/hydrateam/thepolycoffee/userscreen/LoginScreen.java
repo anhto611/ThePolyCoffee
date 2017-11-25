@@ -70,21 +70,6 @@ public class LoginScreen extends AppCompatActivity {
         setContentView(R.layout.screen_login);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //Khởi tạo Firebase:
-        mAuth = FirebaseAuth.getInstance();
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                //Checking User:
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                if (user != null) {
-                    Intent moveToHome = new Intent(LoginScreen.this, MainHome.class);
-                    moveToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(moveToHome);
-                }
-            }
-        };
 
         //Ánh Xạ Các View:
         initView();
@@ -120,8 +105,6 @@ public class LoginScreen extends AppCompatActivity {
                 forgetPassword();
             }
         });
-
-
     }
 
     //ForgetPassword:
@@ -137,7 +120,6 @@ public class LoginScreen extends AppCompatActivity {
         if (TextUtils.isEmpty(emailLogin) || TextUtils.isEmpty(passwordLogin)) {
             Toast.makeText(this, "Email and password can not be empty", Toast.LENGTH_LONG).show();
         } else {
-
             //Hien thi progressPie
             progressPie = new ACProgressPie.Builder(LoginScreen.this)
                     .ringColor(Color.WHITE)
@@ -278,18 +260,34 @@ public class LoginScreen extends AppCompatActivity {
         edtEmailLogin.setText(email);
         edtPasswordLogin.setText(password);
 
-        mAuth.addAuthStateListener(mAuthStateListener);
+        //Remove moveToHome:
+        mAuth.removeAuthStateListener(mAuthStateListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mAuth.removeAuthStateListener(mAuthStateListener);
-        finish();
     }
 
-    //
+    //Anh Xa View:
     private void initView() {
+        //Khởi tạo Firebase:
+        mAuth = FirebaseAuth.getInstance();
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                //Checking User:
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                if (user != null) {
+                    Intent moveToHome = new Intent(LoginScreen.this, MainHome.class);
+                    moveToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(moveToHome);
+                }
+            }
+        };
+        mAuth.addAuthStateListener(mAuthStateListener);
+
         //Khởi tạo đối tượng:
         txtforgetPassword = (TextView) findViewById(R.id.forgetPassword);
 
