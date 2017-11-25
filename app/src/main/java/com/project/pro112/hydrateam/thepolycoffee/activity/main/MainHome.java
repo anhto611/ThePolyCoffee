@@ -55,7 +55,6 @@ public class MainHome extends AppCompatActivity{
                     manager.beginTransaction().replace(R.id.frameLayoutHome, fragment).commit();
                     item.setChecked(true);
                 } catch (Exception e) {
-
                 }
                 return false;
             }
@@ -66,6 +65,5 @@ public class MainHome extends AppCompatActivity{
     @Override
     protected void onStop() {
         super.onStop();
-        finish();
     }
 }
