@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -41,13 +42,15 @@ public class EditProfileScreen extends AppCompatActivity {
     private static final int REQUEST_CAMERA = 3;
     private static final int SELECT_FILE = 2;
     //Khai bao View:
+    Toolbar toolbar;
     CircleImageView imgAvatar;
     TextView clickEditPhoto,
             fullnameProfile,
             textViewEmail,
             textViewBirthDay,
             textViewSdt,
-            textViewGender;
+            textViewGender,
+            textViewTitle;
     EditText editTextFullNameProfile,
             editTextEmailProfile,
             editTextBirthDayProfile,
@@ -72,6 +75,12 @@ public class EditProfileScreen extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         initView();
+        toolbar.setTitle("");
+        textViewTitle.setText("Edit Profile");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         //Doi Font:
         Typeface face = Typeface.createFromAsset(getAssets(),
                 "fonts/JosefinSans-Regular.ttf");
@@ -255,6 +264,7 @@ public class EditProfileScreen extends AppCompatActivity {
         }
     }
 
+
     //Anh Xa View:
     private void initView() {
         //FIREBASE DATABASE INSTANCE
@@ -265,6 +275,9 @@ public class EditProfileScreen extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         //FindViewByID:
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        textViewTitle = (TextView) findViewById(R.id.tvTitleToolbar);
+
         imgAvatar = (CircleImageView) findViewById(R.id.imgAvatarProfile);
         clickEditPhoto = (TextView) findViewById(R.id.clickEditPhoto);
         editTextFullNameProfile = (EditText) findViewById(R.id.editTextFullNameProfile);
@@ -282,5 +295,13 @@ public class EditProfileScreen extends AppCompatActivity {
         textViewBirthDay = (TextView) findViewById(R.id.textViewBirthDay);
         fullnameProfile = (TextView) findViewById(R.id.fullnameProfile);
         textViewGender = (TextView) findViewById(R.id.textViewGender);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

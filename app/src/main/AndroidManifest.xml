@@ -69,7 +69,7 @@
         <activity android:name=".activity.home.PurchaseHistory" />
         <activity android:name=".activity.home.LoadNews" />
         <activity android:name=".activity.settings.Support" />
-        <activity android:name=".activity.settings.About"></activity>
+        <activity android:name=".activity.settings.About"/>
     </application>
 
 </manifest>

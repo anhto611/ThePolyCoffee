@@ -69,6 +69,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseAuth.getInstance().signOut();
                         startActivity(new Intent(getContext(), LoginScreen.class));
+                        //Kết thúc Fragment:
+                        getActivity().finish();
 
                     }
                 });

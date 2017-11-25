@@ -131,6 +131,13 @@ public class SignUpScreen extends AppCompatActivity {
         super.onStop();
     }
 
+    @Override
+    public void onBackPressed() {
+        // do something on back.
+        super.onBackPressed();
+        startActivity(new Intent(this, LoginScreen.class));
+    }
+
     private void initView() {
         edtConfirmPasswordSignUp = (EditText) findViewById(R.id.edtConfirmPasswordSignUp);
         textViewRegister = (TextView) findViewById(R.id.textViewRegister);

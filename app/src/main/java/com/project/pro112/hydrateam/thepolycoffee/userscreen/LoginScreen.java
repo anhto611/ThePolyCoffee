@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -55,6 +56,7 @@ public class LoginScreen extends AppCompatActivity {
     //Đối tượng Nhận Thông Tin Facebook Của Người Dùng:
     Object_Infomation_Facebook object_infomation_facebook;
     String id, first_name, name, email, gender, birthday;
+    boolean doubleBackToExitPressedOnce = false;
 
     private CallbackManager callbackManager;
     private AccessToken accessToken;
@@ -69,7 +71,6 @@ public class LoginScreen extends AppCompatActivity {
         AppEventsLogger.activateApp(this);
         setContentView(R.layout.screen_login);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 
         //Ánh Xạ Các View:
         initView();
@@ -267,6 +268,7 @@ public class LoginScreen extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        finish();
     }
 
     //Anh Xa View:
@@ -299,5 +301,23 @@ public class LoginScreen extends AppCompatActivity {
         edtPasswordLogin = (EditText) findViewById(R.id.edtPasswordLogin);
         txtLogoApp = (TextView) findViewById(R.id.logoApp);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }

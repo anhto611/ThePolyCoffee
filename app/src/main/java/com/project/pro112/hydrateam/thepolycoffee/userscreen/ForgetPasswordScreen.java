@@ -87,6 +87,18 @@ public class ForgetPasswordScreen extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // do something on back.
+        super.onBackPressed();
+        startActivity(new Intent(this, LoginScreen.class));
+    }
+
     private void initView() {
         txtForgetPassword = (TextView) findViewById(R.id.textViewForgetPassword);
         edtEmailForgetPassword = (EditText) findViewById(R.id.edtEmailResetPassword);
