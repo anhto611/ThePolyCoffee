@@ -63,7 +63,7 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
     }
 
     private void hideButtonViewCart() {
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        this.mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -84,10 +84,10 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
     @Override
     public void checkButtonTohideorShow() {
 //        hideButtonViewCart();
-        if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 7){
+        if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 7 && btnViewCart.getVisibility() == View.VISIBLE){
             //Its at bottom ..
             btnViewCart.setVisibility(View.INVISIBLE);
-        }else{
+        }else if(btnViewCart.getVisibility() == View.INVISIBLE){
             btnViewCart.setVisibility(View.VISIBLE);
         }
     }

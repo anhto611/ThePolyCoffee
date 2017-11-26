@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    card_view:cardElevation="1dp"
+    card_view:cardCornerRadius="0dp">
+    <RelativeLayout
+        android:padding="10dp"
+        android:background="@drawable/background_cardview_drinks_and_cakes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/Relayout">
+        <ImageView
+            android:src="@drawable/douong"
+            android:id="@+id/foodImg"
+            android:layout_width="70dp"
+            android:scaleType="fitXY"
+            android:layout_marginRight="10dp"
+            android:layout_height="70dp" />
+        <TextView
+            android:id="@+id/foodName"
+            android:layout_toRightOf="@id/foodImg"
+            android:layout_width="match_parent"
+            android:text="Tên thức ăn"
+            style="@style/foodsName"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/foodName"
+            android:layout_toRightOf="@id/foodImg"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/foodSize"
+                style="@style/foodsDes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.55"
+                android:text="Small size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/amount"
+                style="@style/foodsDes"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/border_4_corner_main_color"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:text="2"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/foodTotalPri"
+                style="@style/foodsDesBigger"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.45"
+                android:text="560000VND"
+                android:textAlignment="viewEnd" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/foodPri"
+            android:layout_toRightOf="@id/foodImg"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:text="28000VND"
+            style="@style/foodsDesBigger"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
