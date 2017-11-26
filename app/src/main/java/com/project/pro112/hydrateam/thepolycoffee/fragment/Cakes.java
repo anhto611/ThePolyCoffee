@@ -21,7 +21,7 @@ import static com.project.pro112.hydrateam.thepolycoffee.fragment.PopularDish.im
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow{
+public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
 
 
     @SuppressLint("ValidFragment")
@@ -30,6 +30,7 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow{
     private LinearLayoutManager mLayoutManager;
     private FragmentManager fragmentManager;
     private boolean imHere2;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,10 +62,10 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow{
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if ((mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) && btnViewCart.getVisibility() == View.VISIBLE && imHere == true) {
+                if ((mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) && btnViewCart.getVisibility() == View.VISIBLE) {
                     //Its at bottom ..
                     btnViewCart.setVisibility(View.INVISIBLE);
-                } else if(btnViewCart.getVisibility() == View.INVISIBLE && imHere == true){
+                } else if (btnViewCart.getVisibility() == View.INVISIBLE && imHere == true) {
                     btnViewCart.setVisibility(View.VISIBLE);
                 }
             }
@@ -74,5 +75,13 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow{
     @Override
     public int getPosition() {
         return mLayoutManager.findLastCompletelyVisibleItemPosition();
+    }
+
+    @Override
+    public boolean isLastItemVisible() {
+        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mLayoutManager.getItemCount())
+            return true;
+        else
+            return false;
     }
 }

@@ -81,6 +81,9 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
                 } else {
                     btnViewCart.setVisibility(View.VISIBLE);
                 }
+                if(fragment.isLastItemVisible() == true){
+                    btnViewCart.setVisibility(View.VISIBLE);
+                }
             }
         } else {
             imHere = true;
@@ -96,6 +99,9 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
                 } else {
                     btnViewCart.setVisibility(View.VISIBLE);
                 }
+            }
+            if(fragment2.isLastItemVisible() == true){
+                btnViewCart.setVisibility(View.VISIBLE);
             }
         }
     }

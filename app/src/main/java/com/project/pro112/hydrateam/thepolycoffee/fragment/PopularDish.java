@@ -82,4 +82,13 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
     public int getPosition() {
         return mLayoutManager.findLastCompletelyVisibleItemPosition();
     }
+
+    @Override
+    public boolean isLastItemVisible() {
+        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mLayoutManager.getItemCount())
+            return true;
+        else
+            return false;
+    }
+
 }

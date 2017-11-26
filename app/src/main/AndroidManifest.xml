@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".userscreen.LoginScreen"
+            android:name=".activity.Order"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,15 +45,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.Order"
-            android:screenOrientation="portrait"></activity>
+        <!--<activity-->
+            <!--android:name=".activity.Order"-->
+            <!--android:screenOrientation="portrait"></activity>-->
         <activity
             android:name=".userscreen.SignUpScreen"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.main.MainHome"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name=".activity.main.MainHome"-->
+            <!--android:screenOrientation="portrait" />-->
         <activity
             android:name=".userscreen.EditProfileScreen"
             android:screenOrientation="portrait" />
@@ -67,7 +67,7 @@
         <activity android:name=".activity.settings.Support" />
         <activity android:name=".activity.settings.About"/>
         <activity android:name=".activity.Cart"></activity>
-        <activity android:name=".activity.Purchase"></activity>
+        <!--<activity android:name=".activity.Purchase"></activity>-->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

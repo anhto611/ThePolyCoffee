@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterDrinksandCakes;
@@ -40,6 +41,7 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow{
         fragmentManager = getFragmentManager();
         setUpRecyclerView();
         hideButtonViewCartDrinks();
+
         return view;
     }
     private void setUpRecyclerView() {
@@ -76,5 +78,13 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow{
     @Override
     public int getPosition() {
         return mLayoutManager.findLastCompletelyVisibleItemPosition();
+    }
+
+    @Override
+    public boolean isLastItemVisible() {
+        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mLayoutManager.getItemCount())
+            return true;
+        else
+            return false;
     }
 }
