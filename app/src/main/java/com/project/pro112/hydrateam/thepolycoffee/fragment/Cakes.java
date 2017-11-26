@@ -10,11 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterDrinksandCakes;
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
+
+import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.btnViewCart;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +31,6 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private FragmentManager fragmentManager;
-    private Button button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,9 +39,8 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
         View view = inflater.inflate(R.layout.fragment_drinks_and_cakes, container, false);
         mRecyclerView = view.findViewById(R.id.mRecyclerView);
         fragmentManager = getFragmentManager();
-        button = (Button) getActivity().findViewById(R.id.btnViewCart);
         setUpRecyclerView();
-        hideButtonViewCart();
+//        hideButtonViewCart();
         return view;
     }
 
@@ -59,7 +58,6 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
     }
 
     public void hideButtonViewCart() {
-        final Button button = (Button) getActivity().findViewById(R.id.btnViewCart);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -68,9 +66,9 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
                 LinearLayoutManager mLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
                 if (mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) {
                     //Its at bottom ..
-                    button.setVisibility(View.INVISIBLE);
+                    btnViewCart.setVisibility(View.INVISIBLE);
                 } else {
-                    button.setVisibility(View.VISIBLE);
+                    btnViewCart.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -78,11 +76,14 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
 
     @Override
     public void checkButtonTohideorShow() {
+        hideButtonViewCart();
         if (mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) {
             //Its at bottom ..
-            button.setVisibility(View.INVISIBLE);
+            btnViewCart.setVisibility(View.INVISIBLE);
+            return;
         } else{
-            button.setVisibility(View.VISIBLE);
+            btnViewCart.setVisibility(View.VISIBLE);
+            return;
         }
     }
 }

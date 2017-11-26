@@ -23,7 +23,7 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private FragmentManager fragmentManager;
-    private Button btnViewCart;
+    public static Button btnViewCart;
     private SimpleFragmentPagerAdapter adapter;
 
     @Override
@@ -63,16 +63,16 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
         //new interface kết với với fragment
         CheckButtonViewCartToHideOrShow fragment = (CheckButtonViewCartToHideOrShow) adapter.instantiateItem(viewPager, position);
         if (fragment != null) {
             fragment.checkButtonTohideorShow();
         }
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
     }
 
     @Override

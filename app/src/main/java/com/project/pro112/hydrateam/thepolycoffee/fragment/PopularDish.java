@@ -10,12 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterPolularDish;
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
 import com.project.pro112.hydrateam.thepolycoffee.tool.SpaceBetweenGrid;
+
+import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.btnViewCart;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,7 +40,7 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
         mRecyclerView = view.findViewById(R.id.mRecyclerView);
         fragmentManager = getFragmentManager();
         setUpRecyclerView();
-        hideButtonViewCart();
+//      hideButtonViewCart();
         return view;
     }
 
@@ -62,7 +63,6 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
     }
 
     private void hideButtonViewCart() {
-        final Button button = (Button) getActivity().findViewById(R.id.btnViewCart);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -72,9 +72,9 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
                 // có data số 7 đổi lại lại số lượng - 1
                 if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 7){
                     // ngay bottom
-                    button.setVisibility(View.INVISIBLE);
+                    btnViewCart.setVisibility(View.INVISIBLE);
                 }else{
-                    button.setVisibility(View.VISIBLE);
+                    btnViewCart.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -82,12 +82,12 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
 
     @Override
     public void checkButtonTohideorShow() {
-        final Button button = (Button) getActivity().findViewById(R.id.btnViewCart);
+        hideButtonViewCart();
         if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 7){
             //Its at bottom ..
-            button.setVisibility(View.INVISIBLE);
+            btnViewCart.setVisibility(View.INVISIBLE);
         }else{
-            button.setVisibility(View.VISIBLE);
+            btnViewCart.setVisibility(View.VISIBLE);
         }
     }
 }
