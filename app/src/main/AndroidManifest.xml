@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.project.pro112.hydrateam.thepolycoffee">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -35,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.Order"
+            android:name=".userscreen.LoginScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,6 +45,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.Order"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".userscreen.SignUpScreen"
             android:screenOrientation="portrait" />
@@ -60,10 +65,13 @@
         <activity android:name=".activity.home.PurchaseHistory" />
         <activity android:name=".activity.home.LoadNews" />
         <activity android:name=".activity.settings.Support" />
-        <activity android:name=".activity.settings.About" />
-         <!--<activity android:name=".activity.Order" /> -->
-         <activity android:name=".activity.Cart"></activity>
+        <activity android:name=".activity.settings.About"/>
+        <activity android:name=".activity.Cart"></activity>
         <activity android:name=".activity.Purchase"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_api_key" />
     </application>
 
 </manifest>

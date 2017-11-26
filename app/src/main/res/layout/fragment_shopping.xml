@@ -4,11 +4,29 @@
     android:layout_height="match_parent"
     tools:context="com.project.pro112.hydrateam.thepolycoffee.fragment.ShoppingFragment">
 
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Shopping"
-        android:gravity="center"
-        android:textSize="30sp"/>
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/maps"
+            android:name="com.project.pro112.hydrateam.thepolycoffee.fragment.ShoppingFragment"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></fragment>
+
+    </FrameLayout>
+
+    <Button xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/btnChooseAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:background="@drawable/background_button"
+        android:text="@string/shopping_choose_your_address"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 
 </FrameLayout>

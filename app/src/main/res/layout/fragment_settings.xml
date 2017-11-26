@@ -11,11 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_main"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="The Poly Coffee"
-        android:padding="10dp"
         android:textAlignment="center"
         android:textColor="#FFF"
-        android:textSize="30sp" />
+        android:textSize="40sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
