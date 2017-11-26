@@ -13,6 +13,10 @@
     <string name="hello_blank_fragment">hello_blank_fragment</string>
 
     <string name="shopping_choose_your_address">Choose your address</string>
+    <string name="the_poly_coffee_2017">/The.Poly.Coffee.2017</string>
+    <string name="thepolycoffeevn">/thepolycoffeevn</string>
+    <string name="_01655933593">01655933593</string>
+    <string name="thepolycoffee_gmail_com">thepolycoffee@gmail.com</string>
 
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>

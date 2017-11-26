@@ -1,5 +1,6 @@
 package com.project.pro112.hydrateam.thepolycoffee.activity.settings;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,15 +12,20 @@ import com.project.pro112.hydrateam.thepolycoffee.R;
 public class About extends AppCompatActivity {
 
     Toolbar toolbar;
-    TextView txtTitle;
+    TextView txtTitle, txtLogo, txtParaOne, txtParaTwo, txtParaThree, txtParaFour ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         txtTitle = (TextView) findViewById(R.id.tvTitleToolbar);
+        txtLogo = (TextView) findViewById(R.id.textViewLogo);
+        txtParaOne = (TextView) findViewById(R.id.paragraph_one);
+        txtParaTwo = (TextView) findViewById(R.id.paragraph_two);
+        txtParaThree = (TextView) findViewById(R.id.paragraph_three);
+        txtParaFour = (TextView) findViewById(R.id.paragraph_four);
 
         toolbar.setTitle("");
         txtTitle.setText("About");
@@ -27,11 +33,21 @@ public class About extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        Typeface face1 = Typeface.createFromAsset(getAssets(),
+                "fonts/Lobster-Regular.ttf");
+        txtLogo.setTypeface(face1);
+
+        Typeface face2 = Typeface.createFromAsset(getAssets(),
+                "fonts/JosefinSans-Regular.ttf");
+        txtParaOne.setTypeface(face2);
+        txtParaTwo.setTypeface(face2);
+        txtParaThree.setTypeface(face2);
+        txtParaFour.setTypeface(face2);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
