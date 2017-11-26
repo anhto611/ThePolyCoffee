@@ -24,6 +24,7 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
     public Cakes() {
 
     }
+
     @SuppressLint("ValidFragment")
     private boolean isDrinks;
     private RecyclerView mRecyclerView;
@@ -51,16 +52,16 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // chọn adapter
-        RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(),fragmentManager);
+        RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(), fragmentManager);
         mRecyclerView.setAdapter(mAdapter);
     }
 
     public void hideButtonViewCart() {
         final Button button = (Button) getActivity().findViewById(R.id.btnViewCart);
-        if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 5){
+        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) {
             //Its at bottom ..
             button.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             button.setVisibility(View.VISIBLE);
         }
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -69,10 +70,10 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager mLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-                if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 5){
+                if (mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) {
                     //Its at bottom ..
                     button.setVisibility(View.INVISIBLE);
-                }else{
+                } else {
                     button.setVisibility(View.VISIBLE);
                 }
             }
@@ -82,10 +83,10 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
     @Override
     public void checkButtonTohideorShow() {
         final Button button = (Button) getActivity().findViewById(R.id.btnViewCart);
-        if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 5){
+        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) {
             //Its at bottom ..
             button.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             button.setVisibility(View.VISIBLE);
         }
     }

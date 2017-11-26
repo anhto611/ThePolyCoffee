@@ -8,7 +8,7 @@
     card_view:cardCornerRadius="0dp">
     <LinearLayout
         android:orientation="vertical"
-        android:background="#FBF5F5"
+        android:background="@color/backgrounditemmore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <ImageView

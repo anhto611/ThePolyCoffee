@@ -12,6 +12,7 @@
     <color name="bg_main">#E0E0E0</color>
     <color name="bg_btn_save_profile">#cfcfcf</color>
     <color name="bg_edt_profile">#cfcfcf</color>
-
-
+    <color name="backgrounditem">#FEFAF9</color>
+    <color name="backgrounditemmore">#FBF5F5</color>
+    <color name="backgroundlayout_shopping">#F6F0F0</color>
 </resources>

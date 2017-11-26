@@ -20,7 +20,6 @@ public class MembershipProgram extends AppCompatActivity {
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         txtTitle = (TextView) findViewById(R.id.tvTitleToolbar);
-
         toolbar.setTitle("");
         txtTitle.setText("Membership program");
         setSupportActionBar(toolbar);
