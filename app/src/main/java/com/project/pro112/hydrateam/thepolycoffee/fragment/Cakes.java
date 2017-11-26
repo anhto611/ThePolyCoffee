@@ -40,7 +40,7 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
         mRecyclerView = view.findViewById(R.id.mRecyclerView);
         fragmentManager = getFragmentManager();
         setUpRecyclerView();
-//        hideButtonViewCart();
+        hideButtonViewCart();
         return view;
     }
 
@@ -57,7 +57,7 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void hideButtonViewCart() {
+    private void hideButtonViewCart() {
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -76,7 +76,7 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
 
     @Override
     public void checkButtonTohideorShow() {
-        hideButtonViewCart();
+//        hideButtonViewCart();
         if (mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) {
             //Its at bottom ..
             btnViewCart.setVisibility(View.INVISIBLE);

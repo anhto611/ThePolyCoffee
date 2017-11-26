@@ -40,7 +40,7 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
         mRecyclerView = view.findViewById(R.id.mRecyclerView);
         fragmentManager = getFragmentManager();
         setUpRecyclerView();
-//      hideButtonViewCart();
+        hideButtonViewCart();
         return view;
     }
 
@@ -77,12 +77,13 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
                     btnViewCart.setVisibility(View.VISIBLE);
                 }
             }
+
         });
     }
 
     @Override
     public void checkButtonTohideorShow() {
-        hideButtonViewCart();
+//        hideButtonViewCart();
         if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 7){
             //Its at bottom ..
             btnViewCart.setVisibility(View.INVISIBLE);
