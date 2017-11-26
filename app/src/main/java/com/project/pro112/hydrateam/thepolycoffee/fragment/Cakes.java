@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
-import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterCakes;
+import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterDrinksandCakes;
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
 
 /**
@@ -54,7 +54,7 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // chọn adapter
-        RecyclerViewAdapterCakes mAdapter = new RecyclerViewAdapterCakes(getContext(), fragmentManager);
+        RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(), fragmentManager);
         mRecyclerView.setAdapter(mAdapter);
     }
 
