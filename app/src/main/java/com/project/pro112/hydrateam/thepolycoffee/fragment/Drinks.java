@@ -30,6 +30,7 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private FragmentManager fragmentManager;
+    private Button button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +39,7 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow 
         View view = inflater.inflate(R.layout.fragment_drinks_and_cakes, container, false);
         mRecyclerView = view.findViewById(R.id.mRecyclerView);
         fragmentManager = getFragmentManager();
+        button = (Button) getActivity().findViewById(R.id.btnViewCart);
         setUpRecyclerView();
         hideButtonViewCart();
         return view;
@@ -57,12 +59,6 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow 
 
     private void hideButtonViewCart() {
         final Button button = (Button) getActivity().findViewById(R.id.btnViewCart);
-        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) {
-            //Its at bottom ..
-            button.setVisibility(View.INVISIBLE);
-        } else {
-            button.setVisibility(View.VISIBLE);
-        }
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -82,11 +78,10 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow 
 
     @Override
     public void checkButtonTohideorShow() {
-        final Button button = (Button) getActivity().findViewById(R.id.btnViewCart);
         if (mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) {
             //Its at bottom ..
             button.setVisibility(View.INVISIBLE);
-        } else {
+        } else{
             button.setVisibility(View.VISIBLE);
         }
     }

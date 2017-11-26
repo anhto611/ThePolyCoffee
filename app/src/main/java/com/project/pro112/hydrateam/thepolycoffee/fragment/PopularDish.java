@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
-import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterDrinksandCakes;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterPolularDish;
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
 import com.project.pro112.hydrateam.thepolycoffee.tool.SpaceBetweenGrid;
@@ -64,12 +63,6 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
 
     private void hideButtonViewCart() {
         final Button button = (Button) getActivity().findViewById(R.id.btnViewCart);
-        if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 5){
-            //Its at bottom ..
-            button.setVisibility(View.INVISIBLE);
-        }else{
-            button.setVisibility(View.VISIBLE);
-        }
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
