@@ -16,21 +16,20 @@ import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterDri
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
 
 import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.btnViewCart;
+import static com.project.pro112.hydrateam.thepolycoffee.fragment.PopularDish.imHere;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
 
-    public Cakes() {
-
-    }
 
     @SuppressLint("ValidFragment")
     private boolean isDrinks;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private FragmentManager fragmentManager;
+    private boolean imHere2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,9 +46,7 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
     private void setUpRecyclerView() {
         // không đổi size của card trong content
         mRecyclerView.setHasFixedSize(true);
-
         mLayoutManager = new LinearLayoutManager(getContext());
-
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // chọn adapter
@@ -57,17 +54,18 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
         mRecyclerView.setAdapter(mAdapter);
     }
 
+
     private void hideButtonViewCart() {
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
         this.mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager mLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-                if (mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) {
+                if ((mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) && btnViewCart.getVisibility() == View.VISIBLE) {
                     //Its at bottom ..
                     btnViewCart.setVisibility(View.INVISIBLE);
-                } else {
+                } else if (btnViewCart.getVisibility() == View.INVISIBLE && imHere == true) {
                     btnViewCart.setVisibility(View.VISIBLE);
                 }
             }
@@ -75,13 +73,15 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
     }
 
     @Override
-    public void checkButtonTohideorShow() {
-//        hideButtonViewCart();
-        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == 5 && btnViewCart.getVisibility() == View.VISIBLE) {
-            //Its at bottom ..
-            btnViewCart.setVisibility(View.INVISIBLE);
-        } else if(btnViewCart.getVisibility() == View.INVISIBLE){
-            btnViewCart.setVisibility(View.VISIBLE);
-        }
+    public int getPosition() {
+        return mLayoutManager.findLastCompletelyVisibleItemPosition();
+    }
+
+    @Override
+    public boolean isLastItemVisible() {
+        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mLayoutManager.getItemCount())
+            return true;
+        else
+            return false;
     }
 }

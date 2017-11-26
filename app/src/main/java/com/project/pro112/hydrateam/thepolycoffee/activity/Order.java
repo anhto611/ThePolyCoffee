@@ -17,6 +17,8 @@ import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.SimpleFragmentPagerAdapter;
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
 
+import static com.project.pro112.hydrateam.thepolycoffee.fragment.PopularDish.imHere;
+
 public class Order extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -69,9 +71,38 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
     @Override
     public void onPageSelected(int position) {
         //new interface kết với với fragment
-        CheckButtonViewCartToHideOrShow fragment = (CheckButtonViewCartToHideOrShow) adapter.instantiateItem(viewPager, position);
-        if (fragment != null) {
-            fragment.checkButtonTohideorShow();
+        if (position == 0) {
+            imHere = true;
+            CheckButtonViewCartToHideOrShow fragment = (CheckButtonViewCartToHideOrShow) adapter.instantiateItem(viewPager, position);
+            if (fragment != null) {
+                if (fragment.getPosition() == 7) {
+                    // ngay bottom
+                    btnViewCart.setVisibility(View.INVISIBLE);
+                } else {
+                    btnViewCart.setVisibility(View.VISIBLE);
+                }
+                if(fragment.isLastItemVisible() == true){
+                    btnViewCart.setVisibility(View.VISIBLE);
+                }
+            }
+        } else {
+            imHere = true;
+            if (position == 1) {
+                imHere = false;
+            }
+            CheckButtonViewCartToHideOrShow fragment2 = (CheckButtonViewCartToHideOrShow) adapter.instantiateItem(viewPager, position);
+            if (fragment2 != null) {
+                if (fragment2.getPosition() == 5) {
+                    // ngay bottom
+                    btnViewCart.setVisibility(View.INVISIBLE);
+
+                } else {
+                    btnViewCart.setVisibility(View.VISIBLE);
+                }
+            }
+            if(fragment2.isLastItemVisible() == true){
+                btnViewCart.setVisibility(View.VISIBLE);
+            }
         }
     }
 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundlayout_shopping"
     tools:context="com.project.pro112.hydrateam.thepolycoffee.activity.Purchase">
     <LinearLayout
         android:orientation="vertical"
@@ -17,10 +18,117 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="shisdafasfsadfsadfsdafsdafsadsadfasdft"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:text="maps API"
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    style="@style/infoText"
+                    android:background="@drawable/background_cardview_drinks_and_cakes"
+                    android:padding="15dp"
+                    android:text="Delivery now"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_main"
+                    android:background="#FEFAF9"
+                    android:textSize="17dp"
+                    android:paddingLeft="15dp"
+                    android:gravity="left|center"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:drawableLeft="@drawable/logomini"
+                    android:text="  The poly Coffee"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="2"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_main"
+                    android:background="#FEFAF9"
+                    android:textSize="17dp"
+                    android:paddingLeft="15dp"
+                    android:gravity="left|center"
+                    android:drawableLeft="@drawable/duongcao"
+                    android:text="  "/>
+                <TextView
+                    style="@style/foodsDesBigger"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@drawable/background_cardview_drinks_and_cakes"
+                    android:drawableLeft="@drawable/location_mini"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:gravity="left|center"
+                    android:text="   260 Nguyễn Thái Bình"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/foodsDesBigger"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="User Information"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    style="@style/foodsDesBigger"
+                    android:background="@drawable/background_cardview_drinks_and_cakes"
+                    android:padding="15dp"
+                    android:gravity="left|center"
+                    android:drawableLeft="@drawable/logo_man"
+                    android:text="   Trần Vĩ"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    style="@style/foodsDesBigger"
+                    android:drawableLeft="@drawable/phone_mini"
+                    android:background="@drawable/background_cardview_drinks_and_cakes"
+                    android:padding="15dp"
+                    android:gravity="left|center"
+                    android:text="   016969696969"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/foodsDesBigger"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="Note"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    style="@style/foodsDesBigger"
+                    android:background="@drawable/background_cardview_drinks_and_cakes"
+                    android:padding="15dp"
+                    android:gravity="left|center"
+                    android:text="   Total 200.000 vnd"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    style="@style/foodsDesBigger"
+                    android:background="@drawable/background_cardview_drinks_and_cakes"
+                    android:padding="15dp"
+                    android:gravity="left|center"
+                    android:text="   Mã khuyến mãi giảm 15000 đ"/>
+            </LinearLayout>
         </ScrollView>
     </LinearLayout>
     <include

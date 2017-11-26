@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +30,7 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
     private GridLayoutManager mLayoutManager;
     private FragmentManager fragmentManager;
     private int numberOfColums = 2;
-
+    public static boolean imHere = true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,13 +66,11 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager mLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
                 // có data số 7 đổi lại lại số lượng - 1
-                if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 7){
+                if((mLayoutManager.findLastCompletelyVisibleItemPosition() == 7)  && btnViewCart.getVisibility() == View.VISIBLE && imHere == true){
                     // ngay bottom
                     btnViewCart.setVisibility(View.INVISIBLE);
-                }else{
+                }else if(btnViewCart.getVisibility() == View.INVISIBLE && imHere == true){
                     btnViewCart.setVisibility(View.VISIBLE);
                 }
             }
@@ -82,13 +79,16 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
     }
 
     @Override
-    public void checkButtonTohideorShow() {
-//        hideButtonViewCart();
-        if(mLayoutManager.findLastCompletelyVisibleItemPosition() == 7 && btnViewCart.getVisibility() == View.VISIBLE){
-            //Its at bottom ..
-            btnViewCart.setVisibility(View.INVISIBLE);
-        }else if(btnViewCart.getVisibility() == View.INVISIBLE){
-            btnViewCart.setVisibility(View.VISIBLE);
-        }
+    public int getPosition() {
+        return mLayoutManager.findLastCompletelyVisibleItemPosition();
     }
+
+    @Override
+    public boolean isLastItemVisible() {
+        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mLayoutManager.getItemCount())
+            return true;
+        else
+            return false;
+    }
+
 }

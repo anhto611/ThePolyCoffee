@@ -79,7 +79,7 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback {
         LatLng latLng = new LatLng(10.790845, 106.682393);
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if (mapView != null &&
                 mapView.findViewById(Integer.parseInt("1")) != null) {
             // Get the button view
