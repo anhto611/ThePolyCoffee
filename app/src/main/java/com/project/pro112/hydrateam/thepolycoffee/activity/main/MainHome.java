@@ -13,10 +13,10 @@ import android.widget.Toast;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.HomeFragment;
-import com.project.pro112.hydrateam.thepolycoffee.fragment.LocationGPSFragment;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.MusicFragment;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.SettingsFragment;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.ShoppingFragment;
+import com.project.pro112.hydrateam.thepolycoffee.fragment.VideoFragment;
 import com.project.pro112.hydrateam.thepolycoffee.tool.BottomNavigationViewHelper;
 
 public class MainHome extends AppCompatActivity{
@@ -48,8 +48,8 @@ public class MainHome extends AppCompatActivity{
                     classFragment = ShoppingFragment.class;
                 if (id == R.id.mSettings)
                     classFragment = SettingsFragment.class;
-                if (id == R.id.mLocation)
-                    classFragment = LocationGPSFragment.class;
+                if (id == R.id.mVideo)
+                    classFragment = VideoFragment.class;
                 if (id == R.id.mMusic)
                     classFragment = MusicFragment.class;
                 try {

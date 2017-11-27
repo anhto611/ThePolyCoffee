@@ -16,7 +16,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -44,8 +43,7 @@ public class EditProfileScreen extends AppCompatActivity {
     //Khai bao View:
     Toolbar toolbar;
     CircleImageView imgAvatar;
-    TextView clickEditPhoto,
-            fullnameProfile,
+    TextView fullnameProfile,
             textViewEmail,
             textViewBirthDay,
             textViewSdt,
@@ -72,7 +70,6 @@ public class EditProfileScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile_screen);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         initView();
         toolbar.setTitle("");
@@ -84,7 +81,6 @@ public class EditProfileScreen extends AppCompatActivity {
         //Doi Font:
         Typeface face = Typeface.createFromAsset(getAssets(),
                 "fonts/JosefinSans-Regular.ttf");
-        clickEditPhoto.setTypeface(face);
         textViewSdt.setTypeface(face);
         textViewEmail.setTypeface(face);
         textViewBirthDay.setTypeface(face);
@@ -93,7 +89,7 @@ public class EditProfileScreen extends AppCompatActivity {
         btnSave.setTypeface(face);
 
         //Su kien click vao TextView Edit Photo:
-        clickEditPhoto.setOnClickListener(new View.OnClickListener() {
+        imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 profilePicSelection();
@@ -279,7 +275,6 @@ public class EditProfileScreen extends AppCompatActivity {
         textViewTitle = (TextView) findViewById(R.id.tvTitleToolbar);
 
         imgAvatar = (CircleImageView) findViewById(R.id.imgAvatarProfile);
-        clickEditPhoto = (TextView) findViewById(R.id.clickEditPhoto);
         editTextFullNameProfile = (EditText) findViewById(R.id.editTextFullNameProfile);
         editTextFullNameProfile.requestFocus();
         editTextEmailProfile = (EditText) findViewById(R.id.editTextEmailProfile);

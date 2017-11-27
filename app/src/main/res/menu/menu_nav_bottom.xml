@@ -14,9 +14,9 @@
             android:title="Shop"
             app:showAsAction="ifRoom|withText"></item>
         <item
-            android:id="@+id/mLocation"
-            android:icon="@mipmap/ic_location"
-            android:title="Location"
+            android:id="@+id/mVideo"
+            android:icon="@mipmap/ic_video"
+            android:title="Video"
             app:showAsAction="ifRoom|withText"></item>
         <item
             android:id="@+id/mMusic"

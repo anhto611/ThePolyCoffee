@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/backgroundlayout_shopping"
         android:orientation="vertical"
-        tools:context="com.project.pro112.hydrateam.thepolycoffee.activity.Order">
+        tools:context="com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order">
 
         <include
             layout="@layout/toolbar"

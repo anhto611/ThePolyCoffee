@@ -15,7 +15,7 @@ import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterPol
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
 import com.project.pro112.hydrateam.thepolycoffee.tool.SpaceBetweenGrid;
 
-import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.linearButtonViewCart;
+import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
 /**
  * A simple {@link Fragment} subclass.

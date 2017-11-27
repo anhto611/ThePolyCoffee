@@ -10,7 +10,6 @@
     <string name="setting_about">About</string>
     <string name="setting_btn_logout">Logout</string>
     <string name="setting_made_with">MADE WITH HYDRA TEAM</string>
-    <string name="hello_blank_fragment">hello_blank_fragment</string>
 
     <string name="shopping_choose_your_address">Choose your address</string>
     <string name="the_poly_coffee_2017">/The.Poly.Coffee.2017</string>
@@ -18,6 +17,14 @@
     <string name="_01655933593">01655933593</string>
     <string name="thepolycoffee_gmail_com">thepolycoffee@gmail.com</string>
 
-    <item name="visible" type="id"/>
-    <item name="masked" type="id"/>
+    <string name="editprofile_full_name">Full Name</string>
+    <string name="editprofile_edit_photo">Edit Photo</string>
+    <string name="editprofile_e_mail">E-mail</string>
+    <string name="editprofile_birth_day">Birth Day</string>
+    <string name="editprofile_gender">Gender</string>
+    <string name="editprofile_contact_number">Contact Number</string>
+    <string name="editprofile_save_profile">Save Profile</string>
+
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
 </resources>

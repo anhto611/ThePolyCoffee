@@ -15,7 +15,7 @@ import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterDrinksandCakes;
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
 
-import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.linearButtonViewCart;
+import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
 /**
  * A simple {@link Fragment} subclass.

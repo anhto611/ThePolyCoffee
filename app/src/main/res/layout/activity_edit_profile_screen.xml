@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_main"
+    android:orientation="vertical"
     tools:context="com.project.pro112.hydrateam.thepolycoffee.userscreen.EditProfileScreen">
 
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></include>
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -15,7 +20,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgAvatarProfile"
@@ -23,7 +28,7 @@
                 android:layout_height="140dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="84dp"
+                android:layout_marginTop="32dp"
                 android:src="@drawable/camera"
                 app:civ_border_color="@color/bg_menu_bottom"
                 app:civ_border_overlay="false"
@@ -38,27 +43,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="50dp"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="20dp"
-                android:text="Full Name"
+                android:layout_marginTop="16dp"
+                android:text="@string/editprofile_full_name"
                 android:textColor="@color/textview_normal"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clickEditPhoto" />
-
-            <TextView
-                android:id="@+id/clickEditPhoto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Edit Photo"
-                android:textAlignment="center"
-                android:textColor="@color/textview_normal"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imgAvatarProfile" />
 
@@ -69,7 +59,7 @@
                 android:layout_marginEnd="50dp"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="16dp"
-                android:text="E-mail"
+                android:text="@string/editprofile_e_mail"
                 android:textColor="@color/textview_normal"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -77,6 +67,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/editTextFullNameProfile" />
 
             <EditText
+                android:labelFor="@+id/editTextEmailProfile"
                 android:id="@+id/editTextEmailProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,13 +88,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="16dp"
-                android:text="Birth Day"
+                android:text="@string/editprofile_birth_day"
                 android:textColor="@color/textview_normal"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextEmailProfile" />
 
             <EditText
+                android:labelFor="@+id/editTextBirthDayProfile"
                 android:id="@+id/editTextBirthDayProfile"
                 android:layout_width="173dp"
                 android:layout_height="wrap_content"
@@ -122,12 +114,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="124dp"
                 android:layout_marginTop="16dp"
-                android:text="Gender"
+                android:text="@string/editprofile_gender"
                 android:textColor="@color/textview_normal"
                 app:layout_constraintStart_toEndOf="@+id/textViewBirthDay"
                 app:layout_constraintTop_toBottomOf="@+id/editTextEmailProfile" />
 
             <EditText
+                android:labelFor="@+id/editTextGender"
                 android:id="@+id/editTextGender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -150,7 +143,7 @@
                 android:layout_marginEnd="50dp"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="16dp"
-                android:text="Contact Number"
+                android:text="@string/editprofile_contact_number"
                 android:textColor="@color/textview_normal"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -158,6 +151,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/editTextBirthDayProfile" />
 
             <EditText
+                android:labelFor="@+id/editTextContactNumber"
                 android:id="@+id/editTextContactNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -173,6 +167,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textViewSdt" />
 
             <EditText
+                android:labelFor="@+id/editTextFullNameProfile"
                 android:id="@+id/editTextFullNameProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -190,29 +185,23 @@
 
             <Button
                 android:id="@+id/buttonSaveInfoProfile"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:layout_marginEnd="55dp"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="32dp"
                 android:background="@drawable/custom_btn_save_profile"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:text="Save Profile"
+                android:text="@string/editprofile_save_profile"
                 android:textAllCaps="false"
                 android:textColor="@color/textview_normal"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextContactNumber" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
-
-    <include
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </include>
-</FrameLayout>
+</LinearLayout>

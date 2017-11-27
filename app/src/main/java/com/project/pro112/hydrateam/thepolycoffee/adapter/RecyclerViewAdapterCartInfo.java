@@ -15,7 +15,7 @@ import com.project.pro112.hydrateam.thepolycoffee.R;
 
 import java.text.DecimalFormat;
 
-import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.linearButtonViewCart;
+import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
 /**
  * Created by VI on 26/11/2017.

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundlayout_shopping"
-    tools:context="com.project.pro112.hydrateam.thepolycoffee.activity.Purchase">
+    tools:context="com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Purchase">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

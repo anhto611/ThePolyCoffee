@@ -39,13 +39,13 @@ import java.util.regex.Pattern;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
-    private RoundedTransformation transformation;
-    private RecyclerView recyclerViewNews;
-    private LinearLayoutManager layoutManager;
-    private AdapterNewsHome adapterNewsHome;
-    private ArrayList<ArticleNews> listNews;
-    private ProgressBar progressLoadNews;
-    private Button btnHistory;
+    RoundedTransformation transformation;
+    RecyclerView recyclerViewNews;
+    LinearLayoutManager layoutManager;
+    AdapterNewsHome adapterNewsHome;
+    ArrayList<ArticleNews> listNews;
+    ProgressBar progressLoadNews;
+    Button btnHistory;
 
     public HomeFragment() {
     }

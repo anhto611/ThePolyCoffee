@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,7 +29,7 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.project.pro112.hydrateam.thepolycoffee.R;
-import com.project.pro112.hydrateam.thepolycoffee.activity.Order;
+import com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order;
 
 import java.io.IOException;
 import java.util.List;
@@ -80,17 +79,18 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback {
 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
         if (mapView != null &&
                 mapView.findViewById(Integer.parseInt("1")) != null) {
             // Get the button view
             locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
-            // and next place it, on bottom right (as Google Maps app)
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)
-                    locationButton.getLayoutParams();
-            // position on right bottom
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-            layoutParams.setMargins(0, 0, 40, 160);
+//            // and next place it, on bottom right (as Google Maps app)
+//            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)
+//                    locationButton.getLayoutParams();
+//            // position on right bottom
+//            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+//            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+//            layoutParams.setMargins(0, 0, 40, 160);
             locationButton.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mylocation));
         }
 

@@ -1,4 +1,4 @@
-package com.project.pro112.hydrateam.thepolycoffee.activity;
+package com.project.pro112.hydrateam.thepolycoffee.activity.shopping;
 
 import android.content.Intent;
 import android.os.Bundle;

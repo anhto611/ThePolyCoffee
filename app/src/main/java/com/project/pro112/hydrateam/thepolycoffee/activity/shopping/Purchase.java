@@ -1,4 +1,4 @@
-package com.project.pro112.hydrateam.thepolycoffee.activity;
+package com.project.pro112.hydrateam.thepolycoffee.activity.shopping;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +22,7 @@ import com.project.pro112.hydrateam.thepolycoffee.R;
 
 import java.text.DecimalFormat;
 
-import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.linearButtonViewCart;
+import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
 public class Purchase extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
     private ScrollView scrollView;
