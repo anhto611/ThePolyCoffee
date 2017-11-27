@@ -7,10 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
+
+import java.text.DecimalFormat;
+
+import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.linearButtonViewCart;
 
 /**
  * Created by VI on 26/11/2017.
@@ -50,6 +55,15 @@ public class RecyclerViewAdapterCartInfo extends RecyclerView.Adapter<RecyclerVi
     }
 
     private void bindSetData(ViewHolder holder, int position) {
+        DecimalFormat formatter = new DecimalFormat("#.#");
+        LinearLayout linear = linearButtonViewCart;
+        TextView textView = (TextView) linear.getChildAt(0);
+        Double total = Double.parseDouble(textView.getText().toString().substring(0,textView.getText().toString().length()-1));
+        if(total < 200000){
+            total = total + 10000;
+        }else{
+            total = total + 0;
+        }
         switch (position) {
             case 0: {
                 holder.title_info.setText("Discount");
@@ -65,21 +79,25 @@ public class RecyclerViewAdapterCartInfo extends RecyclerView.Adapter<RecyclerVi
                 break;
             }
             case 1: {
-                holder.title_info.setText("Transportation");
-                holder.tvInfoLeft.setText("Transportation");
-                holder.tvInfoRight.setText("10.000đ");
+                holder.title_info.setText("Prices");
+                holder.tvInfoLeft.setText("Your order cost");
+                holder.tvInfoRight.setText(formatter.format(Double.parseDouble(textView.getText().toString().substring(0,textView.getText().toString().length()-1)))+"đ");
                 break;
             }
             case 2: {
-                holder.title_info.setText("Another Discount");
-                holder.tvInfoLeft.setText("New comer");
-                holder.tvInfoRight.setText("10000đ");
+                holder.title_info.setText("Transportation");
+                holder.tvInfoLeft.setText("Transportation");
+                if(total>200000){
+                    holder.tvInfoRight.setText("0đ");
+                }else{
+                    holder.tvInfoRight.setText("10000đ");
+                }
                 break;
             }
             case 3: {
                 holder.title_info.setText("");
                 holder.tvInfoLeft.setText("Total");
-                holder.tvInfoRight.setText("52.000đ");
+                holder.tvInfoRight.setText(formatter.format(total)+"đ");
                 break;
             }
         }

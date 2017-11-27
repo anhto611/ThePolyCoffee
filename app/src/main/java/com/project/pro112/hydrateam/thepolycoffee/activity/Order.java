@@ -10,14 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.SimpleFragmentPagerAdapter;
-import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
-
-import static com.project.pro112.hydrateam.thepolycoffee.fragment.PopularDish.imHere;
 
 public class Order extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
     private TabLayout tabLayout;
@@ -25,8 +23,9 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private FragmentManager fragmentManager;
-    public static Button btnViewCart;
+    public static LinearLayout linearButtonViewCart;
     private SimpleFragmentPagerAdapter adapter;
+    private TextView price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +60,7 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
         tabLayout.setupWithViewPager(viewPager);
         //app su kien chuyen page
         viewPager.setOnPageChangeListener(this);
+        viewPager.setOffscreenPageLimit(0);
     }
 
     @Override
@@ -71,39 +71,8 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
     @Override
     public void onPageSelected(int position) {
         //new interface kết với với fragment
-        if (position == 0) {
-            imHere = true;
-            CheckButtonViewCartToHideOrShow fragment = (CheckButtonViewCartToHideOrShow) adapter.instantiateItem(viewPager, position);
-            if (fragment != null) {
-                if (fragment.getPosition() == 7) {
-                    // ngay bottom
-                    btnViewCart.setVisibility(View.INVISIBLE);
-                } else {
-                    btnViewCart.setVisibility(View.VISIBLE);
-                }
-                if(fragment.isLastItemVisible() == true){
-                    btnViewCart.setVisibility(View.VISIBLE);
-                }
-            }
-        } else {
-            imHere = true;
-            if (position == 1) {
-                imHere = false;
-            }
-            CheckButtonViewCartToHideOrShow fragment2 = (CheckButtonViewCartToHideOrShow) adapter.instantiateItem(viewPager, position);
-            if (fragment2 != null) {
-                if (fragment2.getPosition() == 5) {
-                    // ngay bottom
-                    btnViewCart.setVisibility(View.INVISIBLE);
-
-                } else {
-                    btnViewCart.setVisibility(View.VISIBLE);
-                }
-            }
-            if(fragment2.isLastItemVisible() == true){
-                btnViewCart.setVisibility(View.VISIBLE);
-            }
-        }
+        if(linearButtonViewCart.getVisibility() == View.INVISIBLE)
+            linearButtonViewCart.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -114,14 +83,21 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
     private void initView() {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        btnViewCart = (Button) findViewById(R.id.btnViewCart);
-        btnViewCart.setOnClickListener(this);
+        linearButtonViewCart = (LinearLayout) findViewById(R.id.btnViewCart);
+        linearButtonViewCart.setOnClickListener(this);
+        TextView btnS = (TextView) linearButtonViewCart.getChildAt(1);
+        price = (TextView) linearButtonViewCart.getChildAt(0);
+        btnS.setText("View cart");
     }
 
     // view cart click
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(Order.this, Cart.class);
-        startActivity(intent);
+        if(price.getVisibility() == View.INVISIBLE){
+            Toast.makeText(this, "Vui lòng chọn ít nhất một món", Toast.LENGTH_SHORT).show();
+        }else {
+            Intent intent = new Intent(Order.this, Cart.class);
+            startActivity(intent);
+        }
     }
 }

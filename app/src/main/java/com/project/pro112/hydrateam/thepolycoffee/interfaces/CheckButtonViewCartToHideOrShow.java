@@ -6,6 +6,4 @@ package com.project.pro112.hydrateam.thepolycoffee.interfaces;
 
 public interface CheckButtonViewCartToHideOrShow {
     int getPosition();
-
-    boolean isLastItemVisible();
 }

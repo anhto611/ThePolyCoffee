@@ -10,13 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterDrinksandCakes;
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
 
-import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.btnViewCart;
+import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.linearButtonViewCart;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +30,7 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow{
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private FragmentManager fragmentManager;
-
+    private int firstVisibleInListview;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,7 +40,6 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow{
         fragmentManager = getFragmentManager();
         setUpRecyclerView();
         hideButtonViewCartDrinks();
-
         return view;
     }
     private void setUpRecyclerView() {
@@ -55,6 +53,7 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow{
         // chọn adapter
         RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(), fragmentManager);
         mRecyclerView.setAdapter(mAdapter);
+        firstVisibleInListview = mLayoutManager.findFirstVisibleItemPosition();
     }
 
     private void hideButtonViewCartDrinks() {
@@ -64,13 +63,10 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow{
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                // có data số 5 đổi lại lại số lượng - 1
-                if ((mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) && btnViewCart.getVisibility() == View.VISIBLE) {
-                    // ngay bottom
-                    btnViewCart.setVisibility(View.INVISIBLE);
-                } else if(btnViewCart.getVisibility() == View.INVISIBLE){
-                    btnViewCart.setVisibility(View.VISIBLE);
-                }
+                if(dy > 0 && linearButtonViewCart.getVisibility() == View.VISIBLE)
+                    linearButtonViewCart.setVisibility(View.INVISIBLE);
+                else if(dy < 0 && linearButtonViewCart.getVisibility() == View.INVISIBLE)
+                    linearButtonViewCart.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -78,13 +74,5 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow{
     @Override
     public int getPosition() {
         return mLayoutManager.findLastCompletelyVisibleItemPosition();
-    }
-
-    @Override
-    public boolean isLastItemVisible() {
-        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mLayoutManager.getItemCount())
-            return true;
-        else
-            return false;
     }
 }

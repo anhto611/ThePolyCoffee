@@ -87,7 +87,7 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
 
     //init
     private void initView() {
-        btnDelivery = (Button) findViewById(R.id.btnViewCart);
+        btnDelivery = (Button) findViewById(R.id.btnS);
         btnDelivery.setText("Delivery and purchase");
         btnDelivery.setOnClickListener(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
@@ -103,13 +103,26 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void setUpHideButtonWhenSrollToTheBottom() {
-        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
-            public void onScrollChanged() {
-                if (scrollView != null) {
-                    if (scrollView.getChildAt(0).getBottom() == (scrollView.getHeight() + scrollView.getScrollY()) ) {
-                            btnDelivery.setVisibility(View.INVISIBLE);
-                    } else{
+            public void onGlobalLayout() {
+                View child = scrollView.getChildAt(0);
+                if (child != null) {
+                    int childHeight = child.getHeight();
+                    if (scrollView.getHeight() < childHeight) {
+                        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+                            @Override
+                            public void onScrollChanged() {
+                                if (scrollView != null) {
+                                    if (scrollView.getChildAt(0).getBottom() == (scrollView.getHeight() + scrollView.getScrollY())) {
+                                        btnDelivery.setVisibility(View.INVISIBLE);
+                                    } else {
+                                        btnDelivery.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            }
+                        });
+                    } else {
                         btnDelivery.setVisibility(View.VISIBLE);
                     }
                 }

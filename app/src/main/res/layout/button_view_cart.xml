@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
     android:id="@+id/btnViewCart"
-    android:text="View cart"
-    android:background="@color/color_main"
-    android:textColor="#FFFFFF"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:weightSum="4"
+    android:padding="10dp"
+    android:gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:background="@drawable/backgriund_for_button_">
+
+    <TextView
+        android:id="@+id/tvPri"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:textColor="#FFFFFF"
+        android:visibility="invisible"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:text="" />
+    <TextView
+        android:id="@+id/btnS"
+        android:text="View cart"
+        android:background="@color/color_main"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="true"
+        android:gravity="center"
+        android:layout_weight="1.25"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tvSlinBtn"
+        android:text="0"
+        android:visibility="invisible"
+        android:layout_weight="1.25"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:layout_width="25dp"
+        android:layout_height="25dp" />
+</LinearLayout>

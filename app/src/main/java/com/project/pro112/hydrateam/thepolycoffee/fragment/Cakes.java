@@ -15,8 +15,7 @@ import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterDrinksandCakes;
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
 
-import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.btnViewCart;
-import static com.project.pro112.hydrateam.thepolycoffee.fragment.PopularDish.imHere;
+import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.linearButtonViewCart;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,12 +61,10 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if ((mLayoutManager.findLastCompletelyVisibleItemPosition() == 5) && btnViewCart.getVisibility() == View.VISIBLE) {
-                    //Its at bottom ..
-                    btnViewCart.setVisibility(View.INVISIBLE);
-                } else if (btnViewCart.getVisibility() == View.INVISIBLE && imHere == true) {
-                    btnViewCart.setVisibility(View.VISIBLE);
-                }
+                if(dy > 0 && linearButtonViewCart.getVisibility() == View.VISIBLE)
+                    linearButtonViewCart.setVisibility(View.INVISIBLE);
+                else if(dy < 0 && linearButtonViewCart.getVisibility() == View.INVISIBLE)
+                    linearButtonViewCart.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -77,11 +74,5 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
         return mLayoutManager.findLastCompletelyVisibleItemPosition();
     }
 
-    @Override
-    public boolean isLastItemVisible() {
-        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mLayoutManager.getItemCount())
-            return true;
-        else
-            return false;
-    }
+
 }

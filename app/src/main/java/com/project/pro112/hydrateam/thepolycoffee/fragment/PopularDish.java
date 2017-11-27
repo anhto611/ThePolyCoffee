@@ -15,7 +15,7 @@ import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterPol
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
 import com.project.pro112.hydrateam.thepolycoffee.tool.SpaceBetweenGrid;
 
-import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.btnViewCart;
+import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.linearButtonViewCart;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,12 +67,10 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 // có data số 7 đổi lại lại số lượng - 1
-                if((mLayoutManager.findLastCompletelyVisibleItemPosition() == 7)  && btnViewCart.getVisibility() == View.VISIBLE && imHere == true){
-                    // ngay bottom
-                    btnViewCart.setVisibility(View.INVISIBLE);
-                }else if(btnViewCart.getVisibility() == View.INVISIBLE && imHere == true){
-                    btnViewCart.setVisibility(View.VISIBLE);
-                }
+                if(dy > 0 && linearButtonViewCart.getVisibility() == View.VISIBLE)
+                    linearButtonViewCart.setVisibility(View.INVISIBLE);
+                else if(dy < 0 && linearButtonViewCart.getVisibility() == View.INVISIBLE)
+                    linearButtonViewCart.setVisibility(View.VISIBLE);
             }
 
         });
@@ -83,12 +81,7 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
         return mLayoutManager.findLastCompletelyVisibleItemPosition();
     }
 
-    @Override
-    public boolean isLastItemVisible() {
-        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mLayoutManager.getItemCount())
-            return true;
-        else
-            return false;
-    }
+
+
 
 }

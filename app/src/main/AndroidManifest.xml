@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.Order"
+            android:name=".activity.main.MainHome"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -67,7 +67,7 @@
         <activity android:name=".activity.settings.Support" />
         <activity android:name=".activity.settings.About"/>
         <activity android:name=".activity.Cart"></activity>
-        <!--<activity android:name=".activity.Purchase"></activity>-->
+        <activity android:name=".activity.Purchase"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

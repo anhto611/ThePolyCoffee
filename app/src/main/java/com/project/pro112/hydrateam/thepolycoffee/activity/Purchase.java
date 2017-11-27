@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,10 +20,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 
+import java.text.DecimalFormat;
+
+import static com.project.pro112.hydrateam.thepolycoffee.activity.Order.linearButtonViewCart;
+
 public class Purchase extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
     private ScrollView scrollView;
     private Button order;
     private GoogleMap mMap;
+    private TextView total;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,15 +38,30 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         setUpToolbar();
         //như bên cart
         setUpHideButtonWhenSrollToTheBottom();
+        setTotal();
     }
 
 
     //init
     private void initView() {
-        order = (Button) findViewById(R.id.btnViewCart);
+        order = (Button) findViewById(R.id.btnS);
         order.setText("Order");
         order.setOnClickListener(this);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
+        total = (TextView) findViewById(R.id.total);
+    }
+
+    public void setTotal() {
+        LinearLayout linearLayout = linearButtonViewCart;
+        TextView tv = (TextView) linearLayout.getChildAt(0);
+        Double totalp = Double.parseDouble(tv.getText().toString().substring(0, tv.getText().toString().length() - 1));
+        if(totalp > 200000){
+
+        }else{
+            totalp = totalp + 10000;
+        }
+        DecimalFormat formatter = new DecimalFormat("#.#");
+        total.setText(formatter.format(totalp)+"đ");
     }
     //Setup tool bar
     @Override
@@ -60,13 +82,26 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
     }
 
     private void setUpHideButtonWhenSrollToTheBottom() {
-        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
-            public void onScrollChanged() {
-                if (scrollView != null) {
-                    if (scrollView.getChildAt(0).getBottom() == (scrollView.getHeight() + scrollView.getScrollY())) {
-                        order.setVisibility(View.INVISIBLE);
-                    } else{
+            public void onGlobalLayout() {
+                View child = scrollView.getChildAt(0);
+                if (child != null) {
+                    int childHeight = child.getHeight();
+                    if (scrollView.getHeight() < childHeight) {
+                        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+                            @Override
+                            public void onScrollChanged() {
+                                if (scrollView != null) {
+                                    if (scrollView.getChildAt(0).getBottom() == (scrollView.getHeight() + scrollView.getScrollY())) {
+                                        order.setVisibility(View.INVISIBLE);
+                                    } else {
+                                        order.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            }
+                        });
+                    } else {
                         order.setVisibility(View.VISIBLE);
                     }
                 }
