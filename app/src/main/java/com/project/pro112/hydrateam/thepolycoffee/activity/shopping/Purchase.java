@@ -39,6 +39,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         //như bên cart
         setUpHideButtonWhenSrollToTheBottom();
         setTotal();
+        setUpMaps();
     }
 
 
@@ -128,6 +129,6 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         // Add a marker in Sydney, Australia, and move the camera.
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,15));
     }
 }

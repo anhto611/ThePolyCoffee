@@ -23,11 +23,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="75dp">
-                <TextView
+                <fragment
+                    android:id="@+id/maps"
+                    android:name="com.project.pro112.hydrateam.thepolycoffee.fragment.ShoppingFragment"
+                    class="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:text="maps API"
-                    android:gravity="center"/>
+                    android:layout_height="180dp"></fragment>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

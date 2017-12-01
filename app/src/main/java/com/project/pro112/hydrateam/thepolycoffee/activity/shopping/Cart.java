@@ -2,6 +2,7 @@ package com.project.pro112.hydrateam.thepolycoffee.activity.shopping;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
@@ -23,7 +23,7 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView2;
     private LinearLayoutManager mLayoutManager;
     private android.support.v4.app.FragmentManager fragmentManager;
-    private ScrollView scrollView;
+    private NestedScrollView scrollView;
 
 
     @Override
@@ -63,8 +63,6 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
 
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView2.setNestedScrollingEnabled(false);
-
-
     }
 
     //Setup tool bar
@@ -92,7 +90,7 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
         btnDelivery.setOnClickListener(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
         mRecyclerView2 = (RecyclerView) findViewById(R.id.mRecyclerView2);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
+        scrollView = (NestedScrollView) findViewById(R.id.scrollView);
     }
 
     //delivery and purchase click
