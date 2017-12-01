@@ -44,6 +44,6 @@ public class RecyclerViewAdapterCartProduct extends RecyclerView.Adapter<Recycle
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 7;
     }
 }

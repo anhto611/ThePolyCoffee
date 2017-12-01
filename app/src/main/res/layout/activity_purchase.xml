@@ -21,7 +21,8 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="75dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
@@ -91,7 +92,8 @@
                     android:padding="15dp"
                     android:gravity="left|center"
                     android:drawableLeft="@drawable/logo_man"
-                    android:text="   Trần Vĩ"/>
+                    android:text="   Trần Vĩ"
+                    />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
