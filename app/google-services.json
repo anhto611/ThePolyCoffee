@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "840244293430-47cbiqps071erma2v5aplvgrkalrqkl6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.pro112.hydrateam.thepolycoffee",
+            "certificate_hash": "66f6f8f7ddd0c1b134b97dc689ea9be0d64fd3c3"
+          }
+        },
+        {
           "client_id": "840244293430-a66040t1edlkh3i3knes9vuva0k4l7qb.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840244293430-a66040t1edlkh3i3knes9vuva0k4l7qb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
