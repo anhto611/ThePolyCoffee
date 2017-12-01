@@ -11,9 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterDrinksandCakes;
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
+import com.project.pro112.hydrateam.thepolycoffee.models.Food;
+
+import java.util.ArrayList;
 
 import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
@@ -29,6 +37,7 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
     private LinearLayoutManager mLayoutManager;
     private FragmentManager fragmentManager;
     private boolean imHere2;
+    private ArrayList<Food> foods;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,10 +58,34 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // chọn adapter
-        RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(), fragmentManager);
-        mRecyclerView.setAdapter(mAdapter);
-    }
 
+        foods = new ArrayList<>();
+        // get data from firebase
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef;
+        myRef = database.getReference("Foods/Cakes");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
+                    String name = (String) messageSnapshot.child("name").getValue();
+                    String des = (String) messageSnapshot.child("discription").getValue();
+                    String image = (String) messageSnapshot.child("image").getValue();
+                    String price = (String) messageSnapshot.child("price").getValue();
+                    Food food = new Food(des, image, name, price);
+                    foods.add(food);
+                }
+                RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(), fragmentManager, true, foods);
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     private void hideButtonViewCart() {
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -61,9 +94,9 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if(dy > 0 && linearButtonViewCart.getVisibility() == View.VISIBLE)
+                if (dy > 0 && linearButtonViewCart.getVisibility() == View.VISIBLE)
                     linearButtonViewCart.setVisibility(View.INVISIBLE);
-                else if(dy < 0 && linearButtonViewCart.getVisibility() == View.INVISIBLE)
+                else if (dy < 0 && linearButtonViewCart.getVisibility() == View.INVISIBLE)
                     linearButtonViewCart.setVisibility(View.VISIBLE);
             }
         });
@@ -73,6 +106,5 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
     public int getPosition() {
         return mLayoutManager.findLastCompletelyVisibleItemPosition();
     }
-
-
 }
+

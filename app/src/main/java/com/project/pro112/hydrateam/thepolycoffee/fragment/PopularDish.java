@@ -10,10 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterPolularDish;
 import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
+import com.project.pro112.hydrateam.thepolycoffee.models.Food;
 import com.project.pro112.hydrateam.thepolycoffee.tool.SpaceBetweenGrid;
+
+import java.util.ArrayList;
 
 import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
@@ -31,6 +39,7 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
     private FragmentManager fragmentManager;
     private int numberOfColums = 2;
     public static boolean imHere = true;
+    private ArrayList<Food> foods;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,8 +61,34 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // chọn adapter
-        RecyclerViewAdapterPolularDish mAdapter = new RecyclerViewAdapterPolularDish(getContext(),fragmentManager);
-        mRecyclerView.setAdapter(mAdapter);
+
+
+        foods = new ArrayList<>();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef;
+        myRef = database.getReference("Foods/Popular");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
+                    String name = (String) messageSnapshot.child("name").getValue();
+                    String des = (String) messageSnapshot.child("discription").getValue();
+                    String image = (String) messageSnapshot.child("image").getValue();
+                    String price = (String) messageSnapshot.child("price").getValue();
+                    Food food = new Food(des, image, name, price);
+                    foods.add(food);
+                }
+                RecyclerViewAdapterPolularDish mAdapter = new RecyclerViewAdapterPolularDish(getContext(), fragmentManager, foods);
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         int spanCount = 2; // 2 columns
         int spacing = 20; // 20px

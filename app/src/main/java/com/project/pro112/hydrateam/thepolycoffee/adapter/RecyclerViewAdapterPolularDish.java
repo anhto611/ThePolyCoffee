@@ -12,8 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.models.Food;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
@@ -25,22 +28,29 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
     private Context context;
     private FragmentManager fragmentManager;
     private LayoutInflater inflater;
+    private ArrayList<Food> foods;
 
-    public RecyclerViewAdapterPolularDish(Context context, FragmentManager fragmentManager) {
+    public RecyclerViewAdapterPolularDish(Context context, FragmentManager fragmentManager, ArrayList<Food> foods) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.fragmentManager = fragmentManager;
+        this.foods = foods;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView btnPlus, btnSub;
         public TextView tvSl,foodPri;
+        public ImageView foodImg;
+        public TextView foodName, foodDes;
         public ViewHolder(View itemView) {
             super(itemView);
             btnPlus = itemView.findViewById(R.id.btnPlus);
             btnSub = itemView.findViewById(R.id.btnSub);
             tvSl = itemView.findViewById(R.id.tvSl);
             foodPri = itemView.findViewById(R.id.foodPri);
+            foodName = itemView.findViewById(R.id.foodName);
+            foodDes = itemView.findViewById(R.id.foodDes);
+            foodImg = itemView.findViewById(R.id.foodImg);
         }
     }
 
@@ -163,12 +173,15 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
     }
 
     private void bindSetData(ViewHolder holder, int position) {
-
+        holder.foodName.setText(foods.get(position).getName());
+        holder.foodDes.setText(foods.get(position).getDiscription());
+        holder.foodPri.setText(foods.get(position).getPrice()+"đ");
+        Picasso.with(context).load(foods.get(position).getImage()).placeholder(R.drawable.progress_dialog).into(holder.foodImg);
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return (foods.size());
     }
 
 

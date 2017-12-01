@@ -12,8 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.models.Food;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
@@ -25,22 +28,30 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
     private Context context;
     private FragmentManager fragmentManager;
     private LayoutInflater inflater;
+    private boolean isCake;
+    private ArrayList<Food> foods;
 
-    public RecyclerViewAdapterDrinksandCakes(Context context, FragmentManager fragmentManager) {
+    public RecyclerViewAdapterDrinksandCakes(Context context, FragmentManager fragmentManager, boolean isCake, ArrayList<Food> foods) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.fragmentManager = fragmentManager;
+        this.isCake = isCake;
+        this.foods = foods;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView btnPlus, btnSub;
-        public TextView tvSl,foodPri;
+        public ImageView btnPlus, btnSub,foodImg;
+        public TextView tvSl, foodPri, foodName, foodDes;
+
         public ViewHolder(View itemView) {
             super(itemView);
             btnPlus = itemView.findViewById(R.id.btnPlus);
             btnSub = itemView.findViewById(R.id.btnSub);
             tvSl = itemView.findViewById(R.id.tvSl);
             foodPri = itemView.findViewById(R.id.foodPri);
+            foodName = itemView.findViewById(R.id.foodName);
+            foodDes = itemView.findViewById(R.id.foodDes);
+            foodImg = itemView.findViewById(R.id.foodImg);
         }
     }
 
@@ -117,18 +128,18 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
 
     private void bindBtnPlusClick(RecyclerViewAdapterDrinksandCakes.ViewHolder holder, int position) {
         //check xem 2 view btnSub và tvSl có hiện chưa
-        if(holder.tvSl.getVisibility() == View.INVISIBLE){
+        if (holder.tvSl.getVisibility() == View.INVISIBLE) {
             holder.tvSl.setVisibility(View.VISIBLE);
         }
-        if(holder.btnSub.getVisibility() == View.INVISIBLE){
+        if (holder.btnSub.getVisibility() == View.INVISIBLE) {
             holder.btnSub.setVisibility(View.VISIBLE);
         }
-        int soLuong =  Integer.parseInt(String.valueOf(holder.tvSl.getText()));
+        int soLuong = Integer.parseInt(String.valueOf(holder.tvSl.getText()));
 
-        if(soLuong >= 0){
+        if (soLuong >= 0) {
             soLuong++;
-            holder.tvSl.setText(""+soLuong);
-        }else{
+            holder.tvSl.setText("" + soLuong);
+        } else {
             Toast.makeText(context, "Phát sinh lỗi trong adapter Populardish", Toast.LENGTH_SHORT).show();
         }
 
@@ -139,34 +150,39 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
         TextView sl = (TextView) linearLayout.getChildAt(2);
         double priceaf;
         int slaf;
-        if(price.getText().toString().equals("")){
+        if (price.getText().toString().equals("")) {
             priceaf = 0;
             slaf = 0;
-        }else {
+        } else {
             priceaf = Double.parseDouble(price.getText().toString().substring(0, price.getText().toString().length() - 1));
             slaf = Integer.parseInt(sl.getText().toString());
         }
-        double foodPri = Double.parseDouble(holder.foodPri.getText().toString().substring(0,holder.foodPri.getText().toString().length() - 1));
+        double foodPri = Double.parseDouble(holder.foodPri.getText().toString().substring(0, holder.foodPri.getText().toString().length() - 1));
 
 
         double total = foodPri + priceaf;
         slaf++;
-        price.setText(formatter.format(total)+"đ");
-        sl.setText(slaf+"");
-        if(sl.getVisibility() == View.INVISIBLE){
+        price.setText(formatter.format(total) + "đ");
+        sl.setText(slaf + "");
+        if (sl.getVisibility() == View.INVISIBLE) {
             sl.setVisibility(View.VISIBLE);
         }
-        if(price.getVisibility() == View.INVISIBLE){
+        if (price.getVisibility() == View.INVISIBLE) {
             price.setVisibility(View.VISIBLE);
         }
     }
-    private void bindSetData(RecyclerViewAdapterDrinksandCakes.ViewHolder holder, int position) {
 
+    //set data
+    private void bindSetData(RecyclerViewAdapterDrinksandCakes.ViewHolder holder, int position) {
+        holder.foodName.setText(foods.get(position).getName());
+        holder.foodDes.setText(foods.get(position).getDiscription());
+        holder.foodPri.setText(foods.get(position).getPrice()+"đ");
+        Picasso.with(context).load(foods.get(position).getImage()).placeholder(R.drawable.progress_dialog).into(holder.foodImg);
     }
 
     @Override
     public int getItemCount() {
-        return 12;
+        return (foods.size());
     }
 
 

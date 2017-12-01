@@ -28,51 +28,31 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
     public static LinearLayout linearButtonViewCart;
     private SimpleFragmentPagerAdapter adapter;
     private TextView price;
-    String hinh[] = {"https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/cakes%2FBlueberry%20Muffin.jpg?alt=media&token=0a5ca0e2-76e1-424b-82e0-56868018c508"
-    ,"https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/cakes%2FChocolate%20Chunk.jpg?alt=media&token=b828477f-0013-40a5-9348-1ee43ab2df92" ,
-            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/cakes%2FChocolate%20Croissant.jpg?alt=media&token=db787346-6c75-4421-9e76-e305f7f11366",
-            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/cakes%2FChocolate%20Marble.jpg?alt=media&token=60050903-f6be-4e65-866b-e63541444461" ,
-            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/cakes%2FChonga%20Bagel.jpg?alt=media&token=b0a1442a-435a-4639-b1a0-9848b4386774",
-            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/cakes%2FIce%20Cream%20Cone.jpg?alt=media&token=852ace4c-419b-4909-a1b7-a8739540e83f" ,
-            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/cakes%2FNanana%20Nut%20Bread.jpg?alt=media&token=129426a5-4ff6-4904-ae89-99ef8e3c95bf" ,
-            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/cakes%2FPeanut%20butter%20cookie.jpg?alt=media&token=c3d76617-bc53-4a82-ae45-692ede76648d" ,
-            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/cakes%2FPolar%20Bear%20Cake.jpg?alt=media&token=caa2c8ed-20f5-4a23-847f-02279abeee02" ,
-            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/cakes%2FReindeer%20Ginbread.jpg?alt=media&token=7758b6a3-42e3-4fcc-8ac5-85749cfe6b12",
-            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/cakes%2FSnowman%20Cookie.jpg?alt=media&token=ffda9035-7587-4f53-ad07-9e09a9813714" };
-    String name[] = {"Blueberry Muffin",
-    "Chocolate Chunk" ,
-            "Chocolate Croissant" ,
-            " Chocolate Marble" ,
-            "Chonga Bagel" ,
-            " Ice Cream Cone" ,
-            "Nanana Nut Bread" ,
-            "Peanut butter cookie" ,
-            "Polar Bear Cake",
-            "Reindeer Ginbread" ,
-            "Snowman Cookie"};
+    String hinh[] = {"https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FChilly%20juice.jpg?alt=media&token=3a0f2533-2e9c-4d18-9ce2-92969b02ff76"
+    ,"https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FChocolate%20cup.jpg?alt=media&token=8fce5e19-0d1e-41a0-a6ca-deae1a5a1b65" ,
+            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FChocolate%20milk.jpg?alt=media&token=49c53562-3359-4827-8bd3-379d79e78329",
+            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FGreen%20tea.jpg?alt=media&token=ab330591-392e-49c9-98fb-10d546443705" ,
+            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FHoney%20lovely.jpg?alt=media&token=02af8fe4-55e4-41ef-b3f2-21ec795ee53c",
+    "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2Flovely%20cake.jpg?alt=media&token=a64e6103-6581-4ee0-ab4e-524c06731185"};
+    String name[] = {"Chilly juice",
+    " Chocolate cup" ,
+            "Chocolate cup" ,
+            "Green tea" ,
+            "Honey lovely" ,
+            "lovely cake"};
 
-    String des[]  = {"Nutrition Facts Per Serving (63 g)",
-            "Nutrition Facts Per Serving (23 g)" ,
-            "Nutrition Facts Per Serving (51 g)" ,
-            "Nutrition Facts Per Serving (92 g)" ,
-            "Nutrition Facts Per Serving (73 g)" ,
-            "Nutrition Facts Per Serving (66 g)" ,
-            "Nutrition Facts Per Serving (123 g)" ,
+    String des[]  = {"Nutrition Facts Per Serving (23 g)",
             "Nutrition Facts Per Serving (43 g)" ,
-            "Nutrition Facts Per Serving (153 g)" ,
-            "Nutrition Facts Per Serving (123 g)" ,
-            "Nutrition Facts Per Serving (18 g)"};
+            "Nutrition Facts Per Serving (53 g)" ,
+            "Nutrition Facts Per Serving (112 g)" ,
+            "Nutrition Facts Per Serving (25 g)" ,
+            "Nutrition Facts Per Serving (16 g)"};
     String prices[] = {"34000" ,
             "34000" ,
             "24000" ,
             "25000" ,
-            "14000" ,
-            "51000" ,
-            "37000" ,
-            "13000" ,
-            "52000" ,
-            "43000" ,
-            "34000"};
+    "32000",
+    "25000"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,13 +61,11 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
         setUpToolbar();
         setUpViewPager();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Foods").child("Cakes");
+        DatabaseReference myRef = database.getReference("Foods").child("Popular");
 //        for (int i = 0; i < prices.length; i++) {
 //            myRef.push().setValue(new Food(des[i],
 //                    hinh[i], name[i], prices[i]));
 //        }
-
-
 //        myRef.addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) {
