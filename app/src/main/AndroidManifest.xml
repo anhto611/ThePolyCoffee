@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.main.MainHome"
+            android:name=".userscreen.LoginScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,9 +51,9 @@
         <activity
             android:name=".userscreen.SignUpScreen"
             android:screenOrientation="portrait" />
-        <!--<activity-->
-            <!--android:name=".activity.main.MainHome"-->
-            <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".activity.main.MainHome"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".userscreen.EditProfileScreen"
             android:screenOrientation="portrait" />

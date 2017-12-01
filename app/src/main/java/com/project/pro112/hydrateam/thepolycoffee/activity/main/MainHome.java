@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.HomeFragment;
-import com.project.pro112.hydrateam.thepolycoffee.fragment.MusicFragment;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.SettingsFragment;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.ShoppingFragment;
 import com.project.pro112.hydrateam.thepolycoffee.fragment.VideoFragment;
@@ -50,8 +49,6 @@ public class MainHome extends AppCompatActivity{
                     classFragment = SettingsFragment.class;
                 if (id == R.id.mVideo)
                     classFragment = VideoFragment.class;
-                if (id == R.id.mMusic)
-                    classFragment = MusicFragment.class;
                 try {
                     fragment = (Fragment) classFragment.newInstance();
                     FragmentManager manager = getSupportFragmentManager();

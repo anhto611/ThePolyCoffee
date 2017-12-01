@@ -19,11 +19,6 @@
             android:title="Video"
             app:showAsAction="ifRoom|withText"></item>
         <item
-            android:id="@+id/mMusic"
-            android:icon="@mipmap/ic_music"
-            android:title="Music"
-            app:showAsAction="ifRoom|withText"></item>
-        <item
             android:id="@+id/mSettings"
             android:icon="@mipmap/ic_settings"
             android:title="Settings"

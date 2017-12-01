@@ -4,16 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/cardViewNews"
-    android:layout_marginRight="16dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginBottom="16dp"
     android:foreground="?android:attr/selectableItemBackground"
     android:clickable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/border_bottom">
         <ImageView
             android:id="@+id/imageNews"
             android:layout_width="match_parent"
@@ -21,7 +20,7 @@
             android:src="@drawable/coffee_demo"
             android:scaleType="centerCrop"/>
         <LinearLayout
-            android:padding="8dp"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -32,20 +31,20 @@
                 android:text="European Coffee Expo to Debut in London in 2018"
                 android:textColor="@color/color_main"
                 android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"/>
             <TextView
                 android:id="@+id/contentNews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="A new trade-only event focused on the coffee industry, European Coffee Expo is scheduled to make its debut in May of 2018 at London’s Olympia events center..."
                 android:textColor="@color/textview_normal"
+                android:paddingBottom="8dp"
                 />
         </LinearLayout>
         <LinearLayout
             android:background="@drawable/border_top"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
             android:paddingTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
