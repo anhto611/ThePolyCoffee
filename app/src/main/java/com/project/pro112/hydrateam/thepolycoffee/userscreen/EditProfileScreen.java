@@ -52,21 +52,14 @@ public class EditProfileScreen extends AppCompatActivity {
     //Khai bao View:
     Toolbar toolbar;
     CircleImageView imgAvatar;
-    TextView fullnameProfile,
-            textViewEmail,
-            textViewBirthDay,
-            textViewSdt,
-            textViewGender,
-            textViewTitle;
-    EditText editTextFullNameProfile,
-            editTextEmailProfile,
-            editTextBirthDayProfile,
-            editTextGender, editTextContactNumber;
+    TextView fullnameProfile, textViewEmail, textViewBirthDay, textViewSdt, textViewGender, textViewTitle;
+    EditText editTextFullNameProfile, editTextEmailProfile, editTextBirthDayProfile, editTextGender, editTextContactNumber;
     Button btnSave;
+
     //FIREBASE FIELDS
     FirebaseDatabase mFirebaseDatabase;
     FirebaseAuth mAuth;
-    FirebaseAuth.AuthStateListener mAuthListener;
+//    FirebaseAuth.AuthStateListener mAuthListener;
     DatabaseReference mDatabaseReference;
     StorageReference mStorageRef;
 
@@ -131,6 +124,8 @@ public class EditProfileScreen extends AppCompatActivity {
                 setGender();
             }
         });
+
+        getInfoUser();
 
     }
 
@@ -250,6 +245,23 @@ public class EditProfileScreen extends AppCompatActivity {
         }
     }
 
+    private void getInfoUser() {
+        //READ FROM THE DATABASE:
+        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("TAG", dataSnapshot.getValue() + "");
+                Object_UserProfile userProfile = dataSnapshot.getValue(Object_UserProfile.class);
+                Toast.makeText(EditProfileScreen.this, userProfile.getFullName(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     // ActivityResultIntent
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -363,22 +375,5 @@ public class EditProfileScreen extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-    }
-
-    private void getInfoUser() {
-        //READ FROM THE DATABASE:
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("TAG", dataSnapshot.getValue() + "");
-                Object_UserProfile userProfile = dataSnapshot.getValue(Object_UserProfile.class);
-                Toast.makeText(EditProfileScreen.this, userProfile.getFullName(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 }

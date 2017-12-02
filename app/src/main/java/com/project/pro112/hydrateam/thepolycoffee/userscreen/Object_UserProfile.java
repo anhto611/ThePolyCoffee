@@ -5,14 +5,13 @@ package com.project.pro112.hydrateam.thepolycoffee.userscreen;
  */
 
 public class Object_UserProfile {
-    private String FullName, Name, Email, Gender, Birthday, ContactNumber, LinkAvatar;
+    private String FullName, Email, Gender, Birthday, ContactNumber, LinkAvatar;
 
     public Object_UserProfile() {
     }
 
-    public Object_UserProfile(String fullName, String name, String email, String gender, String birthday, String contactNumber, String linkAvatar) {
+    public Object_UserProfile(String fullName, String email, String gender, String birthday, String contactNumber, String linkAvatar) {
         FullName = fullName;
-        Name = name;
         Email = email;
         Gender = gender;
         Birthday = birthday;
@@ -26,14 +25,6 @@ public class Object_UserProfile {
 
     public void setFullName(String fullName) {
         FullName = fullName;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
     }
 
     public String getEmail() {

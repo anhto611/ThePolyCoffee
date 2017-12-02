@@ -25,6 +25,7 @@
     <string name="editprofile_gender">Gender</string>
     <string name="editprofile_contact_number">Contact Number</string>
     <string name="editprofile_save_profile">Save Profile</string>
+    <string name="home_name">Name</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />

@@ -15,14 +15,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.activity.home.MembershipProgram;
 import com.project.pro112.hydrateam.thepolycoffee.activity.home.PurchaseHistory;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.AdapterNewsHome;
 import com.project.pro112.hydrateam.thepolycoffee.models.ArticleNews;
 import com.project.pro112.hydrateam.thepolycoffee.tool.DomParser;
-import com.project.pro112.hydrateam.thepolycoffee.tool.RoundedTransformation;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,13 +46,16 @@ import java.util.regex.Pattern;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
-    RoundedTransformation transformation;
-    RecyclerView recyclerViewNews;
-    LinearLayoutManager layoutManager;
     AdapterNewsHome adapterNewsHome;
     ArrayList<ArticleNews> listNews;
+
+    RecyclerView recyclerViewNews;
+    LinearLayoutManager layoutManager;
     ProgressBar progressLoadNews;
     Button btnHistory;
+    LinearLayout btnMemberShip;
+    ImageView imgAvatar;
+    TextView nameUser;
 
     public HomeFragment() {
     }
@@ -55,11 +65,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        LinearLayout layout = (LinearLayout) view.findViewById(R.id.clickMembership);
-        layout.setOnClickListener(this);
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
+        btnMemberShip = (LinearLayout) view.findViewById(R.id.clickMembership);
         progressLoadNews = (ProgressBar) view.findViewById(R.id.progressLoadNews);
         btnHistory = (Button) view.findViewById(R.id.btnHistory);
+        imgAvatar = (ImageView) view.findViewById(R.id.mAvatar);
+        nameUser = (TextView) view.findViewById(R.id.mNameUser);
+        recyclerViewNews = (RecyclerView) view.findViewById(R.id.recyNew);
+
+        btnMemberShip.setOnClickListener(this);
         btnHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,12 +83,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        transformation = new RoundedTransformation();
-        ImageView img = (ImageView) view.findViewById(R.id.mAvatar);
-        transformation.setImageByPicasso(R.drawable.avatar_demo, img);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String user_id = mAuth.getCurrentUser().getUid();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference().child("Users").child(user_id);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String name = (String) dataSnapshot.child("fullName").getValue();
+                String image = (String) dataSnapshot.child("linkAvatar").getValue();
+                nameUser.setText(name);
+                Picasso.with(getContext()).load(image).into(imgAvatar);
+            }
 
-        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerViewNews = (RecyclerView) view.findViewById(R.id.recyNew);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         recyclerViewNews.setHasFixedSize(true);
         recyclerViewNews.setLayoutManager(layoutManager);
@@ -122,7 +150,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 ArticleNews articleNews;
                 for (int i = 0; i < nodeList.getLength(); i++) {
                     String cdata = nodeListdescription.item(i + 1).getTextContent();
-                    content  = cdata.substring(cdata.indexOf("</div>")+6);
+                    content = cdata.substring(cdata.indexOf("</div>") + 6);
 //                    Log.d("content", content + ".........." + i);
                     Pattern getImg = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>");
                     Matcher matcherImg = getImg.matcher(cdata);
@@ -135,7 +163,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     link = domParser.getValue(element, "link");
 //                    Log.d("title", title + ".........." + i);
 //                    Log.d("link", link + ".........." + i);
-
 
                     articleNews = new ArticleNews(title, link, img, content);
                     listNews.add(articleNews);
@@ -152,6 +179,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    // Doc noi dung RSS
     private String docNoiDung(String theUrl) {
         StringBuilder stringBuilder = new StringBuilder();
         try {

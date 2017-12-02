@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,17 +20,22 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressPie;
 
 public class SignUpScreen extends AppCompatActivity {
-    EditText editEmailSignUp, editPasswordSignUp, edtConfirmPasswordSignUp;
+    EditText editEmailSignUp, editPasswordSignUp, edtConfirmPasswordSignUp, edtFullName, edtGender;
     Button btnSignUp;
     TextView textViewRegister;
     ACProgressPie progressPie;
     private FirebaseAuth mAuth;
+
+    String LINK_AVT_DEFAULT_MALE = "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/User%20Avatar%20Default%2Fmale.png?alt=media&token=f2233ca0-2a04-4aa7-b373-6d0995dc2b8c";
+    String LINK_AVT_DEFAULT_FEMALE = "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/User%20Avatar%20Default%2Ffemale.png?alt=media&token=b61f8e96-b44c-4b8b-8ea7-cc5f4a298641";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +67,32 @@ public class SignUpScreen extends AppCompatActivity {
                 DangKy();
             }
         });
+
+        //Su Kien Nhan Nut Gender:
+        edtGender.setFocusable(false);
+        edtGender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setGender();
+            }
+        });
     }
 
     private void DangKy() {
+        final String fullname = edtFullName.getText().toString().trim();
         final String email = editEmailSignUp.getText().toString().trim();
         final String password = editPasswordSignUp.getText().toString().trim();
         final String confirmPassword = edtConfirmPasswordSignUp.getText().toString();
+        final String gender = edtGender.getText().toString().trim();
 
-        //Kiem Tra Null Truong Email
-        if (TextUtils.isEmpty(email)) {
+        //Kiem Tra Null Truong FullName
+        if (TextUtils.isEmpty(fullname)) {
+            Toast.makeText(this, "Name can not be empty", Toast.LENGTH_LONG).show();
+            editEmailSignUp.requestFocus();
+            progressPie.dismiss();
+
+            //Kiem Tra Null Truong Email
+        } else if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Email can not be empty", Toast.LENGTH_LONG).show();
             editEmailSignUp.requestFocus();
             progressPie.dismiss();
@@ -91,6 +115,11 @@ public class SignUpScreen extends AppCompatActivity {
             edtConfirmPasswordSignUp.requestFocus();
             progressPie.dismiss();
 
+            //Kiem Tra Null Truong FullName
+        } else if (TextUtils.isEmpty(gender)) {
+            Toast.makeText(this, "Gender can not be empty", Toast.LENGTH_LONG).show();
+            editEmailSignUp.requestFocus();
+            progressPie.dismiss();
         } else {
             //Code Dang Ky User:
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -101,6 +130,18 @@ public class SignUpScreen extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 progressPie.dismiss();
 
+                                String user_id = mAuth.getCurrentUser().getUid();
+                                DatabaseReference current_user_id = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
+
+                                Object_UserProfile object_userProfile;
+
+                                if (gender.equals("Male")) {
+                                    object_userProfile = new Object_UserProfile(fullname, email, gender, "", "", LINK_AVT_DEFAULT_MALE);
+                                    current_user_id.setValue(object_userProfile);
+                                } else {
+                                    object_userProfile = new Object_UserProfile(fullname, email, gender, "", "", LINK_AVT_DEFAULT_FEMALE);
+                                    current_user_id.setValue(object_userProfile);
+                                }
                                 //Chuyen Du Lieu Vua Dang Ky Sang LoginScreen:
                                 Intent putEmailAndPass = new Intent(SignUpScreen.this, LoginScreen.class);
                                 putEmailAndPass.putExtra("email", email);
@@ -144,6 +185,31 @@ public class SignUpScreen extends AppCompatActivity {
         textViewRegister = (TextView) findViewById(R.id.textViewRegister);
         editEmailSignUp = (EditText) findViewById(R.id.edtEmailSignUp);
         editPasswordSignUp = (EditText) findViewById(R.id.edtPasswordSignUp);
+        edtFullName = (EditText) findViewById(R.id.edtFullName);
+        edtGender = (EditText) findViewById(R.id.edtGender);
         btnSignUp = (Button) findViewById(R.id.btnSignUp);
+    }
+
+    //Set Gender:
+    private void setGender() {
+        PopupMenu popupMenu = new PopupMenu(SignUpScreen.this, edtGender);
+        getMenuInflater().inflate(R.menu.gender, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.male: {
+                        edtGender.setText("Male");
+                        break;
+                    }
+                    case R.id.female: {
+                        edtGender.setText("Female");
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
     }
 }

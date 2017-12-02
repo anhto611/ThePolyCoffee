@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.shopping.Order"
+            android:name=".userscreen.LoginScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,9 +45,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity-->
-            <!--android:name=".activity.shopping.Order"-->
-            <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".activity.shopping.Order"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".userscreen.SignUpScreen"
             android:screenOrientation="portrait" />
