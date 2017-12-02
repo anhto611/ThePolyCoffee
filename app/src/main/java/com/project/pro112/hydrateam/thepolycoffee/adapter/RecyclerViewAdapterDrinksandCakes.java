@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.models.Food;
+import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
+import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -32,7 +34,6 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
     private ArrayList<Food> foods;
 
     public RecyclerViewAdapterDrinksandCakes(Context context, FragmentManager fragmentManager, boolean isCake, ArrayList<Food> foods) {
-        inflater = LayoutInflater.from(context);
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.isCake = isCake;
@@ -40,7 +41,7 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView btnPlus, btnSub,foodImg;
+        public ImageView btnPlus, btnSub, foodImg;
         public TextView tvSl, foodPri, foodName, foodDes;
 
         public ViewHolder(View itemView) {
@@ -57,7 +58,7 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
 
     @Override
     public RecyclerViewAdapterDrinksandCakes.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.cardview_drinks_and_cakes, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.cardview_drinks_and_cakes, parent, false);
         ViewHolder vh = new ViewHolder(view);
         return vh;
     }
@@ -83,92 +84,145 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
     }
 
     private void bindBtnSubClick(RecyclerViewAdapterDrinksandCakes.ViewHolder holder, int position) {
-        //check xem 2 view btnSub và tvSl có hiện chưa
-        //Xu li ben trong fragment
-        int soLuong = Integer.parseInt(String.valueOf(holder.tvSl.getText()));
-        if (soLuong > 0) {
-            soLuong--;
-            if (soLuong == 0) {
-                holder.tvSl.setVisibility(View.INVISIBLE);
-                holder.btnSub.setVisibility(View.INVISIBLE);
-            }
-            holder.tvSl.setText("" + soLuong);
-        }
-        // Xu li update nut view cart
-        DecimalFormat formatter = new DecimalFormat("#.#");
-        LinearLayout linearLayout = linearButtonViewCart;
-        TextView price = (TextView) linearLayout.getChildAt(0);
-        TextView sl = (TextView) linearLayout.getChildAt(2);
-        double priceaf;
-        int slaf;
-        if (price.getText().toString().equals("")) {
-            priceaf = 0;
-            slaf = 0;
+        //get data từ data tạm
+        tempdatabase tempdatabase = new tempdatabase(context);
+        // lấy đc data các món người dùng đã chọn
+        ArrayList<OrderedFood> orderedFoods = tempdatabase.getOrderedFoods();
+        // tiến hành lôi data ra và set lại tvsl và sub button
+        if (orderedFoods.size() < 0) {
+            //erorr
         } else {
-            priceaf = Double.parseDouble(price.getText().toString().substring(0, price.getText().toString().length() - 1));
-            slaf = Integer.parseInt(sl.getText().toString());
-        }
-        double foodPri = Double.parseDouble(holder.foodPri.getText().toString().substring(0, holder.foodPri.getText().toString().length() - 1));
-        double total = 0;
-        if (priceaf >= foodPri) {
-            total = priceaf - foodPri;
-            slaf--;
-        }
-        price.setText(formatter.format(total) + "đ");
-        sl.setText(slaf + "");
+            int sltemp = 1;
+            double truePrice = 0;
+            int trueAmount = 0;
+            for (int i = 0; i < orderedFoods.size(); i++) {
+                if (holder.foodName.getText().equals(orderedFoods.get(i).getName())) {
+                    sltemp = orderedFoods.get(i).getAmount();
+                }
+            }
+            sltemp--;
+            if (sltemp <= 0) {
+                // nếu sl == 0 thì ẩn nút sub và sl di và delete food trong database
+                tempdatabase.deleteOrderedFood("" + holder.foodName.getText());
+                if (holder.tvSl.getVisibility() == View.VISIBLE) {
+                    holder.tvSl.setVisibility(View.INVISIBLE);
+                }
+                if (holder.btnSub.getVisibility() == View.VISIBLE) {
+                    holder.btnSub.setVisibility(View.INVISIBLE);
+                }
+            } else {
+                tempdatabase.updateOrderedFood(new OrderedFood(holder.foodDes.getText() + "",
+                        foods.get(position).getImage() + "",
+                        holder.foodName.getText() + "",
+                        Double.parseDouble(holder.foodPri.getText().toString().substring(0,
+                                holder.foodPri.getText().toString().length() - 1)),
+                        sltemp));
+                if (holder.tvSl.getVisibility() == View.INVISIBLE) {
+                    holder.tvSl.setVisibility(View.VISIBLE);
+                }
+                if (holder.btnSub.getVisibility() == View.INVISIBLE) {
+                    holder.btnSub.setVisibility(View.VISIBLE);
+                }
+            }
+            // đẵ xử lý xong slemp (số lượng khi click nút sub)
+            if (holder.tvSl.getVisibility() == View.VISIBLE) {
+                holder.tvSl.setText("" + sltemp);
+            }
 
-        if (sl.getVisibility() == View.VISIBLE && slaf == 0) {
-            sl.setVisibility(View.INVISIBLE);
-        }
-        if (price.getVisibility() == View.VISIBLE && slaf == 0) {
-            price.setVisibility(View.INVISIBLE);
+            // Xu li update nut view cart
+            DecimalFormat formatter = new DecimalFormat("#.#");
+            LinearLayout linearLayout = linearButtonViewCart;
+            TextView price = (TextView) linearLayout.getChildAt(0);
+            TextView sl = (TextView) linearLayout.getChildAt(2);
+            orderedFoods = tempdatabase.getOrderedFoods();
+            for (int i = 0; i < orderedFoods.size(); i++) {
+                truePrice = truePrice + (orderedFoods.get(i).getAmount() * orderedFoods.get(i).getPrice());
+                trueAmount = trueAmount + orderedFoods.get(i).getAmount();
+            }
+            price.setText(formatter.format(truePrice) + "đ");
+            sl.setText(trueAmount + "");
+            if (sl.getVisibility() == View.INVISIBLE && truePrice > 0)
+                sl.setVisibility(View.VISIBLE);
+            if (price.getVisibility() == View.INVISIBLE && truePrice > 0)
+                price.setVisibility(View.VISIBLE);
 
+            if (sl.getVisibility() == View.VISIBLE && truePrice <= 0) {
+                sl.setVisibility(View.INVISIBLE);
+            }
+            if (price.getVisibility() == View.VISIBLE && truePrice <= 0) {
+                price.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
     private void bindBtnPlusClick(RecyclerViewAdapterDrinksandCakes.ViewHolder holder, int position) {
-        //check xem 2 view btnSub và tvSl có hiện chưa
-        if (holder.tvSl.getVisibility() == View.INVISIBLE) {
-            holder.tvSl.setVisibility(View.VISIBLE);
-        }
-        if (holder.btnSub.getVisibility() == View.INVISIBLE) {
-            holder.btnSub.setVisibility(View.VISIBLE);
-        }
-        int soLuong = Integer.parseInt(String.valueOf(holder.tvSl.getText()));
+        //get data từ data tạm
+        tempdatabase tempdatabase = new tempdatabase(context);
+        // lấy đc data các món người dùng đã chọn
+        ArrayList<OrderedFood> orderedFoods = tempdatabase.getOrderedFoods();
+        // tiến hành lôi data ra và set lại tvsl và sub button
+        if (orderedFoods.size() < 0) {
 
-        if (soLuong >= 0) {
-            soLuong++;
-            holder.tvSl.setText("" + soLuong);
         } else {
-            Toast.makeText(context, "Phát sinh lỗi trong adapter Populardish", Toast.LENGTH_SHORT).show();
-        }
+            int sltemp = 0;
+            double truePrice = 0;
+            int trueAmount = 0;
+            for (int i = 0; i < orderedFoods.size(); i++) {
+                if (holder.foodName.getText().equals(orderedFoods.get(i).getName())) {
+                    sltemp = orderedFoods.get(i).getAmount();
+                }
+            }
 
-        // Xu li update nut view cart
-        DecimalFormat formatter = new DecimalFormat("#.#");
-        LinearLayout linearLayout = linearButtonViewCart;
-        TextView price = (TextView) linearLayout.getChildAt(0);
-        TextView sl = (TextView) linearLayout.getChildAt(2);
-        double priceaf;
-        int slaf;
-        if (price.getText().toString().equals("")) {
-            priceaf = 0;
-            slaf = 0;
-        } else {
-            priceaf = Double.parseDouble(price.getText().toString().substring(0, price.getText().toString().length() - 1));
-            slaf = Integer.parseInt(sl.getText().toString());
-        }
-        double foodPri = Double.parseDouble(holder.foodPri.getText().toString().substring(0, holder.foodPri.getText().toString().length() - 1));
+            sltemp++;
+            if (sltemp == 1) {
+                tempdatabase.insertFood(new OrderedFood(holder.foodDes.getText() + "",
+                        foods.get(position).getImage() + "",
+                        holder.foodName.getText() + "",
+                        Double.parseDouble(holder.foodPri.getText().toString().substring(0,
+                                holder.foodPri.getText().toString().length() - 1)),
+                        sltemp));
+            } else if (sltemp > 1) {
+                tempdatabase.updateOrderedFood(new OrderedFood(holder.foodDes.getText() + "",
+                        foods.get(position).getImage()+ "",
+                        holder.foodName.getText() + "",
+                        Double.parseDouble(holder.foodPri.getText().toString().substring(0,
+                                holder.foodPri.getText().toString().length() - 1)),
+                        sltemp));
+            }
+            //check xem 2 view btnSub và tvSl có hiện chưa
+            if (holder.tvSl.getVisibility() == View.INVISIBLE) {
+                holder.tvSl.setVisibility(View.VISIBLE);
+            }
+            if (holder.btnSub.getVisibility() == View.INVISIBLE) {
+                holder.btnSub.setVisibility(View.VISIBLE);
+            }
 
+            if (sltemp >= 0) {
+                holder.tvSl.setText("" + sltemp);
+            } else {
+                Toast.makeText(context, "Phát sinh lỗi trong adapter Populardish", Toast.LENGTH_SHORT).show();
+            }
 
-        double total = foodPri + priceaf;
-        slaf++;
-        price.setText(formatter.format(total) + "đ");
-        sl.setText(slaf + "");
-        if (sl.getVisibility() == View.INVISIBLE) {
-            sl.setVisibility(View.VISIBLE);
-        }
-        if (price.getVisibility() == View.INVISIBLE) {
-            price.setVisibility(View.VISIBLE);
+            // Xu li update nut view cart
+            // khi click thì lôi hết data trong ordered food ra tính toán
+            orderedFoods = tempdatabase.getOrderedFoods();
+            for (int i = 0; i < orderedFoods.size(); i++) {
+                truePrice = truePrice + (orderedFoods.get(i).getAmount() * orderedFoods.get(i).getPrice());
+                trueAmount = trueAmount + orderedFoods.get(i).getAmount();
+            }
+            DecimalFormat formatter = new DecimalFormat("#.#");
+            LinearLayout linearLayout = linearButtonViewCart;
+            TextView price = (TextView) linearLayout.getChildAt(0);
+            TextView sl = (TextView) linearLayout.getChildAt(2);
+
+            price.setText(formatter.format(truePrice) + "đ");
+            sl.setText(trueAmount + "");
+            if (sl.getVisibility() == View.INVISIBLE) {
+                sl.setVisibility(View.VISIBLE);
+            }
+            if (price.getVisibility() == View.INVISIBLE) {
+                price.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -176,8 +230,24 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
     private void bindSetData(RecyclerViewAdapterDrinksandCakes.ViewHolder holder, int position) {
         holder.foodName.setText(foods.get(position).getName());
         holder.foodDes.setText(foods.get(position).getDiscription());
-        holder.foodPri.setText(foods.get(position).getPrice()+"đ");
+        holder.foodPri.setText(foods.get(position).getPrice() + "đ");
         Picasso.with(context).load(foods.get(position).getImage()).placeholder(R.drawable.progress_dialog).into(holder.foodImg);
+        //set lại data ordered
+        tempdatabase tempdatabase = new tempdatabase(context);
+        // lấy đc data các món người dùng đã chọn
+        ArrayList<OrderedFood> orderedFoods = tempdatabase.getOrderedFoods();
+        // tiến hành lôi data ra và set lại tvsl và sub button
+        for (int i = 0; i < orderedFoods.size(); i++) {
+            if (holder.foodName.getText().equals(orderedFoods.get(i).getName())) {
+                holder.tvSl.setText(String.valueOf(orderedFoods.get(i).getAmount()));
+                if (holder.tvSl.getVisibility() == View.INVISIBLE)
+                    holder.tvSl.setVisibility(View.VISIBLE);
+                if (holder.btnSub.getVisibility() == View.INVISIBLE)
+                    holder.btnSub.setVisibility(View.VISIBLE);
+            } else {
+
+            }
+        }
     }
 
     @Override

@@ -19,8 +19,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
+import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
@@ -113,7 +116,13 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
     // click vào nút order
     @Override
     public void onClick(View v) {
-        Toast.makeText(this, "click vào order trong purcahse activity", Toast.LENGTH_SHORT).show();
+        tempdatabase tempdatabase = new tempdatabase(getBaseContext());
+        ArrayList<OrderedFood> orderedFoods = tempdatabase.getOrderedFoods();
+        Toast.makeText(this, "nut purchase kich hoat....Delete all trash data", Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < orderedFoods.size(); i++) {
+            Toast.makeText(this, "Day len fire base: "+orderedFoods.get(i).getName(), Toast.LENGTH_SHORT).show();
+        }
+        tempdatabase.deleteAlldata();
     }
 
     //Set up maps

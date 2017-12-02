@@ -33,6 +33,7 @@
             android:layout_width="match_parent"
             android:text="Miêu tả"
             android:textSize="12dp"
+            android:lines="2"
             android:fontFamily="sans-serif-condensed"
             android:textColor="@color/textview_normal_more"
             android:layout_height="wrap_content" />

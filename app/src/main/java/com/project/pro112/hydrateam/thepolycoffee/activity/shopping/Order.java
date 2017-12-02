@@ -8,16 +8,20 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.SimpleFragmentPagerAdapter;
+import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
+import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class Order extends AppCompatActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
     private TabLayout tabLayout;
@@ -60,8 +64,10 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
         initView();
         setUpToolbar();
         setUpViewPager();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Foods").child("Popular");
+        updateViewcartButton();
+    }
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference("Foods").child("Popular");
 //        for (int i = 0; i < prices.length; i++) {
 //            myRef.push().setValue(new Food(des[i],
 //                    hinh[i], name[i], prices[i]));
@@ -78,7 +84,6 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
 //
 //            }
 //        });
-}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -142,6 +147,38 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
         }else {
             Intent intent = new Intent(Order.this, Cart.class);
             startActivity(intent);
+        }
+    }
+
+    public void updateViewcartButton() {
+        ArrayList<OrderedFood> orderedFoods;
+        double truePrice = 0;
+        int trueAmount = 0;
+        tempdatabase tempdatabase = new tempdatabase(getBaseContext());
+        DecimalFormat formatter = new DecimalFormat("#.#");
+        LinearLayout linearLayout = linearButtonViewCart;
+        TextView price = (TextView) linearLayout.getChildAt(0);
+        TextView sl = (TextView) linearLayout.getChildAt(2);
+
+        orderedFoods = tempdatabase.getOrderedFoods();
+        for (int i = 0; i < orderedFoods.size(); i++) {
+            truePrice = truePrice + (orderedFoods.get(i).getAmount() * orderedFoods.get(i).getPrice());
+            trueAmount = trueAmount + orderedFoods.get(i).getAmount();
+            Log.e("image ne",orderedFoods.get(i).getImage()+"");
+        }
+
+        price.setText(formatter.format(truePrice) + "đ");
+        sl.setText(trueAmount + "");
+        if (sl.getVisibility() == View.INVISIBLE && truePrice > 0)
+            sl.setVisibility(View.VISIBLE);
+        if (price.getVisibility() == View.INVISIBLE && truePrice > 0)
+            price.setVisibility(View.VISIBLE);
+
+        if (sl.getVisibility() == View.VISIBLE && truePrice <= 0) {
+            sl.setVisibility(View.INVISIBLE);
+        }
+        if (price.getVisibility() == View.VISIBLE && truePrice <= 0) {
+            price.setVisibility(View.INVISIBLE);
         }
     }
 }

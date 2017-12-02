@@ -7,15 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
+import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
 
 import java.text.DecimalFormat;
-
-import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
+import java.util.ArrayList;
 
 /**
  * Created by VI on 26/11/2017.
@@ -56,9 +56,13 @@ public class RecyclerViewAdapterCartInfo extends RecyclerView.Adapter<RecyclerVi
 
     private void bindSetData(ViewHolder holder, int position) {
         DecimalFormat formatter = new DecimalFormat("#.#");
-        LinearLayout linear = linearButtonViewCart;
-        TextView textView = (TextView) linear.getChildAt(0);
-        Double total = Double.parseDouble(textView.getText().toString().substring(0,textView.getText().toString().length()-1));
+        tempdatabase tempdatabase = new tempdatabase(context);
+        ArrayList<OrderedFood> orderedFoods = tempdatabase.getOrderedFoods();
+        Double total = 0.0;
+        for (int i = 0; i < orderedFoods.size(); i++) {
+            total = (total + orderedFoods.get(i).getPrice()*orderedFoods.get(i).getAmount());
+        }
+        double totalbf = total;
         if(total < 200000){
             total = total + 10000;
         }else{
@@ -81,13 +85,13 @@ public class RecyclerViewAdapterCartInfo extends RecyclerView.Adapter<RecyclerVi
             case 1: {
                 holder.title_info.setText("Prices");
                 holder.tvInfoLeft.setText("Your order cost");
-                holder.tvInfoRight.setText(formatter.format(Double.parseDouble(textView.getText().toString().substring(0,textView.getText().toString().length()-1)))+"đ");
+                holder.tvInfoRight.setText(totalbf+"đ");
                 break;
             }
             case 2: {
                 holder.title_info.setText("Transportation");
                 holder.tvInfoLeft.setText("Transportation");
-                if(total>200000){
+                if(totalbf>200000){
                     holder.tvInfoRight.setText("0đ");
                 }else{
                     holder.tvInfoRight.setText("10000đ");

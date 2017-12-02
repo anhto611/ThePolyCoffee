@@ -32,6 +32,7 @@
             android:layout_below="@id/foodName"
             android:layout_width="match_parent"
             android:text="Miêu tả"
+            android:lines="2"
             style="@style/foodsDes"
             android:layout_height="wrap_content" />
 
