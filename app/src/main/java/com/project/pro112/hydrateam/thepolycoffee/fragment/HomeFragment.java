@@ -93,7 +93,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 String name = (String) dataSnapshot.child("fullName").getValue();
                 String image = (String) dataSnapshot.child("linkAvatar").getValue();
                 nameUser.setText(name);
-                Picasso.with(getContext()).load(image).into(imgAvatar);
+                if (getContext() != null) {
+                    Picasso.with(getContext()).load(image).into(imgAvatar);
+                }
             }
 
             @Override

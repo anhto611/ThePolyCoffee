@@ -35,6 +35,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -59,7 +60,7 @@ public class EditProfileScreen extends AppCompatActivity {
     //FIREBASE FIELDS
     FirebaseDatabase mFirebaseDatabase;
     FirebaseAuth mAuth;
-//    FirebaseAuth.AuthStateListener mAuthListener;
+    //    FirebaseAuth.AuthStateListener mAuthListener;
     DatabaseReference mDatabaseReference;
     StorageReference mStorageRef;
 
@@ -69,7 +70,9 @@ public class EditProfileScreen extends AppCompatActivity {
 
     //User ID:
     private String userID = "";
-    private String emailUserID = "";
+
+    String LINK_AVT_DEFAULT_MALE = "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/User%20Avatar%20Default%2Fmale.png?alt=media&token=f2233ca0-2a04-4aa7-b373-6d0995dc2b8c";
+    String LINK_AVT_DEFAULT_FEMALE = "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/User%20Avatar%20Default%2Ffemale.png?alt=media&token=b61f8e96-b44c-4b8b-8ea7-cc5f4a298641";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,12 +219,10 @@ public class EditProfileScreen extends AppCompatActivity {
 
     //Code su kien nut saveProfile:
     private void saveUserProfile() {
-//        getInfoUser();
-
         String fullName = editTextFullNameProfile.getText().toString().trim();
         String email = editTextEmailProfile.getText().toString().trim();
         String birthDay = editTextBirthDayProfile.getText().toString().trim();
-        String gender = editTextGender.getText().toString().trim();
+        final String gender = editTextGender.getText().toString().trim();
         String contactNumber = editTextContactNumber.getText().toString().trim();
 
         if (TextUtils.isEmpty(fullName)) {
@@ -232,34 +233,53 @@ public class EditProfileScreen extends AppCompatActivity {
             editTextContactNumber.requestFocus();
         } else {
 
-            //Get Info User:
-            object_userProfile.setFullName(fullName);
-            object_userProfile.setEmail(email);
-            object_userProfile.setBirthday(birthDay);
-            object_userProfile.setGender(gender);
-            object_userProfile.setContactNumber(contactNumber);
-
             //Submit Database:
-            mDatabaseReference.child("Users").child(userID).setValue(object_userProfile);
-            Toast.makeText(this, "Save Profile Successfully", Toast.LENGTH_SHORT).show();
+            Object_UserProfile object_userProfile;
+
+            if (imgLink == null) {
+                String img;
+
+                if (gender.equals("Male")) {
+                    img = LINK_AVT_DEFAULT_MALE;
+                } else {
+                    img = LINK_AVT_DEFAULT_FEMALE;
+                }
+
+                object_userProfile = new Object_UserProfile(fullName, email, gender, birthDay, contactNumber, img);
+                mDatabaseReference.child("Users").child(userID).setValue(object_userProfile);
+                Toast.makeText(this, "Save Profile Successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                object_userProfile = new Object_UserProfile(fullName, email, gender, birthDay, contactNumber, imgLink.toString());
+                mDatabaseReference.child("Users").child(userID).setValue(object_userProfile);
+                Toast.makeText(this, "Save Profile Successfully", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
     private void getInfoUser() {
         //READ FROM THE DATABASE:
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("TAG", dataSnapshot.getValue() + "");
-                Object_UserProfile userProfile = dataSnapshot.getValue(Object_UserProfile.class);
-                Toast.makeText(EditProfileScreen.this, userProfile.getFullName(), Toast.LENGTH_SHORT).show();
-            }
+        mDatabaseReference
+                .child("Users")
+                .child(userID)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d("TAG", dataSnapshot.getValue() + "");
+                        Object_UserProfile userProfile = dataSnapshot.getValue(Object_UserProfile.class);
+                        editTextFullNameProfile.setText(userProfile.getFullName());
+                        editTextEmailProfile.setText(userProfile.getEmail());
+                        editTextBirthDayProfile.setText(userProfile.getBirthday());
+                        editTextGender.setText(userProfile.getGender());
+                        editTextContactNumber.setText(userProfile.getContactNumber());
+                        Picasso.with(EditProfileScreen.this).load(userProfile.getLinkAvatar()).into(imgAvatar);
+                    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                    }
+                });
+
     }
 
     // ActivityResultIntent
@@ -298,8 +318,6 @@ public class EditProfileScreen extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         //Lấy link Avatar Từ Storage:
                         imgLink = taskSnapshot.getDownloadUrl();
-                        //Them Vao Object:
-                        object_userProfile.setLinkAvatar(imgLink.toString());
                     }
                 });
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
@@ -320,20 +338,6 @@ public class EditProfileScreen extends AppCompatActivity {
         mDatabaseReference = mFirebaseDatabase.getReference();
         FirebaseUser mUser = mAuth.getCurrentUser();
         userID = mUser.getUid();
-        emailUserID = mUser.getEmail();
-
-        //READ FROM THE DATABASE:
-        mDatabaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("TAG", dataSnapshot.getValue() + "");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         //FindViewByID:
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -343,7 +347,6 @@ public class EditProfileScreen extends AppCompatActivity {
         editTextFullNameProfile = (EditText) findViewById(R.id.editTextFullNameProfile);
         editTextFullNameProfile.requestFocus();
         editTextEmailProfile = (EditText) findViewById(R.id.editTextEmailProfile);
-        editTextEmailProfile.setText(emailUserID);
         editTextEmailProfile.setEnabled(false);
         editTextBirthDayProfile = (EditText) findViewById(R.id.editTextBirthDayProfile);
         editTextGender = (EditText) findViewById(R.id.editTextGender);
