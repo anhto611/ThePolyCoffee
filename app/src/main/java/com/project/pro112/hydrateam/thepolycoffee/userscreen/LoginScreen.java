@@ -302,7 +302,6 @@ public class LoginScreen extends AppCompatActivity {
         txtLogoApp = (TextView) findViewById(R.id.logoApp);
 
     }
-
     //Nhấn 2 lần Back để thoát App
     @Override
     public void onBackPressed() {
