@@ -236,17 +236,6 @@ public class EditProfileScreen extends AppCompatActivity {
             Toast.makeText(this, "Contact Number not be empty", Toast.LENGTH_SHORT).show();
             editTextContactNumber.requestFocus();
         } else {
-            //Submit Image:
-            StorageReference mStorage = mStorageRef.child("User Avatar").child(imageHoldUri.getLastPathSegment());
-            mStorage.putFile(imageHoldUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    //Lấy link Avatar Từ Storage:
-                    imgLink = taskSnapshot.getDownloadUrl();
-                    //Them Vao Object:
-                    object_userProfile.setLinkAvatar(imgLink.toString());
-                }
-            });
 
             //Get Info User:
             object_userProfile.setFullName(fullName);
@@ -256,7 +245,7 @@ public class EditProfileScreen extends AppCompatActivity {
             object_userProfile.setContactNumber(contactNumber);
 
             //Submit Database:
-            mDatabaseReference.child("Users").setValue(object_userProfile);
+            mDatabaseReference.child("Users").child(userID).setValue(object_userProfile);
             Toast.makeText(this, "Save Profile Successfully", Toast.LENGTH_SHORT).show();
         }
     }
@@ -290,7 +279,17 @@ public class EditProfileScreen extends AppCompatActivity {
                 imageHoldUri = result.getUri();
                 imgAvatar.setImageURI(imageHoldUri);
 
-
+                //Submit Image:
+                StorageReference mStorage = mStorageRef.child("User Avatar").child(imageHoldUri.getLastPathSegment());
+                mStorage.putFile(imageHoldUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        //Lấy link Avatar Từ Storage:
+                        imgLink = taskSnapshot.getDownloadUrl();
+                        //Them Vao Object:
+                        object_userProfile.setLinkAvatar(imgLink.toString());
+                    }
+                });
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }

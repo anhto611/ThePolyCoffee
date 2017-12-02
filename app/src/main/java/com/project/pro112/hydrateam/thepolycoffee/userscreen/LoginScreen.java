@@ -300,7 +300,6 @@ public class LoginScreen extends AppCompatActivity {
         edtEmailLogin = (EditText) findViewById(R.id.edtEmailLogin);
         edtPasswordLogin = (EditText) findViewById(R.id.edtPasswordLogin);
         txtLogoApp = (TextView) findViewById(R.id.logoApp);
-
     }
     //Nhấn 2 lần Back để thoát App
     @Override
