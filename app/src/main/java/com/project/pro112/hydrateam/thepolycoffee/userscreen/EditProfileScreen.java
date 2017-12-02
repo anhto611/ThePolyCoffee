@@ -23,11 +23,17 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -40,6 +46,9 @@ public class EditProfileScreen extends AppCompatActivity {
 
     private static final int REQUEST_CAMERA = 3;
     private static final int SELECT_FILE = 2;
+    //Khơi Tạo Object:
+    Object_UserProfile object_userProfile;
+
     //Khai bao View:
     Toolbar toolbar;
     CircleImageView imgAvatar;
@@ -54,17 +63,20 @@ public class EditProfileScreen extends AppCompatActivity {
             editTextBirthDayProfile,
             editTextGender, editTextContactNumber;
     Button btnSave;
-
-    //FIREBASE AUTHENTICATION FIELDS
+    //FIREBASE FIELDS
+    FirebaseDatabase mFirebaseDatabase;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
-
-    //FIREBASE DATABASE FIELDS
-    DatabaseReference mUserDatabse;
+    DatabaseReference mDatabaseReference;
     StorageReference mStorageRef;
 
     //IMAGE HOLD URI
     Uri imageHoldUri = null;
+    Uri imgLink = null;
+
+    //User ID:
+    private String userID = "";
+    private String emailUserID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +131,7 @@ public class EditProfileScreen extends AppCompatActivity {
                 setGender();
             }
         });
+
     }
 
     //Set Gender:
@@ -155,9 +168,9 @@ public class EditProfileScreen extends AppCompatActivity {
             @SuppressLint("NewApi")
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                    calendar.set(i, i1, i2);
+                calendar.set(i, i1, i2);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMM/yyyy");
-                    editTextBirthDayProfile.setText(simpleDateFormat.format(calendar.getTime()));
+                editTextBirthDayProfile.setText(simpleDateFormat.format(calendar.getTime()));
             }
         }, year, month, date);
         datePickerDialog.show();
@@ -208,6 +221,7 @@ public class EditProfileScreen extends AppCompatActivity {
 
     //Code su kien nut saveProfile:
     private void saveUserProfile() {
+//        getInfoUser();
 
         String fullName = editTextFullNameProfile.getText().toString().trim();
         String email = editTextEmailProfile.getText().toString().trim();
@@ -222,7 +236,17 @@ public class EditProfileScreen extends AppCompatActivity {
             Toast.makeText(this, "Contact Number not be empty", Toast.LENGTH_SHORT).show();
             editTextContactNumber.requestFocus();
         } else {
-            Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
+
+            //Get Info User:
+            object_userProfile.setFullName(fullName);
+            object_userProfile.setEmail(email);
+            object_userProfile.setBirthday(birthDay);
+            object_userProfile.setGender(gender);
+            object_userProfile.setContactNumber(contactNumber);
+
+            //Submit Database:
+            mDatabaseReference.child("Users").child(userID).setValue(object_userProfile);
+            Toast.makeText(this, "Save Profile Successfully", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -254,30 +278,61 @@ public class EditProfileScreen extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 imageHoldUri = result.getUri();
                 imgAvatar.setImageURI(imageHoldUri);
+
+                //Submit Image:
+                StorageReference mStorage = mStorageRef.child("User Avatar").child(imageHoldUri.getLastPathSegment());
+                mStorage.putFile(imageHoldUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        //Lấy link Avatar Từ Storage:
+                        imgLink = taskSnapshot.getDownloadUrl();
+                        //Them Vao Object:
+                        object_userProfile.setLinkAvatar(imgLink.toString());
+                    }
+                });
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
         }
     }
 
-
     //Anh Xa View:
     private void initView() {
-        //FIREBASE DATABASE INSTANCE
+        //Khởi Tọa Object:
+        object_userProfile = new Object_UserProfile();
+
+        //FIREBASE INSTANCE:
         mAuth = FirebaseAuth.getInstance();
-        mUserDatabse = FirebaseDatabase.getInstance().getReference()
-                .child("Users")
-                .child(mAuth.getCurrentUser().getUid());
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mFirebaseDatabase.getReference();
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        userID = mUser.getUid();
+        emailUserID = mUser.getEmail();
+
+        //READ FROM THE DATABASE:
+        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("TAG", dataSnapshot.getValue() + "");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         //FindViewByID:
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         textViewTitle = (TextView) findViewById(R.id.tvTitleToolbar);
 
         imgAvatar = (CircleImageView) findViewById(R.id.imgAvatarProfile);
         editTextFullNameProfile = (EditText) findViewById(R.id.editTextFullNameProfile);
         editTextFullNameProfile.requestFocus();
         editTextEmailProfile = (EditText) findViewById(R.id.editTextEmailProfile);
+        editTextEmailProfile.setText(emailUserID);
+        editTextEmailProfile.setEnabled(false);
         editTextBirthDayProfile = (EditText) findViewById(R.id.editTextBirthDayProfile);
         editTextGender = (EditText) findViewById(R.id.editTextGender);
         editTextContactNumber = (EditText) findViewById(R.id.editTextContactNumber);
@@ -294,9 +349,36 @@ public class EditProfileScreen extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    private void getInfoUser() {
+        //READ FROM THE DATABASE:
+        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("TAG", dataSnapshot.getValue() + "");
+                Object_UserProfile userProfile = dataSnapshot.getValue(Object_UserProfile.class);
+                Toast.makeText(EditProfileScreen.this, userProfile.getFullName(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
