@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
 import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -36,6 +38,7 @@ public class RecyclerViewAdapterCartProduct extends RecyclerView.Adapter<Recycle
         public TextView tvSl, foodPri, foodTotal;
         public ImageView foodImg;
         public TextView foodName, foodDes;
+        public ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -45,6 +48,7 @@ public class RecyclerViewAdapterCartProduct extends RecyclerView.Adapter<Recycle
             foodDes = itemView.findViewById(R.id.foodDes);
             foodImg = itemView.findViewById(R.id.foodImg);
             foodTotal = itemView.findViewById(R.id.foodTotal);
+            progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
 
@@ -60,7 +64,7 @@ public class RecyclerViewAdapterCartProduct extends RecyclerView.Adapter<Recycle
         BinadtaSet(holder, position);
     }
 
-    private void BinadtaSet(ViewHolder holder, int position) {
+    private void BinadtaSet(final ViewHolder holder, int position) {
         DecimalFormat formatter = new DecimalFormat("#.#");
         tempdatabase tempdatabase = new tempdatabase(context);
         ArrayList<OrderedFood> orderedFoods = tempdatabase.getOrderedFoods();
@@ -69,7 +73,17 @@ public class RecyclerViewAdapterCartProduct extends RecyclerView.Adapter<Recycle
         holder.foodPri.setText(formatter.format(orderedFoods.get(position).getPrice()) + "đ");
         holder.tvSl.setText(""+orderedFoods.get(position).getAmount());
         holder.foodTotal.setText(""+(formatter.format(orderedFoods.get(position).getAmount()*orderedFoods.get(position).getPrice()))+"đ");
-        Picasso.with(context).load(orderedFoods.get(position).getImage()).placeholder(R.drawable.progress_dialog).into(holder.foodImg);
+        Picasso.with(context).load(orderedFoods.get(position).getImage()).into(holder.foodImg, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
         //set lại data ordered
     }
 

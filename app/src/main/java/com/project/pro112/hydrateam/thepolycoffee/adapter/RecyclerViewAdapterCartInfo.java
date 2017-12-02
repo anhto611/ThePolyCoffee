@@ -85,7 +85,7 @@ public class RecyclerViewAdapterCartInfo extends RecyclerView.Adapter<RecyclerVi
             case 1: {
                 holder.title_info.setText("Prices");
                 holder.tvInfoLeft.setText("Your order cost");
-                holder.tvInfoRight.setText(totalbf+"đ");
+                holder.tvInfoRight.setText(formatter.format(totalbf)+"đ");
                 break;
             }
             case 2: {

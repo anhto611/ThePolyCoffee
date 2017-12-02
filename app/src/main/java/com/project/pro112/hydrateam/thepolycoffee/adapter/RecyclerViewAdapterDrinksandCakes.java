@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.models.Food;
 import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
 import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -43,6 +45,7 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView btnPlus, btnSub, foodImg;
         public TextView tvSl, foodPri, foodName, foodDes;
+        public ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -53,6 +56,7 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
             foodName = itemView.findViewById(R.id.foodName);
             foodDes = itemView.findViewById(R.id.foodDes);
             foodImg = itemView.findViewById(R.id.foodImg);
+            progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
 
@@ -227,11 +231,21 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
     }
 
     //set data
-    private void bindSetData(RecyclerViewAdapterDrinksandCakes.ViewHolder holder, int position) {
+    private void bindSetData(final RecyclerViewAdapterDrinksandCakes.ViewHolder holder, int position) {
         holder.foodName.setText(foods.get(position).getName());
         holder.foodDes.setText(foods.get(position).getDiscription());
         holder.foodPri.setText(foods.get(position).getPrice() + "đ");
-        Picasso.with(context).load(foods.get(position).getImage()).placeholder(R.drawable.progress_dialog).into(holder.foodImg);
+        Picasso.with(context).load(foods.get(position).getImage()).into(holder.foodImg, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
         //set lại data ordered
         tempdatabase tempdatabase = new tempdatabase(context);
         // lấy đc data các món người dùng đã chọn

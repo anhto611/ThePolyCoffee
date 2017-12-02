@@ -18,12 +18,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
 import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
@@ -43,9 +47,23 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         setUpHideButtonWhenSrollToTheBottom();
         setTotal();
         setUpMaps();
+        Toast.makeText(this, "User id: "+getUserId()+"", Toast.LENGTH_SHORT).show();
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        Toast.makeText(this, "Date: "+currentDateTimeString, Toast.LENGTH_SHORT).show();
     }
 
-
+    private String getUserId() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid;
+        if (user != null) {
+            // User is signed in
+            uid = user.getUid();
+        } else {
+            // No user is signed in
+            uid = null;
+        }
+        return ""+uid;
+    }
     //init
     private void initView() {
         order = (Button) findViewById(R.id.btnS);

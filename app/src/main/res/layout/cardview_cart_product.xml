@@ -13,16 +13,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/Relayout">
-        <ImageView
-            android:src="@drawable/douong"
-            android:id="@+id/foodImg"
+        <FrameLayout
+            android:id="@+id/frame1"
             android:layout_width="70dp"
-            android:scaleType="fitXY"
-            android:layout_marginRight="10dp"
-            android:layout_height="70dp" />
+            android:layout_height="70dp"
+            android:layout_marginRight="10dp">
+            <ImageView
+                android:src="@drawable/douong"
+                android:id="@+id/foodImg"
+                android:layout_width="70dp"
+                android:scaleType="fitXY"
+                android:layout_marginRight="10dp"
+                android:layout_height="70dp" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+        </FrameLayout>
         <TextView
             android:id="@+id/foodName"
-            android:layout_toRightOf="@id/foodImg"
+            android:layout_toRightOf="@id/frame1"
             android:layout_width="match_parent"
             android:text="Tên thức ăn"
             style="@style/foodsName"
@@ -32,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/foodName"
-            android:layout_toRightOf="@id/foodImg"
+            android:layout_toRightOf="@id/frame1"
             android:paddingBottom="10dp"
             android:weightSum="3">
 
@@ -73,7 +90,7 @@
         <TextView
             android:id="@+id/foodPri"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/foodImg"
+            android:layout_toRightOf="@id/frame1"
             android:layout_alignParentBottom="true"
             android:layout_width="wrap_content"
             android:text="28000VND"
