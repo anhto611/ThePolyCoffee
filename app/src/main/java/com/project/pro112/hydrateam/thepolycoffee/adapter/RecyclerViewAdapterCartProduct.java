@@ -73,9 +73,11 @@ public class RecyclerViewAdapterCartProduct extends RecyclerView.Adapter<Recycle
         holder.foodPri.setText(formatter.format(orderedFoods.get(position).getPrice()) + "đ");
         holder.tvSl.setText(""+orderedFoods.get(position).getAmount());
         holder.foodTotal.setText(""+(formatter.format(orderedFoods.get(position).getAmount()*orderedFoods.get(position).getPrice()))+"đ");
+        holder.progressBar.setVisibility(View.VISIBLE);
         Picasso.with(context).load(orderedFoods.get(position).getImage()).into(holder.foodImg, new Callback() {
             @Override
             public void onSuccess() {
+                if (holder.progressBar.getVisibility() == View.VISIBLE)
                 holder.progressBar.setVisibility(View.GONE);
             }
 

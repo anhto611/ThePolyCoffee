@@ -181,7 +181,7 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
             sltemp++;
             if (sltemp == 1) {
                 tempdatabase.insertFood(new OrderedFood(holder.foodDes.getText() + "",
-                        foods.get(position).getImage()+ "",
+                        foods.get(position).getImage() + "",
                         holder.foodName.getText() + "",
                         Double.parseDouble(holder.foodPri.getText().toString().substring(0,
                                 holder.foodPri.getText().toString().length() - 1)),
@@ -236,10 +236,12 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
         holder.foodName.setText(foods.get(position).getName());
         holder.foodDes.setText(foods.get(position).getDiscription());
         holder.foodPri.setText(foods.get(position).getPrice() + "đ");
+        holder.progressBar.setVisibility(View.VISIBLE);
         Picasso.with(context).load(foods.get(position).getImage()).into(holder.foodImg, new Callback() {
             @Override
             public void onSuccess() {
-                holder.progressBar.setVisibility(View.GONE);
+                if (holder.progressBar.getVisibility() == View.VISIBLE)
+                    holder.progressBar.setVisibility(View.GONE);
             }
 
             @Override

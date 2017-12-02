@@ -32,31 +32,31 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
     public static LinearLayout linearButtonViewCart;
     private SimpleFragmentPagerAdapter adapter;
     private TextView price;
-    String hinh[] = {"https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FChilly%20juice.jpg?alt=media&token=3a0f2533-2e9c-4d18-9ce2-92969b02ff76"
-    ,"https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FChocolate%20cup.jpg?alt=media&token=8fce5e19-0d1e-41a0-a6ca-deae1a5a1b65" ,
+    String hinh[] = {"https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FChilly%20juice.jpg?alt=media&token=3a0f2533-2e9c-4d18-9ce2-92969b02ff76",
+            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FChocolate%20cup.jpg?alt=media&token=8fce5e19-0d1e-41a0-a6ca-deae1a5a1b65",
             "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FChocolate%20milk.jpg?alt=media&token=49c53562-3359-4827-8bd3-379d79e78329",
-            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FGreen%20tea.jpg?alt=media&token=ab330591-392e-49c9-98fb-10d546443705" ,
+            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FGreen%20tea.jpg?alt=media&token=ab330591-392e-49c9-98fb-10d546443705",
             "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FHoney%20lovely.jpg?alt=media&token=02af8fe4-55e4-41ef-b3f2-21ec795ee53c",
-    "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2Flovely%20cake.jpg?alt=media&token=a64e6103-6581-4ee0-ab4e-524c06731185"};
+            "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2Flovely%20cake.jpg?alt=media&token=a64e6103-6581-4ee0-ab4e-524c06731185"};
     String name[] = {"Chilly juice",
-    " Chocolate cup" ,
-            "Chocolate cup" ,
+    "Chocolate cup" ,
+            "Chocolate milk" ,
             "Green tea" ,
             "Honey lovely" ,
-            "lovely cake"};
+            "Lovely cake"};
 
-    String des[]  = {"Nutrition Facts Per Serving (23 g)",
+    String des[]  = {"Nutrition Facts Per Serving (73 g)",
             "Nutrition Facts Per Serving (43 g)" ,
-            "Nutrition Facts Per Serving (53 g)" ,
-            "Nutrition Facts Per Serving (112 g)" ,
-            "Nutrition Facts Per Serving (25 g)" ,
-            "Nutrition Facts Per Serving (16 g)"};
-    String prices[] = {"34000" ,
-            "34000" ,
-            "24000" ,
-            "25000" ,
-    "32000",
-    "25000"};
+            "Nutrition Facts Per Serving (23 g)" ,
+            "Nutrition Facts Per Serving (232 g)" ,
+            "Nutrition Facts Per Serving (123 g)" ,
+            "Nutrition Facts Per Serving (82 g)"};
+    String prices[] = {"124000" ,
+            "84000" ,
+            "32000" ,
+            "83000" ,
+            "28000" ,
+            "62000"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,13 +65,16 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
         setUpToolbar();
         setUpViewPager();
         updateViewcartButton();
-    }
+
 //        FirebaseDatabase database = FirebaseDatabase.getInstance();
 //        DatabaseReference myRef = database.getReference("Foods").child("Popular");
 //        for (int i = 0; i < prices.length; i++) {
 //            myRef.push().setValue(new Food(des[i],
 //                    hinh[i], name[i], prices[i]));
 //        }
+    }
+
+
 //        myRef.addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) {
