@@ -30,6 +30,7 @@
     <string name="purchase_input_phone">Input your Phone number</string>
     <string name="purchase_btn_cancel">Cancel</string>
     <string name="purchase_btn_update">Update</string>
+    <string name="home_rank">Rank</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />

@@ -32,6 +32,7 @@ import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.models.AddressLocation;
 import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFireBaseFood;
 import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
+import com.project.pro112.hydrateam.thepolycoffee.models.UserRank;
 import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.TempDBLocation;
 import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
 
@@ -55,6 +56,11 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
     private boolean isPushDataDone;
     private Double totalp;
 
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference mReference;
+    private String user_id;
+
     private TempDBLocation tempDBLocation;
     private ArrayList<AddressLocation> listLocations;
 
@@ -64,6 +70,10 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
 
     String nameUser = "";
     String phoneUser = "";
+
+    String nameRank = null;
+    double totalMonney = 0;
+    int numofStart = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,17 +95,32 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
 
         txtaddressOrder.setText(address);
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        String user_id = mAuth.getCurrentUser().getUid();
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("Users").child(user_id);
-        myRef.addValueEventListener(new ValueEventListener() {
+        mAuth = FirebaseAuth.getInstance();
+        user_id = mAuth.getCurrentUser().getUid();
+        database = FirebaseDatabase.getInstance();
+        mReference = database.getReference().child("Users").child(user_id);
+        mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 nameUser = (String) dataSnapshot.child("fullName").getValue();
                 phoneUser = (String) dataSnapshot.child("contactNumber").getValue();
                 txtnameOrder.setText(nameUser);
                 txtphoneOrder.setText(phoneUser);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        mReference = database.getReference().child("UserRank").child(user_id);
+        mReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserRank userRank = dataSnapshot.getValue(UserRank.class);
+                nameRank = userRank.getNameRank();
+                totalMonney = userRank.getTotalMoney();
+                numofStart = userRank.getNumOfSrart();
             }
 
             @Override
@@ -204,6 +229,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
             showDialogUpdatePhone();
         } else {
             tempdatabase.deleteAlldata();
+            setUserRank();
             Toast.makeText(this, "Mua hàng hành công!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -297,5 +323,21 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
             }
         });
         alertDialog.show();
+    }
+
+    private void setUserRank() {
+        double totalMonney;
+        int numofStart;
+        totalMonney = this.totalMonney += totalp;
+        numofStart = (int) (Math.floor(totalMonney / 10000));
+        if (numofStart >= 0 && numofStart < 1000) {
+            nameRank = "New member";
+        } else if (numofStart >= 1000 && numofStart < 3000) {
+            nameRank = "Gold";
+        } else if (numofStart >= 3000) {
+            nameRank = "Diamond";
+        }
+        mReference = database.getReference().child("UserRank").child(user_id);
+        mReference.setValue(new UserRank(totalMonney, numofStart, nameRank));
     }
 }
