@@ -31,11 +31,12 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     //Sdk Face
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
-    //Firebase Authencation9.0
+    //FIREBASE:
     compile 'com.google.firebase:firebase-auth:11.6.2'
     compile 'com.google.firebase:firebase-core:11.6.2'
     compile 'com.google.firebase:firebase-database:11.6.2'
     compile 'com.google.firebase:firebase-storage:11.6.2'
+    compile 'com.google.android.gms:play-services-auth:11.6.2'
     //Custome ProgreesDialod:
     compile 'cc.cloudist.acplibrary:library:1.2.1'
     //BO TRÒN HÌNH ẢNH VỚI PICASSO and CircleImageview

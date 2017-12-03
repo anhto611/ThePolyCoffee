@@ -16,51 +16,56 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.activity.main.MainHome;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Arrays;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressPie;
 
 public class LoginScreen extends AppCompatActivity {
+
+    private final static int RC_SIGN_IN = 9001;
+    String LINK_AVT_DEFAULT_MALE = "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/User%20Avatar%20Default%2Fmale.png?alt=media&token=f2233ca0-2a04-4aa7-b373-6d0995dc2b8c";
+    String LINK_AVT_DEFAULT_FEMALE = "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/User%20Avatar%20Default%2Ffemale.png?alt=media&token=b61f8e96-b44c-4b8b-8ea7-cc5f4a298641";
+
     TextView txtLogoApp;
     EditText edtEmailLogin, edtPasswordLogin;
     TextView txtforgetPassword;
     Button btnLogin, btnSignUp;
     ACProgressPie progressPie;
-
     String TAG = "MainActivity";
+
     //Đối tượng Nhận Thông Tin Facebook Của Người Dùng:
-    Object_Infomation_Facebook object_infomation_facebook;
     String id, first_name, name, email, gender, birthday;
+
     boolean doubleBackToExitPressedOnce = false;
 
-    private CallbackManager callbackManager;
-    private AccessToken accessToken;
-    private LoginButton loginButton;
+
+    private SignInButton btnGG;
+    private GoogleApiClient mGoogleApiClient;
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseUsers;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -96,9 +101,28 @@ public class LoginScreen extends AppCompatActivity {
             }
         });
 
-        //Login bằng Facebook
-        loginWithFace();
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
 
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Log.d(TAG, connectionResult.toString());
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        btnGG.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
         //ForgetPassword:
         txtforgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +130,75 @@ public class LoginScreen extends AppCompatActivity {
                 forgetPassword();
             }
         });
+    }
+
+    private void signIn() {
+        //Hien thi progressPie
+        progressPie = new ACProgressPie.Builder(LoginScreen.this)
+                .ringColor(Color.WHITE)
+                .pieColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
+        progressPie.show();
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e);
+                // ...
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //updateUI(user);
+                            progressPie.dismiss();
+
+                            //Them Thông Tin Đăng Kí:
+                            addInfoForGoogle();
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(LoginScreen.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                            progressPie.dismiss();
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+    private void addInfoForGoogle() {
+        // Sign in success, update UI with the signed-in user's information
+        startActivity(new Intent(LoginScreen.this, SignUpGoogle.class));
+        finish();
     }
 
     //ForgetPassword:
@@ -150,105 +243,6 @@ public class LoginScreen extends AppCompatActivity {
         }
     }
 
-    //Login bằng Facebook
-    private void loginWithFace() {
-        callbackManager = CallbackManager.Factory.create();
-
-        //Xin quyền lấy profile Facebook:
-        loginButton.setReadPermissions(Arrays.asList(
-                "public_profile", "email", "user_birthday"));
-
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                //Tra Ve Du Lieu Luu Tren Firebase:
-                accessToken = loginResult.getAccessToken();
-                handleFacebookAccessToken(accessToken);
-
-                //Ham Chua Gia Tri Profile User:
-                resultUserFace();
-
-                //Chuyen Sang Home:
-                startActivity(new Intent(LoginScreen.this, MainHome.class));
-                Toast.makeText(LoginScreen.this, "Login With Facebook Successfully", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancel() {
-                Log.d(TAG, "facebook:onCancel");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
-            }
-        });
-    }
-
-    //Ham Chua Gia Tri Profile User:
-    private void resultUserFace() {
-        GraphRequest graphRequest = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(JSONObject object, GraphResponse response) {
-                Log.d("JSON", response.getJSONObject().toString());
-                try {
-                    id = object.getString("id");
-                    first_name = object.getString("first_name");
-                    name = object.getString("name");
-                    email = object.getString("email");
-                    gender = object.getString("gender");
-                    birthday = object.getString("birthday");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                //Gán thông tin facebook vào Object:
-                object_infomation_facebook = new Object_Infomation_Facebook();
-                object_infomation_facebook.setId(id);
-                object_infomation_facebook.setFirst_name(first_name);
-                object_infomation_facebook.setName(name);
-                object_infomation_facebook.setEmail(email);
-                object_infomation_facebook.setGender(gender);
-                object_infomation_facebook.setBirthday(birthday);
-            }
-        });
-        //Lấy thông tin từ Sever:
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,first_name,name,email,gender,birthday");
-        graphRequest.setParameters(parameters);
-        graphRequest.executeAsync();
-    }
-
-    private void handleFacebookAccessToken(AccessToken accessToken) {
-        Log.d(TAG, "handleFacebookAccessToken:" + accessToken);
-
-        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(LoginScreen.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    //Result của Facebook.
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // Pass the activity result back to the Facebook SDK
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -261,13 +255,17 @@ public class LoginScreen extends AppCompatActivity {
         edtEmailLogin.setText(email);
         edtPasswordLogin.setText(password);
 
-        //Remove moveToHome:
-        mAuth.removeAuthStateListener(mAuthStateListener);
+        //moveToHome:
+        mAuth.addAuthStateListener(mAuthStateListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        //moveToHome:
+        if (mAuthStateListener != null) {
+            mAuth.removeAuthStateListener(mAuthStateListener);
+        }
         finish();
     }
 
@@ -275,6 +273,10 @@ public class LoginScreen extends AppCompatActivity {
     private void initView() {
         //Khởi tạo Firebase:
         mAuth = FirebaseAuth.getInstance();
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabaseUsers.keepSynced(true);
+
+        //Check User:
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -283,24 +285,25 @@ public class LoginScreen extends AppCompatActivity {
 
                 if (user != null) {
                     Intent moveToHome = new Intent(LoginScreen.this, MainHome.class);
-                    moveToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    moveToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(moveToHome);
                 }
             }
         };
-        mAuth.addAuthStateListener(mAuthStateListener);
-
-        //Khởi tạo đối tượng:
-        txtforgetPassword = (TextView) findViewById(R.id.forgetPassword);
 
         //FindViewByID:
-        loginButton = (LoginButton) findViewById(R.id.btnLoginFacebook);
+        txtforgetPassword = (TextView) findViewById(R.id.forgetPassword);
+        //BUTTON GOOGLE:
+        btnGG = (SignInButton) findViewById(R.id.btnGoogle);
         btnSignUp = (Button) findViewById(R.id.btnSignUpInLogin);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         edtEmailLogin = (EditText) findViewById(R.id.edtEmailLogin);
         edtPasswordLogin = (EditText) findViewById(R.id.edtPasswordLogin);
         txtLogoApp = (TextView) findViewById(R.id.logoApp);
     }
+
     //Nhấn 2 lần Back để thoát App
     @Override
     public void onBackPressed() {
@@ -315,7 +318,7 @@ public class LoginScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }

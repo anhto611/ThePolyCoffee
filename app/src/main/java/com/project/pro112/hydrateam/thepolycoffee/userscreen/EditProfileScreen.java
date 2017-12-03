@@ -47,8 +47,11 @@ public class EditProfileScreen extends AppCompatActivity {
 
     private static final int REQUEST_CAMERA = 3;
     private static final int SELECT_FILE = 2;
+    private static String linkAvatarStorage = null;
+
     //Khơi Tạo Object:
     Object_UserProfile object_userProfile;
+    Object_UserProfile getUserProfile = new Object_UserProfile();
 
     //Khai bao View:
     Toolbar toolbar;
@@ -60,19 +63,15 @@ public class EditProfileScreen extends AppCompatActivity {
     //FIREBASE FIELDS
     FirebaseDatabase mFirebaseDatabase;
     FirebaseAuth mAuth;
-    //    FirebaseAuth.AuthStateListener mAuthListener;
     DatabaseReference mDatabaseReference;
     StorageReference mStorageRef;
 
     //IMAGE HOLD URI
     Uri imageHoldUri = null;
-    Uri imgLink = null;
+    String linkAvatarOld = null;
 
     //User ID:
     private String userID = "";
-
-    String LINK_AVT_DEFAULT_MALE = "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/User%20Avatar%20Default%2Fmale.png?alt=media&token=f2233ca0-2a04-4aa7-b373-6d0995dc2b8c";
-    String LINK_AVT_DEFAULT_FEMALE = "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/User%20Avatar%20Default%2Ffemale.png?alt=media&token=b61f8e96-b44c-4b8b-8ea7-cc5f4a298641";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,8 +126,6 @@ public class EditProfileScreen extends AppCompatActivity {
                 setGender();
             }
         });
-
-        getInfoUser();
 
     }
 
@@ -222,8 +219,15 @@ public class EditProfileScreen extends AppCompatActivity {
         String fullName = editTextFullNameProfile.getText().toString().trim();
         String email = editTextEmailProfile.getText().toString().trim();
         String birthDay = editTextBirthDayProfile.getText().toString().trim();
-        final String gender = editTextGender.getText().toString().trim();
+        String gender = editTextGender.getText().toString().trim();
         String contactNumber = editTextContactNumber.getText().toString().trim();
+        String linkImgNew = null;
+
+        if (TextUtils.isEmpty(linkAvatarStorage)) {
+            linkImgNew = linkAvatarOld;
+        } else {
+            linkImgNew = linkAvatarStorage;
+        }
 
         if (TextUtils.isEmpty(fullName)) {
             editTextFullNameProfile.requestFocus();
@@ -232,27 +236,10 @@ public class EditProfileScreen extends AppCompatActivity {
             Toast.makeText(this, "Contact Number not be empty", Toast.LENGTH_SHORT).show();
             editTextContactNumber.requestFocus();
         } else {
-
             //Submit Database:
-            Object_UserProfile object_userProfile;
-
-            if (imgLink == null) {
-                String img;
-
-                if (gender.equals("Male")) {
-                    img = LINK_AVT_DEFAULT_MALE;
-                } else {
-                    img = LINK_AVT_DEFAULT_FEMALE;
-                }
-
-                object_userProfile = new Object_UserProfile(fullName, email, gender, birthDay, contactNumber, img);
-                mDatabaseReference.child("Users").child(userID).setValue(object_userProfile);
-                Toast.makeText(this, "Save Profile Successfully", Toast.LENGTH_SHORT).show();
-            } else {
-                object_userProfile = new Object_UserProfile(fullName, email, gender, birthDay, contactNumber, imgLink.toString());
-                mDatabaseReference.child("Users").child(userID).setValue(object_userProfile);
-                Toast.makeText(this, "Save Profile Successfully", Toast.LENGTH_SHORT).show();
-            }
+            object_userProfile = new Object_UserProfile(fullName, email, gender, birthDay, contactNumber, linkImgNew);
+            mDatabaseReference.child("Users").child(userID).setValue(object_userProfile);
+            Toast.makeText(this, "Save Profile Successfully", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -265,21 +252,26 @@ public class EditProfileScreen extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Log.d("TAG", dataSnapshot.getValue() + "");
-                        Object_UserProfile userProfile = dataSnapshot.getValue(Object_UserProfile.class);
-                        editTextFullNameProfile.setText(userProfile.getFullName());
-                        editTextEmailProfile.setText(userProfile.getEmail());
-                        editTextBirthDayProfile.setText(userProfile.getBirthday());
-                        editTextGender.setText(userProfile.getGender());
-                        editTextContactNumber.setText(userProfile.getContactNumber());
-                        Picasso.with(EditProfileScreen.this).load(userProfile.getLinkAvatar()).into(imgAvatar);
+                        //Nhan data ve OBJECTS:
+                        getUserProfile = dataSnapshot.getValue(Object_UserProfile.class);
+
+                        //SET DU LIEU
+                        editTextFullNameProfile.setText(getUserProfile.getFullName());
+                        editTextEmailProfile.setText(getUserProfile.getEmail());
+                        editTextBirthDayProfile.setText(getUserProfile.getBirthday());
+                        editTextGender.setText(getUserProfile.getGender());
+                        editTextContactNumber.setText(getUserProfile.getContactNumber());
+                        Picasso.with(EditProfileScreen.this).load(getUserProfile.getLinkAvatar()).into(imgAvatar);
+
+                        //Get LinkImgOld:
+                        linkAvatarOld = getUserProfile.getLinkAvatar();
+//                        Toast.makeText(EditProfileScreen.this, linkAvatarOld, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
-
     }
 
     // ActivityResultIntent
@@ -317,9 +309,13 @@ public class EditProfileScreen extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         //Lấy link Avatar Từ Storage:
-                        imgLink = taskSnapshot.getDownloadUrl();
+                        linkAvatarStorage = String.valueOf(taskSnapshot.getDownloadUrl());
+                        //KHI THAY DOI AVATAR LAP TUC THAY DOI DAI DIEN:
+                        Picasso.with(EditProfileScreen.this).load(linkAvatarStorage).into(imgAvatar);
+                        Toast.makeText(EditProfileScreen.this, "Set Avatar Successfully", Toast.LENGTH_SHORT).show();
                     }
                 });
+
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
@@ -328,8 +324,6 @@ public class EditProfileScreen extends AppCompatActivity {
 
     //Anh Xa View:
     private void initView() {
-        //Khởi Tọa Object:
-        object_userProfile = new Object_UserProfile();
 
         //FIREBASE INSTANCE:
         mAuth = FirebaseAuth.getInstance();
@@ -345,7 +339,6 @@ public class EditProfileScreen extends AppCompatActivity {
 
         imgAvatar = (CircleImageView) findViewById(R.id.imgAvatarProfile);
         editTextFullNameProfile = (EditText) findViewById(R.id.editTextFullNameProfile);
-        editTextFullNameProfile.requestFocus();
         editTextEmailProfile = (EditText) findViewById(R.id.editTextEmailProfile);
         editTextEmailProfile.setEnabled(false);
         editTextBirthDayProfile = (EditText) findViewById(R.id.editTextBirthDayProfile);
@@ -373,6 +366,8 @@ public class EditProfileScreen extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        //Reset New InfoUsers:
+        getInfoUser();
     }
 
     @Override

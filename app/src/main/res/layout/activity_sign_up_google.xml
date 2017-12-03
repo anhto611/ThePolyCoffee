@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_screen_login"
-    tools:context="com.project.pro112.hydrateam.thepolycoffee.userscreen.SignUpScreen">
+    tools:context="com.project.pro112.hydrateam.thepolycoffee.userscreen.SignUpGoogle">
 
     <TextView
-        android:id="@+id/textViewRegister"
+        android:id="@+id/textViewInfoGG"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="100dp"
-        android:text="Register Account"
+        android:text="Infomation For Google"
         android:textAlignment="center"
         android:textColor="#FFF"
         android:textSize="40sp"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/edtFullName"
+        android:id="@+id/edtFullNameGG"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -40,66 +40,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewInfoGG" />
 
     <EditText
-        android:id="@+id/edtEmailSignUp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/custom_edittext_login"
-        android:hint="Your Email"
-        android:inputType="textMultiLine"
-        android:paddingLeft="15dp"
-        android:textColor="#cdffffff"
-        android:textColorHint="#cdffffff"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtFullName" />
-
-    <EditText
-        android:id="@+id/edtPasswordSignUp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/custom_edittext_login"
-        android:hint="Your Password"
-        android:inputType="textPassword"
-        android:paddingLeft="15dp"
-        android:textColor="#cdffffff"
-        android:textColorHint="#cdffffff"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmailSignUp" />
-
-    <EditText
-        android:id="@+id/edtConfirmPasswordSignUp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/custom_edittext_login"
-        android:hint="Confirm Your Password"
-        android:inputType="textPassword"
-        android:paddingLeft="15dp"
-        android:textColor="#cdffffff"
-        android:textColorHint="#cdffffff"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtPasswordSignUp" />
-
-    <EditText
-        android:id="@+id/edtGender"
+        android:id="@+id/edtGenderGG"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -113,21 +57,39 @@
         android:textColorHint="#cdffffff"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtConfirmPasswordSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextContactNumberGG" />
+
+    <EditText
+        android:id="@+id/editTextContactNumberGG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/custom_edittext_login"
+        android:hint="Contact Number"
+        android:inputType="phone"
+        android:paddingLeft="15dp"
+        android:textColor="#cdffffff"
+        android:textColorHint="#cdffffff"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/edtFullNameGG" />
 
     <Button
-        android:id="@+id/btnSignUp"
+        android:id="@+id/btnSubmitGG"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/custom_button_signup_in_sign_up_screen"
-        android:text="Register"
+        android:text="Submit"
         android:textColor="#FFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtGender" />
+        app:layout_constraintTop_toBottomOf="@+id/edtGenderGG" />
 </android.support.constraint.ConstraintLayout>

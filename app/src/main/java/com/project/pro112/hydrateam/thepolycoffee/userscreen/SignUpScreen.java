@@ -115,10 +115,9 @@ public class SignUpScreen extends AppCompatActivity {
             edtConfirmPasswordSignUp.requestFocus();
             progressPie.dismiss();
 
-            //Kiem Tra Null Truong FullName
+            //Kiem Tra Null Truong gender
         } else if (TextUtils.isEmpty(gender)) {
             Toast.makeText(this, "Gender can not be empty", Toast.LENGTH_LONG).show();
-            editEmailSignUp.requestFocus();
             progressPie.dismiss();
         } else {
             //Code Dang Ky User:
@@ -154,8 +153,8 @@ public class SignUpScreen extends AppCompatActivity {
                                 finish();
                             } else {
                                 // If sign in fails, display a message to the user.
-                                progressPie.dismiss();
                                 Toast.makeText(SignUpScreen.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                progressPie.dismiss();
                             }
                         }
                     });
