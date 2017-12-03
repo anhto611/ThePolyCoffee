@@ -73,7 +73,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_api_key" />
 
-        <activity android:name=".activity.video.PlayVideoYoutube"></activity>
+        <activity android:name=".activity.video.PlayVideoYoutube" />
+        <activity android:name=".activity.home.PurchaseHistoryViewProDuct"></activity>
     </application>
 
 </manifest>
