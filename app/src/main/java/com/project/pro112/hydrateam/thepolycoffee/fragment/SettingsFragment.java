@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.activity.settings.About;
 import com.project.pro112.hydrateam.thepolycoffee.activity.settings.Support;
+import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
 import com.project.pro112.hydrateam.thepolycoffee.userscreen.EditProfileScreen;
 import com.project.pro112.hydrateam.thepolycoffee.userscreen.LoginScreen;
 
@@ -59,6 +60,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         final Intent intent;
         switch (v.getId()) {
             case R.id.btnLogout:
+                //logout delete all data tạm
+                tempdatabase tempdatabase = new tempdatabase(getContext());
+                tempdatabase.deleteAlldata();
                 intent = new Intent(getActivity(), LoginScreen.class);
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                 dialog.setTitle("Logout");
