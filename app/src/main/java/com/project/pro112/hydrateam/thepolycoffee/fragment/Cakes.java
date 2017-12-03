@@ -56,7 +56,6 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
         // chọn adapter
 
         foods = new ArrayList<>();
@@ -77,7 +76,9 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
                     foods.add(food);
                 }
                 RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(), fragmentManager, true, foods);
-                mRecyclerView.setAdapter(mAdapter);
+                if(mAdapter!=null) {
+                    mRecyclerView.setAdapter(mAdapter);
+                }
             }
 
             @Override

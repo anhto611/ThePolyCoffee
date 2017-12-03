@@ -54,20 +54,13 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
 
     private void setUpRecyclerView() {
         // không đổi size của card trong content
-        mRecyclerView.setHasFixedSize(true);
-
         mLayoutManager = new GridLayoutManager(getContext(),numberOfColums);
-
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // chọn adapter
-
-
+        mRecyclerView.setHasFixedSize(true);
         foods = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef;
         myRef = database.getReference("Foods/Popular");
-
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -80,7 +73,9 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
                     foods.add(food);
                 }
                 RecyclerViewAdapterPolularDish mAdapter = new RecyclerViewAdapterPolularDish(getContext(), fragmentManager, foods);
-                mRecyclerView.setAdapter(mAdapter);
+                if(mAdapter!=null) {
+                    mRecyclerView.setAdapter(mAdapter);
+                }
             }
 
             @Override
@@ -88,7 +83,6 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
 
             }
         });
-
 
         int spanCount = 2; // 2 columns
         int spacing = 20; // 20px

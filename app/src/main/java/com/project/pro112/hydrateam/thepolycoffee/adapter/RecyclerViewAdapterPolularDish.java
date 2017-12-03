@@ -269,7 +269,7 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
 
     @Override
     public int getItemCount() {
-        return (foods.size());
+        return foods.size();
     }
 
 

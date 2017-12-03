@@ -3,6 +3,7 @@ package com.project.pro112.hydrateam.thepolycoffee.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,6 +41,7 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow 
     private FragmentManager fragmentManager;
     private int firstVisibleInListview;
     private ArrayList<Food> foods;
+    private RecyclerViewAdapterDrinksandCakes mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,18 +55,17 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow 
         return view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     private void setUpRecyclerView() {
         // không đổi size của card trong content
         mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(getContext());
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // chọn adapter
-        firstVisibleInListview = mLayoutManager.findFirstVisibleItemPosition();
-
         foods = new ArrayList<>();
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
         // get data from firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef;
@@ -82,7 +83,9 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow 
                     foods.add(food);
                 }
                 RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(), fragmentManager, false, foods);
-                mRecyclerView.setAdapter(mAdapter);
+                if(mAdapter!=null) {
+                    mRecyclerView.setAdapter(mAdapter);
+                }
             }
 
             @Override
