@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/purchase_update_phone"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"/>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/inputPhoneOrder"
+            android:hint="@string/purchase_input_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+        <Button
+            android:id="@+id/updatePhoneCancel"
+            android:text="@string/purchase_btn_cancel"
+            android:background="@drawable/button_more_news_custom"
+            android:textAllCaps="false"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginRight="16dp"/>
+        <Button
+            android:id="@+id/updatePhoneYes"
+            android:text="@string/purchase_btn_update"
+            android:background="@drawable/button_more_news_custom"
+            android:textAllCaps="false"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp" />
+    </LinearLayout>
+
+
+</LinearLayout>

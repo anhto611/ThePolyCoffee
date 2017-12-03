@@ -26,6 +26,10 @@
     <string name="editprofile_contact_number">Contact Number</string>
     <string name="editprofile_save_profile">Save Profile</string>
     <string name="home_name">Name</string>
+    <string name="purchase_update_phone">Update your phone number before making a purchase!</string>
+    <string name="purchase_input_phone">Input your Phone number</string>
+    <string name="purchase_btn_cancel">Cancel</string>
+    <string name="purchase_btn_update">Update</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />

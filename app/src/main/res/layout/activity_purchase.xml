@@ -6,134 +6,208 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundlayout_shopping"
     tools:context="com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Purchase">
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <include
             layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:paddingBottom="75dp">
+
                 <fragment
                     android:id="@+id/maps"
                     android:name="com.project.pro112.hydrateam.thepolycoffee.fragment.ShoppingFragment"
                     class="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"></fragment>
+
                 <TextView
+                    style="@style/infoText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    style="@style/infoText"
                     android:background="@drawable/background_cardview_drinks_and_cakes"
                     android:padding="15dp"
-                    android:text="Delivery now"/>
-                <TextView
+                    android:text="Delivery now" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:textStyle="bold"
-                    android:textColor="@color/color_main"
-                    android:background="#FEFAF9"
-                    android:textSize="17dp"
-                    android:paddingLeft="15dp"
-                    android:gravity="left|center"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:drawableLeft="@drawable/logomini"
-                    android:text="  The poly Coffee"/>
+                    android:background="@drawable/background_cardview_drinks_and_cakes"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="12dp"
+                        android:background="@android:color/transparent"
+                        android:padding="4dp"
+                        android:src="@drawable/logomini" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="left|center"
+                        android:padding="8dp"
+                        android:text="The Poly Coffee"
+                        android:textColor="@color/color_main"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
                     android:layout_weight="2"
-                    android:textStyle="bold"
-                    android:textColor="@color/color_main"
                     android:background="#FEFAF9"
-                    android:textSize="17dp"
-                    android:paddingLeft="15dp"
-                    android:gravity="left|center"
                     android:drawableLeft="@drawable/duongcao"
-                    android:text="  "/>
-                <TextView
-                    style="@style/foodsDesBigger"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/background_cardview_drinks_and_cakes"
-                    android:drawableLeft="@drawable/location_mini"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
                     android:gravity="left|center"
-                    android:text="   260 Nguyễn Thái Bình"
+                    android:paddingLeft="16dp"
+                    android:text="  "
+                    android:textColor="@color/color_main"
+                    android:textSize="17dp"
                     android:textStyle="bold" />
-                <TextView
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/foodsDesBigger"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="User Information"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    style="@style/foodsDesBigger"
                     android:background="@drawable/background_cardview_drinks_and_cakes"
-                    android:padding="15dp"
-                    android:gravity="left|center"
-                    android:drawableLeft="@drawable/logo_man"
-                    android:text="   Trần Vĩ"
-                    />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="12dp"
+                        android:background="@android:color/transparent"
+                        android:padding="4dp"
+                        android:src="@drawable/location_mini" />
+
+                    <TextView
+                        android:id="@+id/addressOrder"
+                        style="@style/foodsDesBigger"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="left|center"
+                        android:maxLines="3"
+                        android:padding="8dp"
+                        android:text="Address"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
                 <TextView
+                    style="@style/foodsDesBigger"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    style="@style/foodsDesBigger"
-                    android:drawableLeft="@drawable/phone_mini"
-                    android:background="@drawable/background_cardview_drinks_and_cakes"
-                    android:padding="15dp"
-                    android:gravity="left|center"
-                    android:text="   016969696969"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/foodsDesBigger"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="Total"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="User Information" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_cardview_drinks_and_cakes"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="12dp"
+                        android:background="@android:color/transparent"
+                        android:padding="4dp"
+                        android:src="@drawable/logo_man" />
+
+                    <TextView
+                        android:id="@+id/nameOrder"
+                        style="@style/foodsDesBigger"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@drawable/background_cardview_drinks_and_cakes"
+                        android:gravity="left|center"
+                        android:paddingLeft="8dp"
+                        android:paddingBottom="24dp"
+                        android:paddingTop="24dp"
+                        android:paddingRight="8dp"
+                        android:text="Name" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_cardview_drinks_and_cakes"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="12dp"
+                        android:background="@android:color/transparent"
+                        android:padding="4dp"
+                        android:src="@drawable/phone_mini" />
+
+                    <TextView
+                        android:id="@+id/phoneOrder"
+                        style="@style/foodsDesBigger"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:background="@drawable/background_cardview_drinks_and_cakes"
+                        android:gravity="left|center"
+                        android:paddingLeft="8dp"
+                        android:paddingBottom="24dp"
+                        android:paddingTop="24dp"
+                        android:paddingRight="8dp"
+                        android:text="Phone" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/foodsDesBigger"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Total" />
+
                 <TextView
                     android:id="@+id/total"
+                    style="@style/infoText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    style="@style/infoText"
-                    android:background="@drawable/background_cardview_drinks_and_cakes"
-                    android:padding="15dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_weight="2"
+                    android:background="@drawable/background_cardview_drinks_and_cakes"
                     android:gravity="left|center"
-                    android:text="   Total 200.000 vnd"/>
+                    android:padding="15dp"
+                    android:text="   Total 200.000 vnd" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
+
     <Button
         android:id="@+id/btnS"
-        android:text="View cart"
-        android:background="@color/color_main"
-        android:textColor="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:background="@color/color_main"
+        android:text="View cart"
+        android:textColor="#FFFFFF" />
 </FrameLayout>
