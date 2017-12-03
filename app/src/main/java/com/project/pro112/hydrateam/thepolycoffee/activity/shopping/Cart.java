@@ -100,6 +100,12 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
         startActivity(intent);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpRecyclerView();
+    }
+
     private void setUpHideButtonWhenSrollToTheBottom() {
         scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override

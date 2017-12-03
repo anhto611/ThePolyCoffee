@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFireBaseFood;
 import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
 import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
 
@@ -143,9 +144,10 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
     public void onClick(View v) {
         tempdatabase tempdatabase = new tempdatabase(getBaseContext());
         PushDataToFireBase();
-        if(isPushDataDone) {
+        if(isPushDataDone && tempdatabase.getOrderedFoods().size()>0) {
             tempdatabase.deleteAlldata();
             Toast.makeText(this, "Mua hàng hành công!", Toast.LENGTH_SHORT).show();
+
         }else{
             Toast.makeText(this, "Đã xảy ra lỗi, mua hàng thất bại!", Toast.LENGTH_SHORT).show();
         }
@@ -179,7 +181,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
             Map myMapFoods = new HashMap();
             if(orderedFoods.size() >= 0) {
                 for (int i = 0; i < orderedFoods.size(); i++) {
-                    OrderedFood food = new OrderedFood(orderedFoods.get(i).getDiscription()+"",
+                    OrderedFireBaseFood food = new OrderedFireBaseFood(orderedFoods.get(i).getDiscription()+"",
                             ""+orderedFoods.get(i).getImage(),
                             ""+orderedFoods.get(i).getName(),
                             orderedFoods.get(i).getPrice(),

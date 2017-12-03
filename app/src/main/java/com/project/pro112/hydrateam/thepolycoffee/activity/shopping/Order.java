@@ -66,7 +66,14 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
         setUpViewPager();
         updateViewcartButton();
     }
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpViewPager();
+        updateViewcartButton();
+    }
+    //        FirebaseDatabase database = FirebaseDatabase.getInstance();
 //        DatabaseReference myRef = database.getReference("Foods").child("Popular");
 //        for (int i = 0; i < prices.length; i++) {
 //            myRef.push().setValue(new Food(des[i],
