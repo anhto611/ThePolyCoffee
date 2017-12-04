@@ -1,4 +1,4 @@
-package com.project.pro112.hydrateam.thepolycoffee.activity.account_management;
+package com.project.pro112.hydrateam.thepolycoffee.userscreen;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.project.pro112.hydrateam.thepolycoffee.R;
-import com.project.pro112.hydrateam.thepolycoffee.models.Object_UserProfile;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressPie;
@@ -33,9 +32,10 @@ public class SignUpScreen extends AppCompatActivity {
     Button btnSignUp;
     TextView textViewRegister;
     ACProgressPie progressPie;
+    private FirebaseAuth mAuth;
+
     String LINK_AVT_DEFAULT_MALE = "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/User%20Avatar%20Default%2Fmale.png?alt=media&token=f2233ca0-2a04-4aa7-b373-6d0995dc2b8c";
     String LINK_AVT_DEFAULT_FEMALE = "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/User%20Avatar%20Default%2Ffemale.png?alt=media&token=b61f8e96-b44c-4b8b-8ea7-cc5f4a298641";
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +87,8 @@ public class SignUpScreen extends AppCompatActivity {
 
         //Kiem Tra Null Truong FullName
         if (TextUtils.isEmpty(fullname)) {
-            Toast.makeText(this, "Full Name can not be empty", Toast.LENGTH_LONG).show();
-            edtFullName.requestFocus();
+            Toast.makeText(this, "Name can not be empty", Toast.LENGTH_LONG).show();
+            editEmailSignUp.requestFocus();
             progressPie.dismiss();
 
             //Kiem Tra Null Truong Email
@@ -116,7 +116,7 @@ public class SignUpScreen extends AppCompatActivity {
             progressPie.dismiss();
 
             //Kiem Tra Null Truong gender
-        } else if (gender.matches("")) {
+        } else if (TextUtils.isEmpty(gender)) {
             Toast.makeText(this, "Gender can not be empty", Toast.LENGTH_LONG).show();
             progressPie.dismiss();
         } else {
@@ -171,11 +171,12 @@ public class SignUpScreen extends AppCompatActivity {
         super.onStop();
     }
 
+
     @Override
     public void onBackPressed() {
         // do something on back.
         super.onBackPressed();
-        finish();
+        startActivity(new Intent(this, LoginScreen.class));
     }
 
     private void initView() {

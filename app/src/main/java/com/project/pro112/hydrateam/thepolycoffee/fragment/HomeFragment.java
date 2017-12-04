@@ -28,6 +28,7 @@ import com.project.pro112.hydrateam.thepolycoffee.activity.home.MembershipProgra
 import com.project.pro112.hydrateam.thepolycoffee.activity.home.PurchaseHistory;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.AdapterNewsHome;
 import com.project.pro112.hydrateam.thepolycoffee.models.ArticleNews;
+import com.project.pro112.hydrateam.thepolycoffee.models.UserRank;
 import com.project.pro112.hydrateam.thepolycoffee.tool.DomParser;
 import com.squareup.picasso.Picasso;
 
@@ -46,8 +47,8 @@ import java.util.regex.Pattern;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
-    AdapterNewsHome adapterNewsHome;
-    ArrayList<ArticleNews> listNews;
+    private AdapterNewsHome adapterNewsHome;
+    private ArrayList<ArticleNews> listNews;
 
     RecyclerView recyclerViewNews;
     LinearLayoutManager layoutManager;
@@ -56,6 +57,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     LinearLayout btnMemberShip;
     ImageView imgAvatar;
     TextView nameUser;
+    TextView rankUser;
+    TextView pointUser;
+    ProgressBar progressRank;
+
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference mReference;
+    private String user_id;
+
+    String nameRank = null;
+    double totalMonney = 0;
+    int numofStart = 0;
 
     public HomeFragment() {
     }
@@ -73,6 +86,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         imgAvatar = (ImageView) view.findViewById(R.id.mAvatar);
         nameUser = (TextView) view.findViewById(R.id.mNameUser);
         recyclerViewNews = (RecyclerView) view.findViewById(R.id.recyNew);
+        rankUser = (TextView) view.findViewById(R.id.mRankUser);
+        pointUser = (TextView) view.findViewById(R.id.mPointUser);
+        progressRank = (ProgressBar) view.findViewById(R.id.progressRank);
 
         btnMemberShip.setOnClickListener(this);
         btnHistory.setOnClickListener(new View.OnClickListener() {
@@ -83,11 +99,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        String user_id = mAuth.getCurrentUser().getUid();
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("Users").child(user_id);
-        myRef.addValueEventListener(new ValueEventListener() {
+        mAuth = FirebaseAuth.getInstance();
+        user_id = mAuth.getCurrentUser().getUid();
+        database = FirebaseDatabase.getInstance();
+        mReference = database.getReference().child("Users").child(user_id);
+        mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String name = (String) dataSnapshot.child("fullName").getValue();
@@ -104,6 +120,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        mReference = database.getReference().child("UserRank").child(user_id);
+        mReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserRank userRank = dataSnapshot.getValue(UserRank.class);
+                nameRank = userRank.getNameRank();
+                numofStart = userRank.getNumOfSrart();
+
+                rankUser.setText(nameRank);
+                pointUser.setText(String.valueOf(numofStart));
+                progressRank.setMax(3000);
+                progressRank.setProgress(numofStart);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         recyclerViewNews.setHasFixedSize(true);
         recyclerViewNews.setLayoutManager(layoutManager);

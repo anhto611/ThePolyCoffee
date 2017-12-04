@@ -37,7 +37,8 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true">
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/camera">
 
                     </de.hdodenhof.circleimageview.CircleImageView>
 
@@ -60,8 +61,8 @@
                             android:id="@+id/mRankUser"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="New member"
+                            android:paddingLeft="10dp"
+                            android:text="@string/home_rank"
                             android:textColor="@color/textview_normal"
                             android:textSize="12sp" />
 
@@ -144,7 +145,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:text="Gold"
                             android:textColor="@color/textview_normal"
                             android:textSize="11sp" />
@@ -152,7 +153,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="5"
                             android:gravity="right"
                             android:text="Diamond"
                             android:textColor="@color/textview_normal"
