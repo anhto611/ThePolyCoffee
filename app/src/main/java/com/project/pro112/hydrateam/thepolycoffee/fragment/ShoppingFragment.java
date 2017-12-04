@@ -63,9 +63,12 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback, Go
     private Geocoder geocoder;
 
     Button btnChooseAddress;
-    ImageButton btnSearchLocation;
+    ImageButton btnLocation;
+    ImageButton btnHelpLocation;
+    Button btnSearchLocation;
     View mapView;
     ImageView locationButton;
+
 
     private String address;
     private double lati;
@@ -103,6 +106,8 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback, Go
             locationButton.setImageDrawable(getResources().getDrawable(R.mipmap.ic_mylocation));
         }
 
+        btnLocation = getView().findViewById(R.id.btnMyLocation);
+        btnHelpLocation = getView().findViewById(R.id.btnHelpLocation);
         btnChooseAddress = getView().findViewById(R.id.btnChooseAddress);
         btnSearchLocation = getView().findViewById(R.id.btnSearchLocation);
 
@@ -110,6 +115,19 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback, Go
             @Override
             public void onClick(View v) {
                 findPlace();
+            }
+        });
+        btnLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                xuLyMap();
+                getAddress();
+            }
+        });
+        btnHelpLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Help!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -127,6 +145,7 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback, Go
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
+        int i = 0;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//bang M
             if (getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     && getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -142,16 +161,7 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback, Go
         uisetting.setCompassEnabled(true);
         uisetting.setScrollGesturesEnabled(true);
         uisetting.setTiltGesturesEnabled(true);
-        uisetting.setMyLocationButtonEnabled(true);
-
-        map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-            @SuppressLint("MissingPermission")
-            @Override
-            public boolean onMyLocationButtonClick() {
-                getAddress();
-                return false;
-            }
-        });
+        uisetting.setMyLocationButtonEnabled(false);
     }
 
     @Override
@@ -180,6 +190,7 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback, Go
                 marker = map.addMarker(new MarkerOptions().position(latLng).title(address));
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                 btnChooseAddress.setText(R.string.shopping_order);
+                btnSearchLocation.setText(address);
                 setEventButton();
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getActivity(), data);
@@ -225,6 +236,7 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback, Go
         } catch (IOException e) {
             e.printStackTrace();
         }
+        btnSearchLocation.setText(address);
 //        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 //
 //        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
@@ -323,7 +335,6 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback, Go
                         } else {
                             tempDBLocation.updateLocation(new AddressLocation(ID_ADDRESS_ORDER, address, lati, longi));
                         }
-                        Toast.makeText(getActivity(), "" + address + "\n" + lati + "\n" + longi, Toast.LENGTH_SHORT).show();
                         startActivity(intent);
                     }
                 });
@@ -337,7 +348,7 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback, Go
                 .setCountry("VN")
                 .build();
         try {
-            Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+            Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
                     .setFilter(typeFilter)
                     .build(getActivity());
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);

@@ -12,7 +12,7 @@ import com.project.pro112.hydrateam.thepolycoffee.R;
 public class About extends AppCompatActivity {
 
     Toolbar toolbar;
-    TextView txtTitle, txtLogo, txtParaOne, txtParaTwo, txtParaThree, txtParaFour ;
+    TextView txtTitle, txtParaOne, txtParaTwo, txtParaThree, txtParaFour ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,6 @@ public class About extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         txtTitle = (TextView) findViewById(R.id.tvTitleToolbar);
-        txtLogo = (TextView) findViewById(R.id.textViewLogo);
         txtParaOne = (TextView) findViewById(R.id.paragraph_one);
         txtParaTwo = (TextView) findViewById(R.id.paragraph_two);
         txtParaThree = (TextView) findViewById(R.id.paragraph_three);
@@ -32,10 +31,6 @@ public class About extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        Typeface face1 = Typeface.createFromAsset(getAssets(),
-                "fonts/Lobster-Regular.ttf");
-        txtLogo.setTypeface(face1);
 
         Typeface face2 = Typeface.createFromAsset(getAssets(),
                 "fonts/JosefinSans-Regular.ttf");

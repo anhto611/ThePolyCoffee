@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.project.pro112.hydrateam.thepolycoffee.activity.settings.About">
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></include>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,80 +22,40 @@
             android:background="@android:color/white"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textViewLogo"
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="78dp"
-                android:text="The Poly Coffee"
-                android:textAlignment="center"
-                android:textColor="@color/color_main"
-                android:textSize="40sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="240dp"
+                android:src="@drawable/coffee_paleo"
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/paragraph_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Đi cà phê từ lâu không đơn thuần chỉ là uống một tách cà phê mà còn là dịp gặp mặt và trò chuyện cùng bạn bè. Tại The Poly Coffee, chúng tôi trân trọng và đề cao giá trị kết nối giữa con người và trải nghiệm của khách hàng."
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewLogo" />
+                style="@style/about"
+                android:text="Đi cà phê từ lâu không đơn thuần chỉ là uống một tách cà phê mà còn là dịp gặp mặt và trò chuyện cùng bạn bè. Tại The Poly Coffee, chúng tôi trân trọng và đề cao giá trị kết nối giữa con người và trải nghiệm của khách hàng." />
 
             <TextView
                 android:id="@+id/paragraph_two"
+                style="@style/about"
+                android:text="Chúng tôi được truyền cảm hứng từ những tách cà phê và thức uống mình tạo ra. Chúng tôi tin tưởng mạnh mẽ rằng thức uống với chất lượng tốt nhất được phục vụ trong không gian thân thiện." />
+
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Chúng tôi được truyền cảm hứng từ những tách cà phê và thức uống mình tạo ra. Chúng tôi tin tưởng mạnh mẽ rằng thức uống với chất lượng tốt nhất được phục vụ trong không gian thân thiện."
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/paragraph_one" />
+                android:layout_height="200dp"
+                android:src="@drawable/cookies_cream"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="16dp"/>
 
             <TextView
                 android:id="@+id/paragraph_three"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Tại The Poly Coffee, nguyên liệu làm ra cà phê và tất cả các loại thức uống đều được chọn lọc từ những nguồn cung ứng được kiểm định gắt gao, đáp ứng tiêu chuẩn chất lượng cao nhất. Và một “nguyên liệu” quan trọng hơn hết chúng tôi đưa vào từng sản phẩm là sự tâm huyết của cả đội ngũ nhân viên The Poly Coffee."
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/paragraph_two" />
+                style="@style/about"
+                android:text="Tại The Poly Coffee, nguyên liệu làm ra cà phê và tất cả các loại thức uống đều được chọn lọc từ những nguồn cung ứng được kiểm định gắt gao, đáp ứng tiêu chuẩn chất lượng cao nhất. Và một “nguyên liệu” quan trọng hơn hết chúng tôi đưa vào từng sản phẩm là sự tâm huyết của cả đội ngũ nhân viên The Poly Coffee." />
 
             <TextView
                 android:id="@+id/paragraph_four"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/about"
                 android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Niềm đam mê với hương vị, sự nhiệt thành khi phục vụ, kĩ năng pha chế được đào tạo chuyên sâu là tất cả những gì The Poly Coffee cam kết khi phục vụ bất kì sản phẩm nào cho khách hàng nhằm tạo ra trải nghiệm “đi cà phê” tốt nhất cho bạn."
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/paragraph_three" />
+                android:text="Niềm đam mê với hương vị, sự nhiệt thành khi phục vụ, kĩ năng pha chế được đào tạo chuyên sâu là tất cả những gì The Poly Coffee cam kết khi phục vụ bất kì sản phẩm nào cho khách hàng nhằm tạo ra trải nghiệm “đi cà phê” tốt nhất cho bạn." />
         </LinearLayout>
     </ScrollView>
 
-    <include
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></include>
-</FrameLayout>
+</LinearLayout>

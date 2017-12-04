@@ -1,5 +1,6 @@
 package com.project.pro112.hydrateam.thepolycoffee.activity.home;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ public class MembershipProgram extends AppCompatActivity {
 
     Toolbar toolbar;
     TextView txtTitle;
+    TextView logoApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,12 @@ public class MembershipProgram extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        logoApp = (TextView) findViewById(R.id.logoAppMem);
+        //Đổi font của logoApp:
+        Typeface face = Typeface.createFromAsset(this.getAssets(),
+                "fonts/Lobster-Regular.ttf");
+        logoApp.setTypeface(face);
 
     }
 

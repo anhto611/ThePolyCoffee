@@ -31,6 +31,7 @@
     <string name="purchase_btn_cancel">Cancel</string>
     <string name="purchase_btn_update">Update</string>
     <string name="home_rank">Rank</string>
+    <string name="shopping_tv_search">Choose your address!</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />

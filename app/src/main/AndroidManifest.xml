@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.account_management.LoginScreen"
+            android:name=".activity.main.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +45,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.account_management.LoginScreen"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.shopping.Order"
             android:screenOrientation="portrait" />
@@ -77,7 +80,7 @@
             android:value="@string/map_api_key" />
 
         <activity android:name=".activity.video.PlayVideoYoutube" />
-        <activity android:name=".activity.home.PurchaseHistoryViewProDuct"></activity>
+        <activity android:name=".activity.home.PurchaseHistoryViewProDuct" />
     </application>
 
 </manifest>
