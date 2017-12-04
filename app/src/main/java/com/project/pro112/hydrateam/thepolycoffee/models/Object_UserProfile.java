@@ -1,4 +1,4 @@
-package com.project.pro112.hydrateam.thepolycoffee.userscreen;
+package com.project.pro112.hydrateam.thepolycoffee.models;
 
 /**
  * Created by The Dark on 01-Dec-2017.

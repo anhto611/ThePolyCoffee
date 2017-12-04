@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_main"
     android:orientation="vertical"
-    tools:context="com.project.pro112.hydrateam.thepolycoffee.userscreen.EditProfileScreen">
+    tools:context="com.project.pro112.hydrateam.thepolycoffee.activity.account_management.EditProfileScreen">
 
     <include
         layout="@layout/toolbar"

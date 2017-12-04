@@ -1,4 +1,4 @@
-package com.project.pro112.hydrateam.thepolycoffee.userscreen;
+package com.project.pro112.hydrateam.thepolycoffee.activity.account_management;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -15,11 +15,15 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.models.Object_UserProfile;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressPie;
@@ -33,7 +37,7 @@ public class SignUpGoogle extends AppCompatActivity {
     //FIREBASE FIELDS
     FirebaseDatabase mFirebaseDatabase;
     FirebaseAuth mAuth;
-    //    FirebaseAuth.AuthStateListener mAuthListener;
+    FirebaseAuth.AuthStateListener mAuthStateListener;
     DatabaseReference mDatabaseReference;
     StorageReference mStorageRef;
     Object_UserProfile object_userProfile;
@@ -111,16 +115,6 @@ public class SignUpGoogle extends AppCompatActivity {
 
             progressPie.dismiss();
         }
-
-        /*if (TextUtils.isEmpty(fullName) || TextUtils.isEmpty(contactNumber)) {
-            Toast.makeText(this, "Thiếu Thông Tin", Toast.LENGTH_SHORT).show();
-            progressPie.dismiss();
-        } else if (gender.equals("Male")) {
-            imgAvatar = LINK_AVT_DEFAULT_MALE;
-        } else if (gender.equals("Female")) {
-            imgAvatar = LINK_AVT_DEFAULT_FEMALE;
-        }*/
-
     }
 
     //Set Gender:
@@ -166,5 +160,32 @@ public class SignUpGoogle extends AppCompatActivity {
         editTextContactNumberGG = (EditText) findViewById(R.id.editTextContactNumberGG);
         btnSubmitGG = (Button) findViewById(R.id.btnSubmitGG);
         textViewInfoGG = (TextView) findViewById(R.id.textViewInfoGG);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        finish();
+        //Kiem Tra Xem GG da Add info?
+        mDatabaseReference.child("Users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (snapshot.child(userID).exists()) {
+                            finish();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 }

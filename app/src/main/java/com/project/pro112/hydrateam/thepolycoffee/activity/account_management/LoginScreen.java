@@ -1,4 +1,4 @@
-package com.project.pro112.hydrateam.thepolycoffee.userscreen;
+package com.project.pro112.hydrateam.thepolycoffee.activity.account_management;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -123,6 +123,7 @@ public class LoginScreen extends AppCompatActivity {
                 signIn();
             }
         });
+
         //ForgetPassword:
         txtforgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,6 +176,7 @@ public class LoginScreen extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
                             //updateUI(user);
                             progressPie.dismiss();
 
@@ -230,7 +232,6 @@ public class LoginScreen extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 progressPie.dismiss();
-                                startActivity(new Intent(LoginScreen.this, MainHome.class));
                                 Toast.makeText(LoginScreen.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 progressPie.dismiss();
@@ -241,32 +242,6 @@ public class LoginScreen extends AppCompatActivity {
 
                     });
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //Khi Login Lan Tiep Theo Se LogOut Face:
-        LoginManager.getInstance().logOut();
-
-        //Nhan Email and Password tu SignUpScreen:
-        String email = getIntent().getStringExtra("email");
-        String password = getIntent().getStringExtra("password");
-        edtEmailLogin.setText(email);
-        edtPasswordLogin.setText(password);
-
-        //moveToHome:
-        mAuth.addAuthStateListener(mAuthStateListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //moveToHome:
-        if (mAuthStateListener != null) {
-            mAuth.removeAuthStateListener(mAuthStateListener);
-        }
-        finish();
     }
 
     //Anh Xa View:
@@ -322,4 +297,30 @@ public class LoginScreen extends AppCompatActivity {
             }
         }, 2000);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Khi Login Lan Tiep Theo Se LogOut Face:
+        LoginManager.getInstance().logOut();
+
+        //Nhan Email and Password tu SignUpScreen:
+        String email = getIntent().getStringExtra("email");
+        String password = getIntent().getStringExtra("password");
+        edtEmailLogin.setText(email);
+        edtPasswordLogin.setText(password);
+
+        //moveToHome:
+        mAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //moveToHome:
+        if (mAuthStateListener != null) {
+            mAuth.removeAuthStateListener(mAuthStateListener);
+        }
+    }
+
 }

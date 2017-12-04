@@ -1,4 +1,4 @@
-package com.project.pro112.hydrateam.thepolycoffee.userscreen;
+package com.project.pro112.hydrateam.thepolycoffee.activity.account_management;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -96,7 +96,7 @@ public class ForgetPasswordScreen extends AppCompatActivity {
     public void onBackPressed() {
         // do something on back.
         super.onBackPressed();
-        startActivity(new Intent(this, LoginScreen.class));
+        finish();
     }
 
     private void initView() {

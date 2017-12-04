@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
@@ -79,13 +79,14 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="Niềm đam mê với hương vị, sự nhiệt thành khi phục vụ, kĩ năng pha chế được đào tạo chuyên sâu là tất cả những gì The Poly Coffee cam kết khi phục vụ bất kì sản phẩm nào cho khách hàng nhằm tạo ra trải nghiệm “đi cà phê” tốt nhất cho bạn."
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/paragraph_three" />
-        </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
     </ScrollView>
 
     <include

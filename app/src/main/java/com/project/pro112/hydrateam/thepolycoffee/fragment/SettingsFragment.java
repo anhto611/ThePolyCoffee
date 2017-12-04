@@ -19,8 +19,8 @@ import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.activity.settings.About;
 import com.project.pro112.hydrateam.thepolycoffee.activity.settings.Support;
 import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
-import com.project.pro112.hydrateam.thepolycoffee.userscreen.EditProfileScreen;
-import com.project.pro112.hydrateam.thepolycoffee.userscreen.LoginScreen;
+import com.project.pro112.hydrateam.thepolycoffee.activity.account_management.EditProfileScreen;
+import com.project.pro112.hydrateam.thepolycoffee.activity.account_management.LoginScreen;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
