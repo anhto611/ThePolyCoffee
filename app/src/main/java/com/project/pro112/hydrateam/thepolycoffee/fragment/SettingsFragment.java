@@ -73,8 +73,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseAuth.getInstance().signOut();
                         //Kết thúc Fragment:
-                        getActivity().finish();
                         startActivity(intent);
+                        getActivity().finish();
                     }
                 });
                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -96,6 +96,7 @@ public class ForgetPasswordScreen extends AppCompatActivity {
     public void onBackPressed() {
         // do something on back.
         super.onBackPressed();
+        startActivity(new Intent(this, LoginScreen.class));
         finish();
     }
 
