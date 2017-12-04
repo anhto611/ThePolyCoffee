@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ThePolyCoffee.iml" filepath="$PROJECT_DIR$/ThePolyCoffee.iml" />
       <module fileurl="file://C:\Users\Huyn_TQT\AndroidStudioProjects\PRO112_DuAnAndroid\ThePolyCoffee_GitHub\.idea\ThePolyCoffee.iml" filepath="C:\Users\Huyn_TQT\AndroidStudioProjects\PRO112_DuAnAndroid\ThePolyCoffee_GitHub\.idea\ThePolyCoffee.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ThePolyCoffee_GitHub.iml" filepath="$PROJECT_DIR$/ThePolyCoffee_GitHub.iml" />
       <module fileurl="file://D:\FPT POLY\ThePolyCoffee\ThePolyCoffee_GitHub.iml" filepath="D:\FPT POLY\ThePolyCoffee\ThePolyCoffee_GitHub.iml" />
+      <module fileurl="file://D:\FPT POLY\PRO112 - DA1\ThePolyCoffee\ThePolyCoffee_GitHub.iml" filepath="D:\FPT POLY\PRO112 - DA1\ThePolyCoffee\ThePolyCoffee_GitHub.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://D:\FPT POLY\ThePolyCoffee\app\app.iml" filepath="D:\FPT POLY\ThePolyCoffee\app\app.iml" />
     </modules>

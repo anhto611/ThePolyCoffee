@@ -131,6 +131,7 @@ public class SignUpScreen extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 progressPie.dismiss();
 
+                                //Rank Users:
                                 String user_id = mAuth.getCurrentUser().getUid();
                                 DatabaseReference current_user_id = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
                                 DatabaseReference rank_user_id = FirebaseDatabase.getInstance().getReference().child("UserRank").child(user_id);
@@ -145,8 +146,9 @@ public class SignUpScreen extends AppCompatActivity {
                                     object_userProfile = new Object_UserProfile(fullname, email, gender, "", "", LINK_AVT_DEFAULT_FEMALE);
                                     current_user_id.setValue(object_userProfile);
                                 }
-                                userRank = new UserRank(0, 0, "New menber");
+                                userRank = new UserRank(0, 0, "New member");
                                 rank_user_id.setValue(userRank);
+                                //
 
                                 //Chuyen Du Lieu Vua Dang Ky Sang LoginScreen:
                                 Intent putEmailAndPass = new Intent(SignUpScreen.this, LoginScreen.class);
@@ -177,7 +179,6 @@ public class SignUpScreen extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
     }
-
 
     @Override
     public void onBackPressed() {

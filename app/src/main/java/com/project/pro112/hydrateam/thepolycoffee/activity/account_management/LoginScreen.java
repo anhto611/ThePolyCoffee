@@ -3,6 +3,7 @@ package com.project.pro112.hydrateam.thepolycoffee.activity.account_management;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -34,10 +35,17 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.activity.main.MainHome;
+import com.project.pro112.hydrateam.thepolycoffee.models.Object_UserProfile;
+import com.project.pro112.hydrateam.thepolycoffee.models.UserRank;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressPie;
@@ -55,19 +63,24 @@ public class LoginScreen extends AppCompatActivity {
     ACProgressPie progressPie;
     String TAG = "MainActivity";
 
-    //Đối tượng Nhận Thông Tin Facebook Của Người Dùng:
-    String id, first_name, name, email, gender, birthday;
+    //Nhận Thông Tin Google:
+    String fullNameGG, emailGG;
+    Uri linkAvatarGG;
 
     boolean doubleBackToExitPressedOnce = false;
 
+    //
 
     private SignInButton btnGG;
     private GoogleApiClient mGoogleApiClient;
 
+    //FIREBASE:
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseUsers;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private StorageReference mStorageRef;
+    private DatabaseReference mDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,13 +147,6 @@ public class LoginScreen extends AppCompatActivity {
     }
 
     private void signIn() {
-        //Hien thi progressPie
-        progressPie = new ACProgressPie.Builder(LoginScreen.this)
-                .ringColor(Color.WHITE)
-                .pieColor(Color.WHITE)
-                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
-                .build();
-        progressPie.show();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -167,40 +173,88 @@ public class LoginScreen extends AppCompatActivity {
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
+        //Hien thi progressPie
+        progressPie = new ACProgressPie.Builder(LoginScreen.this)
+                .ringColor(Color.WHITE)
+                .pieColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
+        progressPie.show();
+
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onComplete(@NonNull final Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            final String userUID = user.getUid();
 
-                            //updateUI(user);
+                            //Kiem Tra Xem GG da Add info?
+                            //Neu Chua Se Set Profile:
+                            mDatabaseReference.child("Users")
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot snapshot) {
+                                            if (snapshot.child(userUID).exists()) {
+                                                Log.d("TAG", "DA TON TAI");
+                                            } else {
+                                                addInfoForGoogle();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
                             progressPie.dismiss();
-
-                            //Them Thông Tin Đăng Kí:
-                            addInfoForGoogle();
-
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginScreen.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
-                            progressPie.dismiss();
                         }
-
-                        // ...
                     }
                 });
     }
 
+    //Set Profile And WRITE FIREBASE:
     private void addInfoForGoogle() {
         // Sign in success, update UI with the signed-in user's information
-        startActivity(new Intent(LoginScreen.this, SignUpGoogle.class));
-        finish();
+        //Get profile user GG:
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+        if (acct != null) {
+            fullNameGG = acct.getDisplayName();
+            String personGivenName = acct.getGivenName();
+            String personFamilyName = acct.getFamilyName();
+            emailGG = acct.getEmail();
+            String personId = acct.getId();
+            linkAvatarGG = acct.getPhotoUrl();
+        }
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        String userUID = user.getUid();
+        //Lay ANh GG day len Storage:
+        StorageReference mStorage = mStorageRef.child("User Avatar").child(linkAvatarGG.getLastPathSegment());
+        mStorage.putFile(linkAvatarGG);
+        //
+
+        //Submit profile Google:
+        Object_UserProfile object_userProfile;
+        object_userProfile = new Object_UserProfile(fullNameGG, emailGG, "", "", "", linkAvatarGG.toString());
+        mDatabaseReference.child("Users").child(userUID).setValue(object_userProfile);
+        //
+
+        //Tao RANK Cho UserUID:
+        DatabaseReference RankUser = FirebaseDatabase.getInstance().getReference().
+                child("UserRank").child(userUID);
+        UserRank userRankGG;
+        userRankGG = new UserRank(0, 0, "New Member");
+        RankUser.setValue(userRankGG);
+        //
     }
 
     //ForgetPassword:
@@ -247,6 +301,9 @@ public class LoginScreen extends AppCompatActivity {
     //Anh Xa View:
     private void initView() {
         //Khởi tạo Firebase:
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mFirebaseDatabase.getReference();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseUsers.keepSynced(true);
@@ -257,12 +314,9 @@ public class LoginScreen extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 //Checking User:
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-
                 if (user != null) {
                     Intent moveToHome = new Intent(LoginScreen.this, MainHome.class);
-                    moveToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            | Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    moveToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(moveToHome);
                 }
             }
@@ -321,6 +375,7 @@ public class LoginScreen extends AppCompatActivity {
         if (mAuthStateListener != null) {
             mAuth.removeAuthStateListener(mAuthStateListener);
         }
+        finish();
     }
 
     @Override

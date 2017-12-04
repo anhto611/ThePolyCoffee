@@ -224,15 +224,21 @@ public class EditProfileScreen extends AppCompatActivity {
         String contactNumber = editTextContactNumber.getText().toString().trim();
         String linkImgNew = null;
 
+        //Kiem Tra Khac Nhau Cua Avatar:
         if (TextUtils.isEmpty(linkAvatarStorage)) {
             linkImgNew = linkAvatarOld;
         } else {
             linkImgNew = linkAvatarStorage;
         }
 
+        //Kiem Tra Null:
         if (TextUtils.isEmpty(fullName)) {
             editTextFullNameProfile.requestFocus();
             Toast.makeText(this, "Full Name can not be empty", Toast.LENGTH_SHORT).show();
+        } else if (birthDay.matches("")) {
+            Toast.makeText(this, "Birth Day not be empty", Toast.LENGTH_SHORT).show();
+        } else if (gender.matches("")) {
+            Toast.makeText(this, "Gender not be empty", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(contactNumber)) {
             Toast.makeText(this, "Contact Number not be empty", Toast.LENGTH_SHORT).show();
             editTextContactNumber.requestFocus();
@@ -266,7 +272,6 @@ public class EditProfileScreen extends AppCompatActivity {
 
                         //Get LinkImgOld:
                         linkAvatarOld = getUserProfile.getLinkAvatar();
-//                        Toast.makeText(EditProfileScreen.this, linkAvatarOld, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

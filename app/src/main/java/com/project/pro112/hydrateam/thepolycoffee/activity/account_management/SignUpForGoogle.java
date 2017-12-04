@@ -24,12 +24,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.models.Object_UserProfile;
+import com.project.pro112.hydrateam.thepolycoffee.models.UserRank;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressPie;
 
-public class SignUpGoogle extends AppCompatActivity {
-
+public class SignUpForGoogle extends AppCompatActivity {
     EditText edtFullNameGG, editTextContactNumberGG, edtGenderGG;
     Button btnSubmitGG;
     TextView textViewInfoGG;
@@ -51,7 +51,7 @@ public class SignUpGoogle extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up_google);
+        setContentView(R.layout.activity_sign_up_for_google);
 
         initView();
         //Đổi Font:
@@ -83,7 +83,6 @@ public class SignUpGoogle extends AppCompatActivity {
         String gender = edtGenderGG.getText().toString().trim();
         String email = userEmail;
 
-
         if (TextUtils.isEmpty(fullName)) {
             Toast.makeText(this, "Full Name can not be empty", Toast.LENGTH_SHORT).show();
             edtFullNameGG.requestFocus();
@@ -101,7 +100,7 @@ public class SignUpGoogle extends AppCompatActivity {
             }
 
             //Hien thi progressPie
-            progressPie = new ACProgressPie.Builder(SignUpGoogle.this)
+            progressPie = new ACProgressPie.Builder(SignUpForGoogle.this)
                     .ringColor(Color.WHITE)
                     .pieColor(Color.WHITE)
                     .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
@@ -111,15 +110,21 @@ public class SignUpGoogle extends AppCompatActivity {
             object_userProfile = new Object_UserProfile(fullName, email, gender, "", contactNumber, imgAvatar);
             mDatabaseReference.child("Users").child(userID).setValue(object_userProfile);
             Toast.makeText(this, "Submit Successfully", Toast.LENGTH_SHORT).show();
+            progressPie.dismiss();
             finish();
 
-            progressPie.dismiss();
+            //Rank Users:
+            DatabaseReference rank_user_id = FirebaseDatabase.getInstance().getReference().child("UserRank").child(userID);
+            UserRank userRank;
+            userRank = new UserRank(0, 0, "New member");
+            rank_user_id.setValue(userRank);
+            //
         }
     }
 
     //Set Gender:
     private void setGender() {
-        PopupMenu popupMenu = new PopupMenu(SignUpGoogle.this, edtGenderGG);
+        PopupMenu popupMenu = new PopupMenu(SignUpForGoogle.this, edtGenderGG);
         getMenuInflater().inflate(R.menu.gender, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -171,7 +176,6 @@ public class SignUpGoogle extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         finish();
         //Kiem Tra Xem GG da Add info?
         mDatabaseReference.child("Users")
