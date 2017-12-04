@@ -2,11 +2,13 @@ package com.project.pro112.hydrateam.thepolycoffee.fragment;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -212,31 +214,36 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback, Go
     // Get String Địa chỉ hiện tại
     @SuppressLint("MissingPermission")
     public void getAddress() {
-        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        LatLng myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(
-                myLatLng)                   // Sets the center of the map to Mountain View
-                .zoom(15)                   // Sets the zoom
-                .bearing(0)                // Sets the orientation of the camera to east
-                .tilt(0)                   // Sets the tilt of the camera
-                .build();
-        if (marker != null) marker.remove();
-        try {
-            //Get latitude and longitude
-            lati = location.getLatitude();
-            longi = location.getLongitude();
-            List<Address> addressList = geocoder.getFromLocation(lati, longi, 1);
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+            LatLng myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                    myLatLng)                   // Sets the center of the map to Mountain View
+                    .zoom(15)                   // Sets the zoom
+                    .bearing(0)                // Sets the orientation of the camera to east
+                    .tilt(0)                   // Sets the tilt of the camera
+                    .build();
+            if (marker != null) marker.remove();
+            try {
+                //Get latitude and longitude
+                lati = location.getLatitude();
+                longi = location.getLongitude();
+                List<Address> addressList = geocoder.getFromLocation(lati, longi, 1);
 
-            //Get Address
-            address = addressList.get(0).getAddressLine(0);
-            marker = map.addMarker(new MarkerOptions().position(myLatLng).title(address));
-            map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            btnChooseAddress.setText(R.string.shopping_order);
-            setEventButton();
-        } catch (IOException e) {
-            e.printStackTrace();
+                //Get Address
+                address = addressList.get(0).getAddressLine(0);
+                marker = map.addMarker(new MarkerOptions().position(myLatLng).title(address));
+                map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                btnChooseAddress.setText(R.string.shopping_order);
+                setEventButton();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            btnSearchLocation.setText(address);
+        }else {
+            Toast.makeText(getActivity(), "GPS not Enable!", Toast.LENGTH_SHORT).show();
         }
-        btnSearchLocation.setText(address);
 //        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 //
 //        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {

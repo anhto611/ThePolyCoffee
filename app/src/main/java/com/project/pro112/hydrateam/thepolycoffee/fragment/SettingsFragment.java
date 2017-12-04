@@ -65,16 +65,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                 tempdatabase.deleteAlldata();
                 intent = new Intent(getActivity(), LoginScreen.class);
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                dialog.setTitle("Logout");
-                dialog.setMessage("You want to logout?");
+                dialog.setTitle("Sign out!");
+                dialog.setMessage("Do you really want to sign out?");
                 dialog.setCancelable(false);
                 dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseAuth.getInstance().signOut();
-                        startActivity(intent);
                         //Kết thúc Fragment:
                         getActivity().finish();
+                        startActivity(intent);
                     }
                 });
                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -16,6 +16,10 @@ import android.widget.TextView;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterCartInfo;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterCartProduct;
+import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
+import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
+
+import java.util.ArrayList;
 
 public class Cart extends AppCompatActivity implements View.OnClickListener {
     private Button btnDelivery;
@@ -24,6 +28,8 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
     private LinearLayoutManager mLayoutManager;
     private android.support.v4.app.FragmentManager fragmentManager;
     private NestedScrollView scrollView;
+
+    private TextView tvCartisEmpty;
 
 
     @Override
@@ -35,6 +41,7 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
         setUpRecyclerView();
         // Dấu nút giao hàng khi rê xuống bottom
         setUpHideButtonWhenSrollToTheBottom();
+
     }
 
     //Recycler View
@@ -86,7 +93,7 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
     //init
     private void initView() {
         btnDelivery = (Button) findViewById(R.id.btnS);
-        btnDelivery.setText("Delivery and purchase");
+        tvCartisEmpty = (TextView) findViewById(R.id.showCartisEmpty);
         btnDelivery.setOnClickListener(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
         mRecyclerView2 = (RecyclerView) findViewById(R.id.mRecyclerView2);
@@ -104,6 +111,7 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         setUpRecyclerView();
+        setViewCartEmpty();
     }
 
     private void setUpHideButtonWhenSrollToTheBottom() {
@@ -132,5 +140,23 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
                 }
             }
         });
+    }
+
+    private void setViewCartEmpty(){
+        tempdatabase tempdatabase = new tempdatabase(Cart.this);
+        ArrayList<OrderedFood> orderedFoods =  tempdatabase.getOrderedFoods();
+        if(orderedFoods.size()==0){
+            tvCartisEmpty.setVisibility(View.VISIBLE);
+            btnDelivery.setText("Back to Order");
+            btnDelivery.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+        } else {
+            tvCartisEmpty.setVisibility(View.INVISIBLE);
+            btnDelivery.setText("Delivery and purchase");
+        }
     }
 }

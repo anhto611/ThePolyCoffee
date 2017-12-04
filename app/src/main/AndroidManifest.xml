@@ -78,6 +78,7 @@
 
         <activity android:name=".activity.video.PlayVideoYoutube" />
         <activity android:name=".activity.home.PurchaseHistoryViewProDuct" />
+        <activity android:name=".activity.shopping.SuccessfulPurchase"></activity>
     </application>
 
 </manifest>

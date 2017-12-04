@@ -19,33 +19,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/scrollView"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:id="@+id/scrollContent"
+            android:layout_height="wrap_content">
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="75dp">
+                android:layout_height="match_parent">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/mRecyclerView"
+                <LinearLayout
+                    android:id="@+id/scrollContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:scrollbars="vertical" />
+                    android:orientation="vertical"
+                    android:paddingBottom="75dp">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/mRecyclerView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp" />
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/mRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:scrollbars="vertical" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/mRecyclerView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp" />
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+            <TextView
+                android:id="@+id/showCartisEmpty"
+                android:visibility="invisible"
+                android:background="@color/backgroundlayout_shopping"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Cart is empty!"
+                android:gravity="center"
+                android:textSize="24sp"/>
+        </FrameLayout>
+
+
     </LinearLayout>
+
+
 
     <Button
         android:id="@+id/btnS"

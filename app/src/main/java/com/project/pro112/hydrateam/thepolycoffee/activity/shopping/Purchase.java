@@ -1,5 +1,6 @@
 package com.project.pro112.hydrateam.thepolycoffee.activity.shopping;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,7 @@ import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
 import com.project.pro112.hydrateam.thepolycoffee.models.UserRank;
 import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.TempDBLocation;
 import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -42,6 +44,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
@@ -55,6 +59,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
     private TextView txtphoneOrder;
     private boolean isPushDataDone;
     private Double totalp;
+    private CircleImageView mAvatamini;
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
@@ -70,6 +75,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
 
     String nameUser = "";
     String phoneUser = "";
+    String imgAvatar = "";
 
     String nameRank = null;
     double totalMonney = 0;
@@ -104,8 +110,10 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
             public void onDataChange(DataSnapshot dataSnapshot) {
                 nameUser = (String) dataSnapshot.child("fullName").getValue();
                 phoneUser = (String) dataSnapshot.child("contactNumber").getValue();
+                imgAvatar = (String) dataSnapshot.child("linkAvatar").getValue();
                 txtnameOrder.setText(nameUser);
                 txtphoneOrder.setText(phoneUser);
+                Picasso.with(Purchase.this).load(imgAvatar).into(mAvatamini);
             }
 
             @Override
@@ -155,6 +163,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         txtaddressOrder = (TextView) findViewById(R.id.addressOrder);
         txtnameOrder = (TextView) findViewById(R.id.nameOrder);
         txtphoneOrder = (TextView) findViewById(R.id.phoneOrder);
+        mAvatamini = (CircleImageView) findViewById(R.id.ic_avatar_mini);
         isPushDataDone = false;
     }
 
@@ -228,9 +237,12 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
             Toast.makeText(this, "Vui lòng cập nhập số điện thoại trước khi đặt hàng!", Toast.LENGTH_SHORT).show();
             showDialogUpdatePhone();
         } else {
+            // Dat hang thanh công
             tempdatabase.deleteAlldata();
             setUserRank();
-            Toast.makeText(this, "Mua hàng hành công!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Purchase.this, SuccessfulPurchase.class);
+            finish();
+            startActivity(intent);
         }
     }
 
@@ -330,9 +342,9 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         int numofStart;
         totalMonney = this.totalMonney += totalp;
         numofStart = (int) (Math.floor(totalMonney / 10000));
-        if (numofStart >= 0 && numofStart < 1000) {
+        if (numofStart >= 0 && numofStart < 900) {
             nameRank = "New member";
-        } else if (numofStart >= 1000 && numofStart < 3000) {
+        } else if (numofStart >= 900 && numofStart < 3000) {
             nameRank = "Gold";
         } else if (numofStart >= 3000) {
             nameRank = "Diamond";

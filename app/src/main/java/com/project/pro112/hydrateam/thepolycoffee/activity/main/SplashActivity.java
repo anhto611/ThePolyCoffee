@@ -13,7 +13,7 @@ import java.util.TimerTask;
 
 public class SplashActivity extends AppCompatActivity
 {
-    private static final long DELAY = 2000;
+    private static final long DELAY = 3000;
     private boolean scheduled = false;
     private Timer splashTimer;
 
@@ -35,18 +35,6 @@ public class SplashActivity extends AppCompatActivity
             }
         }, DELAY);
         scheduled = true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        overridePendingTransition(0,0);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        overridePendingTransition(0,0);
     }
 
     @Override
