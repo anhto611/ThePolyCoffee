@@ -1,4 +1,4 @@
-package com.project.pro112.hydrateam.thepolycoffee.userscreen;
+package com.project.pro112.hydrateam.thepolycoffee.activity.account_management;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.models.Object_UserProfile;
+import com.project.pro112.hydrateam.thepolycoffee.models.UserRank;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressPie;
@@ -131,8 +133,10 @@ public class SignUpScreen extends AppCompatActivity {
 
                                 String user_id = mAuth.getCurrentUser().getUid();
                                 DatabaseReference current_user_id = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
+                                DatabaseReference rank_user_id = FirebaseDatabase.getInstance().getReference().child("UserRank").child(user_id);
 
                                 Object_UserProfile object_userProfile;
+                                UserRank userRank;
 
                                 if (gender.equals("Male")) {
                                     object_userProfile = new Object_UserProfile(fullname, email, gender, "", "", LINK_AVT_DEFAULT_MALE);
@@ -141,6 +145,9 @@ public class SignUpScreen extends AppCompatActivity {
                                     object_userProfile = new Object_UserProfile(fullname, email, gender, "", "", LINK_AVT_DEFAULT_FEMALE);
                                     current_user_id.setValue(object_userProfile);
                                 }
+                                userRank = new UserRank(0, 0, "New menber");
+                                rank_user_id.setValue(userRank);
+
                                 //Chuyen Du Lieu Vua Dang Ky Sang LoginScreen:
                                 Intent putEmailAndPass = new Intent(SignUpScreen.this, LoginScreen.class);
                                 putEmailAndPass.putExtra("email", email);
