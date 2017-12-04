@@ -47,9 +47,6 @@ import java.util.regex.Pattern;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
-    private AdapterNewsHome adapterNewsHome;
-    private ArrayList<ArticleNews> listNews;
-
     RecyclerView recyclerViewNews;
     LinearLayoutManager layoutManager;
     ProgressBar progressLoadNews;
@@ -60,15 +57,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     TextView rankUser;
     TextView pointUser;
     ProgressBar progressRank;
-
+    String nameRank = null;
+    double totalMonney = 0;
+    int numofStart = 0;
+    private AdapterNewsHome adapterNewsHome;
+    private ArrayList<ArticleNews> listNews;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference mReference;
     private String user_id;
-
-    String nameRank = null;
-    double totalMonney = 0;
-    int numofStart = 0;
 
     public HomeFragment() {
     }
@@ -156,6 +153,43 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    // Doc noi dung RSS
+    private String docNoiDung(String theUrl) {
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            URL url = new URL(theUrl);
+
+            URLConnection urlConnection = url.openConnection();
+            HttpURLConnection httpConnection = (HttpURLConnection) urlConnection;
+            httpConnection.setConnectTimeout(10 * 1000);
+
+            int responseCode = httpConnection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                String line;
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(line + "\n");
+                }
+                bufferedReader.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.clickMembership:
+                Intent intent = new Intent(getActivity(), MembershipProgram.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
     class MyTask extends AsyncTask<String, Integer, String> {
 
         Context context;
@@ -213,43 +247,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             progressLoadNews.setVisibility(View.INVISIBLE);
             super.onPostExecute(s);
-        }
-    }
-
-    // Doc noi dung RSS
-    private String docNoiDung(String theUrl) {
-        StringBuilder stringBuilder = new StringBuilder();
-        try {
-            URL url = new URL(theUrl);
-
-            URLConnection urlConnection = url.openConnection();
-            HttpURLConnection httpConnection = (HttpURLConnection) urlConnection;
-            httpConnection.setConnectTimeout(10 * 1000);
-
-            int responseCode = httpConnection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
-                String line;
-
-                while ((line = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(line + "\n");
-                }
-                bufferedReader.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return stringBuilder.toString();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.clickMembership:
-                Intent intent = new Intent(getActivity(), MembershipProgram.class);
-                startActivity(intent);
-                break;
         }
     }
 }
