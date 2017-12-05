@@ -257,7 +257,7 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
     }
 
     private void bindSetData(final ViewHolder holder, final int position) {
-        if(getUserId().equals(context.getResources().getString(R.string.idadmin))){
+        if(getUserId().equals(context.getResources().getString(R.string.idadmin))){ 
             if (holder.btnPlus.getVisibility() == View.VISIBLE) {
                 holder.btnPlus.setVisibility(View.INVISIBLE);
                 holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
