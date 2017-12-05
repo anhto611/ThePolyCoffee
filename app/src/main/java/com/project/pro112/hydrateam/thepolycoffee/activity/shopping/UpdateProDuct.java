@@ -23,6 +23,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.models.Food;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -195,9 +196,18 @@ public class UpdateProDuct extends AppCompatActivity implements View.OnClickList
                         //Lấy link Avatar Từ Storage:
                         linkImg = String.valueOf(taskSnapshot.getDownloadUrl());
                         //KHI THAY DOI AVATAR LAP TUC THAY DOI DAI DIEN:
-                        Picasso.with(UpdateProDuct.this).load(linkImg).into(foodImg);
-                        foodImg.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.INVISIBLE);
+                        Picasso.with(UpdateProDuct.this).load(linkImg).into(foodImg, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                foodImg.setVisibility(View.VISIBLE);
+                                progressBar.setVisibility(View.INVISIBLE);
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
                     }
                 });
 

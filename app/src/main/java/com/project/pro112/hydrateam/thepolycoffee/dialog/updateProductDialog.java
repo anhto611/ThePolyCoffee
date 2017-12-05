@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
 
@@ -22,6 +23,7 @@ public class updateProductDialog extends Dialog implements View.OnClickListener{
     public Button update, btnAdd,cancel;
     public TextInputEditText pName,pPrice,pDes;
     public ImageView foodImg;
+    public ProgressBar progressBar;
     public updateProductDialog(@NonNull Activity context, int themeResId) {
         super(context, themeResId);
         this.c = context;
@@ -44,6 +46,7 @@ public class updateProductDialog extends Dialog implements View.OnClickListener{
         pPrice = (TextInputEditText) findViewById(R.id.pPrice);
         pDes = (TextInputEditText) findViewById(R.id.pDes);
         foodImg = findViewById(R.id.foodImg);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
     }
 
     @Override

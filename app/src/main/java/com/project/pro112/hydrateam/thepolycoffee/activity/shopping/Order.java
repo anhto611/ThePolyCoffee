@@ -37,6 +37,7 @@ import com.project.pro112.hydrateam.thepolycoffee.dialog.updateProductDialog;
 import com.project.pro112.hydrateam.thepolycoffee.models.Food;
 import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
 import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -59,6 +60,7 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
     private ImageView foodImg;
     Uri imageHoldUri = null;
     private String linkImg = "";
+    final updateProductDialog updateProDuctDialog = null;
     private int currentPage;
     private Activity activity;
     String hinh[] = {"https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FChilly%20juice.jpg?alt=media&token=3a0f2533-2e9c-4d18-9ce2-92969b02ff76"
@@ -169,7 +171,6 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
 
     private void initView() {
         activity = Order.this;
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         linearButtonViewCart = (LinearLayout) findViewById(R.id.btnViewCart);
@@ -221,6 +222,7 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
         updateProDuctDialog.show();
         updateProDuctDialog.update.setVisibility(View.GONE);
         foodImg = updateProDuctDialog.foodImg;
+        progressBar = updateProDuctDialog.progressBar;
         //cancel dialog
         updateProDuctDialog.cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -403,11 +405,11 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                foodImg.setVisibility(View.INVISIBLE);
-                progressBar.setVisibility(View.VISIBLE);
                 imageHoldUri = result.getUri();
 //                foodImg.setImageURI(imageHoldUri);
                 //Submit Image:
+                foodImg.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
                 StorageReference mStorageRef;
                 mStorageRef = FirebaseStorage.getInstance().getReference();
                 String local = "";
@@ -425,10 +427,18 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
                         //Lấy link Avatar Từ Storage:
                         linkImg = String.valueOf(taskSnapshot.getDownloadUrl());
                         //KHI THAY DOI AVATAR LAP TUC THAY DOI DAI DIEN:
-                        Picasso.with(Order.this).load(linkImg).into(foodImg);
-                        foodImg.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.INVISIBLE);
+                        Picasso.with(Order.this).load(linkImg).into(foodImg, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                foodImg.setVisibility(View.VISIBLE);
+                                progressBar.setVisibility(View.INVISIBLE);
+                            }
 
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
                     }
                 });
 
