@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.pro112.hydrateam.thepolycoffee.R;
@@ -29,7 +30,7 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
     private android.support.v4.app.FragmentManager fragmentManager;
     private NestedScrollView scrollView;
 
-    private TextView tvCartisEmpty;
+    private ImageView cartisEmpty;
 
 
     @Override
@@ -93,7 +94,7 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
     //init
     private void initView() {
         btnDelivery = (Button) findViewById(R.id.btnS);
-        tvCartisEmpty = (TextView) findViewById(R.id.showCartisEmpty);
+        cartisEmpty = (ImageView) findViewById(R.id.showCartisEmpty);
         btnDelivery.setOnClickListener(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
         mRecyclerView2 = (RecyclerView) findViewById(R.id.mRecyclerView2);
@@ -146,8 +147,8 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
         tempdatabase tempdatabase = new tempdatabase(Cart.this);
         ArrayList<OrderedFood> orderedFoods =  tempdatabase.getOrderedFoods();
         if(orderedFoods.size()==0){
-            tvCartisEmpty.setVisibility(View.VISIBLE);
-            btnDelivery.setText("Back to Order");
+            cartisEmpty.setVisibility(View.VISIBLE);
+            btnDelivery.setText("Continue purchase");
             btnDelivery.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -155,7 +156,7 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
                 }
             });
         } else {
-            tvCartisEmpty.setVisibility(View.INVISIBLE);
+            cartisEmpty.setVisibility(View.INVISIBLE);
             btnDelivery.setText("Delivery and purchase");
         }
     }

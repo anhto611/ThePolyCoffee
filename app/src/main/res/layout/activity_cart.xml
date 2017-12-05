@@ -22,6 +22,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <android.support.v4.widget.NestedScrollView
                 android:id="@+id/scrollView"
                 android:layout_width="match_parent"
@@ -48,31 +49,30 @@
                         android:layout_marginBottom="10dp" />
                 </LinearLayout>
             </android.support.v4.widget.NestedScrollView>
-            <TextView
+
+            <ImageView
                 android:id="@+id/showCartisEmpty"
-                android:visibility="invisible"
-                android:background="@color/backgroundlayout_shopping"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Cart is empty!"
-                android:gravity="center"
-                android:textSize="24sp"/>
+                android:background="@android:color/white"
+                android:src="@drawable/empty_cart"
+                android:visibility="visible"
+                android:paddingBottom="100dp"/>
         </FrameLayout>
 
 
     </LinearLayout>
 
 
-
     <Button
         android:id="@+id/btnS"
-        android:text="View cart"
-        android:background="@drawable/background_for_button"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:background="@drawable/background_for_button"
+        android:text="View cart"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 </FrameLayout>

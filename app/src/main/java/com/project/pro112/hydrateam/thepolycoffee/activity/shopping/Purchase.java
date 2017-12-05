@@ -128,7 +128,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
                 UserRank userRank = dataSnapshot.getValue(UserRank.class);
                 nameRank = userRank.getNameRank();
                 totalMonney = userRank.getTotalMoney();
-                numofStart = userRank.getNumOfSrart();
+                numofStart = userRank.getNumOfStart();
             }
 
             @Override

@@ -123,7 +123,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserRank userRank = dataSnapshot.getValue(UserRank.class);
                 nameRank = userRank.getNameRank();
-                numofStart = userRank.getNumOfSrart();
+                numofStart = userRank.getNumOfStart();
 
                 rankUser.setText(nameRank);
                 pointUser.setText(String.valueOf(numofStart));

@@ -215,110 +215,40 @@ public class ShoppingFragment extends Fragment implements OnMapReadyCallback, Go
     @SuppressLint("MissingPermission")
     public void getAddress() {
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-            LatLng myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            CameraPosition cameraPosition = new CameraPosition.Builder().target(
-                    myLatLng)                   // Sets the center of the map to Mountain View
-                    .zoom(15)                   // Sets the zoom
-                    .bearing(0)                // Sets the orientation of the camera to east
-                    .tilt(0)                   // Sets the tilt of the camera
-                    .build();
-            if (marker != null) marker.remove();
-            try {
+            if (location == null) {
+                Toast.makeText(getActivity(), "Your location can not be determined!", Toast.LENGTH_SHORT).show();
+            } else {
                 //Get latitude and longitude
                 lati = location.getLatitude();
                 longi = location.getLongitude();
-                List<Address> addressList = geocoder.getFromLocation(lati, longi, 1);
+                LatLng myLatLng = new LatLng(lati, longi);
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                        myLatLng)                   // Sets the center of the map to Mountain View
+                        .zoom(15)                   // Sets the zoom
+                        .bearing(0)                // Sets the orientation of the camera to east
+                        .tilt(0)                   // Sets the tilt of the camera
+                        .build();
+                if (marker != null) marker.remove();
 
-                //Get Address
-                address = addressList.get(0).getAddressLine(0);
-                marker = map.addMarker(new MarkerOptions().position(myLatLng).title(address));
-                map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                btnChooseAddress.setText(R.string.shopping_order);
-                setEventButton();
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    //Get latitude and longitude
+                    List<Address> addressList = geocoder.getFromLocation(lati, longi, 1);
+                    //Get Address
+                    address = addressList.get(0).getAddressLine(0);
+                    marker = map.addMarker(new MarkerOptions().position(myLatLng).title(address));
+                    map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    btnChooseAddress.setText(R.string.shopping_order);
+                    setEventButton();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                btnSearchLocation.setText(address);
             }
-            btnSearchLocation.setText(address);
-        }else {
+        } else {
             Toast.makeText(getActivity(), "GPS not Enable!", Toast.LENGTH_SHORT).show();
         }
-//        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-//
-//        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 10, new LocationListener() {
-//                @Override
-//                public void onLocationChanged(AddressLocation location) {
-//                    double latitude = location.getLatitude();
-//                    double longitude = location.getLongitude();
-//                    LatLng latLng = new LatLng(latitude, longitude);
-//                    try {
-//                        List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
-//                        //Get Address
-//                        String address = addressList.get(0).getAddressLine(0);
-//                        marker = map.addMarker(new MarkerOptions().position(latLng).title(address));
-//                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-//                        progressBarLoadMarker.setVisibility(View.INVISIBLE);
-//                        btnChooseAddress.setText(R.string.shopping_order);
-//                        setEventButton();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                @Override
-//                public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//                }
-//
-//                @Override
-//                public void onProviderEnabled(String provider) {
-//
-//                }
-//
-//                @Override
-//                public void onProviderDisabled(String provider) {
-//
-//                }
-//            });
-//        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, new LocationListener() {
-//                @Override
-//                public void onLocationChanged(AddressLocation location) {
-//                    double latitude = location.getLatitude();
-//                    double longitude = location.getLongitude();
-//                    LatLng latLng = new LatLng(latitude, longitude);
-//                    try {
-//                        List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
-//                        //Get Address
-//                        String address = addressList.get(0).getAddressLine(0);
-//                        marker = map.addMarker(new MarkerOptions().position(latLng).title(address));
-//                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-//                        progressBarLoadMarker.setVisibility(View.INVISIBLE);
-//                        btnChooseAddress.setText(R.string.shopping_order);
-//                        setEventButton();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                @Override
-//                public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//                }
-//
-//                @Override
-//                public void onProviderEnabled(String provider) {
-//
-//                }
-//
-//                @Override
-//                public void onProviderDisabled(String provider) {
-//
-//                }
-//            });
-//        }
     }
 
     private void setEventButton() {

@@ -6,12 +6,12 @@ package com.project.pro112.hydrateam.thepolycoffee.models;
 
 public class UserRank {
     private double totalMoney;
-    private int numOfSrart;
+    private int numOfStart;
     private String nameRank;
 
-    public UserRank(double totalMoney, int numOfSrart, String nameRank) {
+    public UserRank(double totalMoney, int numOfStart, String nameRank) {
         this.totalMoney = totalMoney;
-        this.numOfSrart = numOfSrart;
+        this.numOfStart = numOfStart;
         this.nameRank = nameRank;
     }
 
@@ -26,12 +26,12 @@ public class UserRank {
         this.totalMoney = totalMoney;
     }
 
-    public int getNumOfSrart() {
-        return numOfSrart;
+    public int getNumOfStart() {
+        return numOfStart;
     }
 
-    public void setNumOfSrart(int numOfSrart) {
-        this.numOfSrart = numOfSrart;
+    public void setNumOfStart(int numOfStart) {
+        this.numOfStart = numOfStart;
     }
 
     public String getNameRank() {
