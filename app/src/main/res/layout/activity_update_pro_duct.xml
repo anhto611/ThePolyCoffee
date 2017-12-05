@@ -4,17 +4,34 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_cardview_drinks_and_cakes"
     android:padding="10dp">
+    <FrameLayout
+        android:id="@+id/foodImg1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/foodImg"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/douong">
+        </ImageView>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:visibility="invisible" />
+    </FrameLayout>
 
-    <ImageView
-        android:id="@+id/foodImg"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/douong" />
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/pName"
@@ -23,7 +40,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/background_cardview_drinks_and_cakes"
-        android:layout_toRightOf="@+id/foodImg"
+        android:layout_toRightOf="@+id/foodImg1"
         android:hint="Product's name"
         android:lines="2"/>
 
@@ -34,7 +51,7 @@
         android:background="@drawable/background_cardview_drinks_and_cakes"
         android:id="@+id/pPrice"
         android:layout_below="@+id/pName"
-        android:layout_toRightOf="@id/foodImg"
+        android:layout_toRightOf="@id/foodImg1"
         android:hint="Product's price"
         android:inputType="number"
         android:lines="2"/>

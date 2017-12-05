@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,6 +33,7 @@ public class UpdateProDuct extends AppCompatActivity implements View.OnClickList
     public ImageView foodImg;
     private static final int REQUEST_CAMERA = 3;
     private static final int SELECT_FILE = 2;
+    public ProgressBar progressBar;
     Uri imageHoldUri = null;
     Intent intent;
     private String linkImg = "";
@@ -45,6 +47,7 @@ public class UpdateProDuct extends AppCompatActivity implements View.OnClickList
 
     private void innitView() {
         intent = getIntent();
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         update = (Button) findViewById(R.id.btnUpdate);
         pName = (TextInputEditText) findViewById(R.id.pName);
         pName.setHint(intent.getStringExtra("name"));
@@ -176,9 +179,10 @@ public class UpdateProDuct extends AppCompatActivity implements View.OnClickList
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
+                foodImg.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
                 imageHoldUri = result.getUri();
-                foodImg.setImageURI(imageHoldUri);
-
+//                foodImg.setImageURI(imageHoldUri);
                 //Submit Image:
                 StorageReference mStorageRef;
                 mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -191,8 +195,9 @@ public class UpdateProDuct extends AppCompatActivity implements View.OnClickList
                         //Lấy link Avatar Từ Storage:
                         linkImg = String.valueOf(taskSnapshot.getDownloadUrl());
                         //KHI THAY DOI AVATAR LAP TUC THAY DOI DAI DIEN:
-//                        Picasso.with(Order.this).load(linkImg).into(foodImg);
-                        Toast.makeText(UpdateProDuct.this, "Set Img Successfully", Toast.LENGTH_SHORT).show();
+                        Picasso.with(UpdateProDuct.this).load(linkImg).into(foodImg);
+                        foodImg.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
 
