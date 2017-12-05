@@ -3,6 +3,7 @@ package com.project.pro112.hydrateam.thepolycoffee.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,13 +52,17 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
         return view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     private void setUpRecyclerView() {
         // không đổi size của card trong content
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         // chọn adapter
-
         foods = new ArrayList<>();
         // get data from firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -67,12 +72,14 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                foods = new ArrayList<>();
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                     String name = (String) messageSnapshot.child("name").getValue();
                     String des = (String) messageSnapshot.child("discription").getValue();
                     String image = (String) messageSnapshot.child("image").getValue();
                     String price = (String) messageSnapshot.child("price").getValue();
-                    Food food = new Food(des, image, name, price);
+                    String keyNe = (String) messageSnapshot.getKey();
+                    Food food = new Food(des, image, name, price,keyNe);
                     foods.add(food);
                 }
                 RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(), fragmentManager, true, foods);
@@ -86,6 +93,15 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(), fragmentManager, false, foods);
+        if(mAdapter!=null) {
+            mRecyclerView.setAdapter(mAdapter);
+        }
     }
 
     private void hideButtonViewCart() {
@@ -102,7 +118,6 @@ public class Cakes extends Fragment implements CheckButtonViewCartToHideOrShow {
             }
         });
     }
-
     @Override
     public int getPosition() {
         return mLayoutManager.findLastCompletelyVisibleItemPosition();

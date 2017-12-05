@@ -9,16 +9,32 @@ public class Food {
             image,
             name,
             price;
+    private String keyNe;
 
     public Food() {
     }
-
 
     public Food(String discription, String image, String name, String price) {
         this.discription = discription;
         this.image = image;
         this.name = name;
         this.price = price;
+    }
+
+    public String getKeyNe() {
+        return keyNe;
+    }
+
+    public void setKeyNe(String keyNe) {
+        this.keyNe = keyNe;
+    }
+
+    public Food(String discription, String image, String name, String price, String keyNe) {
+        this.discription = discription;
+        this.image = image;
+        this.name = name;
+        this.price = price;
+        this.keyNe = keyNe;
     }
 
     public String getDiscription() {

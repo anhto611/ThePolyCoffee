@@ -60,6 +60,16 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow 
         super.onCreate(savedInstanceState);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(), fragmentManager, false, foods);
+        if(mAdapter!=null) {
+            mRecyclerView.setAdapter(mAdapter);
+        }
+    }
+
     private void setUpRecyclerView() {
         // không đổi size của card trong content
         mRecyclerView.setHasFixedSize(true);
@@ -70,16 +80,17 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef;
         myRef = database.getReference("Foods/Drinks");
-
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                foods = new ArrayList<>();
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                     String name = (String) messageSnapshot.child("name").getValue();
                     String des = (String) messageSnapshot.child("discription").getValue();
                     String image = (String) messageSnapshot.child("image").getValue();
                     String price = (String) messageSnapshot.child("price").getValue();
-                    Food food = new Food(des, image, name, price);
+                    String keyNe = (String) messageSnapshot.getKey();
+                    Food food = new Food(des, image, name, price,keyNe);
                     foods.add(food);
                 }
                 RecyclerViewAdapterDrinksandCakes mAdapter = new RecyclerViewAdapterDrinksandCakes(getContext(), fragmentManager, false, foods);
@@ -94,7 +105,6 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow 
             }
         });
     }
-
 
     private void hideButtonViewCartDrinks() {
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -116,3 +126,4 @@ public class Drinks extends Fragment implements CheckButtonViewCartToHideOrShow 
         return mLayoutManager.findLastCompletelyVisibleItemPosition();
     }
 }
+

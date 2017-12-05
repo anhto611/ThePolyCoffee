@@ -2,6 +2,7 @@ package com.project.pro112.hydrateam.thepolycoffee.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
@@ -52,24 +53,36 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
         return view;
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        RecyclerViewAdapterPolularDish mAdapter = new RecyclerViewAdapterPolularDish(getContext(), fragmentManager, foods);
+        if(mAdapter!=null) {
+            mRecyclerView.setAdapter(mAdapter);
+        }
+    }
+
     private void setUpRecyclerView() {
         // không đổi size của card trong content
+        foods = new ArrayList<>();
         mLayoutManager = new GridLayoutManager(getContext(),numberOfColums);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
-        foods = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef;
         myRef = database.getReference("Foods/Popular");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                foods = new ArrayList<>();
                 for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                     String name = (String) messageSnapshot.child("name").getValue();
                     String des = (String) messageSnapshot.child("discription").getValue();
                     String image = (String) messageSnapshot.child("image").getValue();
                     String price = (String) messageSnapshot.child("price").getValue();
-                    Food food = new Food(des, image, name, price);
+                    String keyNe = (String) messageSnapshot.getKey();
+                    Food food = new Food(des, image, name, price,keyNe);
                     foods.add(food);
                 }
                 RecyclerViewAdapterPolularDish mAdapter = new RecyclerViewAdapterPolularDish(getContext(), fragmentManager, foods);
@@ -110,7 +123,10 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
         return mLayoutManager.findLastCompletelyVisibleItemPosition();
     }
 
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
 
 }

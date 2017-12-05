@@ -1,7 +1,9 @@
 package com.project.pro112.hydrateam.thepolycoffee.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.dialog.alert_dialog;
 import com.project.pro112.hydrateam.thepolycoffee.models.Food;
 import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
 import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
@@ -34,6 +44,7 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
     private LayoutInflater inflater;
     private boolean isCake;
     private ArrayList<Food> foods;
+    DecimalFormat formatter = new DecimalFormat("#.#");
 
     public RecyclerViewAdapterDrinksandCakes(Context context, FragmentManager fragmentManager, boolean isCake, ArrayList<Food> foods) {
         this.context = context;
@@ -46,6 +57,7 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
         public ImageView btnPlus, btnSub, foodImg;
         public TextView tvSl, foodPri, foodName, foodDes;
         public ProgressBar progressBar;
+        public CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -57,6 +69,7 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
             foodDes = itemView.findViewById(R.id.foodDes);
             foodImg = itemView.findViewById(R.id.foodImg);
             progressBar = itemView.findViewById(R.id.progressBar);
+            cardView = itemView.findViewById(R.id.card_view);
         }
     }
 
@@ -231,10 +244,41 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
     }
 
     //set data
-    private void bindSetData(final RecyclerViewAdapterDrinksandCakes.ViewHolder holder, int position) {
+    private void bindSetData(final RecyclerViewAdapterDrinksandCakes.ViewHolder holder, final int position) {
+        if(getUserId().equals(context.getResources().getString(R.string.idadmin))){
+            if (holder.btnPlus.getVisibility() == View.VISIBLE) {
+                holder.btnPlus.setVisibility(View.INVISIBLE);
+                holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        //Hien dialog canh bao
+                        final alert_dialog alert_dialog = new alert_dialog((Activity)context);
+                        alert_dialog.show();
+                        alert_dialog.no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alert_dialog.dismiss();
+                            }
+                        });
+                        alert_dialog.yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //delete User if dialog ok
+                                deleteProduct(holder, position);
+                                alert_dialog.dismiss();
+                            }
+                        });
+                        return false;
+                    }
+                });
+            }
+        }
+
+
+
         holder.foodName.setText(foods.get(position).getName());
         holder.foodDes.setText(foods.get(position).getDiscription());
-        holder.foodPri.setText(foods.get(position).getPrice() + "đ");
+        holder.foodPri.setText(formatter.format(Double.parseDouble(foods.get(position).getPrice())) + "đ");
         holder.progressBar.setVisibility(View.VISIBLE);
         Picasso.with(context).load(foods.get(position).getImage()).into(holder.foodImg, new Callback() {
             @Override
@@ -266,10 +310,45 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
         }
     }
 
+    private void deleteProduct(ViewHolder holder, int position) {
+        // viết hàm xóa ở đây
+        String name  = "";
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        if(isCake){
+            name = "Cakes";
+        }else{
+            name = "Drinks";
+        }
+        DatabaseReference myRef = database.getReference("Foods").child(name+"").child(""+foods.get(position).getKeyNe());
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dataSnapshot.getRef().removeValue();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     @Override
     public int getItemCount() {
         return (foods.size());
     }
 
+    private String getUserId() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid;
+        if (user != null) {
+            // User is signed in
+            uid = user.getUid();
+        } else {
+            // No user is signed in
+            uid = null;
+        }
+        return "" + uid;
+    }
 
 }

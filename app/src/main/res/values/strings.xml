@@ -32,7 +32,10 @@
     <string name="purchase_btn_update">Update</string>
     <string name="home_rank">Rank</string>
     <string name="shopping_tv_search">Choose your address!</string>
+    <string name="idadmin">NzvyGNkPilTCTgmKZHVaXLHVmAH2</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />
+
+
 </resources>

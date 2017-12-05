@@ -1,7 +1,9 @@
 package com.project.pro112.hydrateam.thepolycoffee.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.dialog.alert_dialog;
 import com.project.pro112.hydrateam.thepolycoffee.models.Food;
 import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
 import com.project.pro112.hydrateam.thepolycoffee.tempdatabase.tempdatabase;
@@ -32,20 +42,24 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
     private Context context;
     private FragmentManager fragmentManager;
     private LayoutInflater inflater;
+    RecyclerViewAdapterPolularDish adapter;
+    DecimalFormat formatter = new DecimalFormat("#.#");
     private ArrayList<Food> foods;
 
     public RecyclerViewAdapterPolularDish(Context context, FragmentManager fragmentManager, ArrayList<Food> foods) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.foods = foods;
+        adapter = this;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView btnPlus, btnSub;
         public TextView tvSl, foodPri;
         public ImageView foodImg;
         public TextView foodName, foodDes;
         public ProgressBar progressBar;
+        public CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -57,7 +71,9 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
             foodDes = itemView.findViewById(R.id.foodDes);
             foodImg = itemView.findViewById(R.id.foodImg);
             progressBar = itemView.findViewById(R.id.progressBar);
+            cardView = itemView.findViewById(R.id.card_view);
         }
+
     }
 
     @Override
@@ -85,10 +101,10 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
                 bindBtnSubClick(holder, position);
             }
         });
-
     }
 
     private void bindBtnSubClick(ViewHolder holder, int position) {
+
         //get data từ data tạm
         tempdatabase tempdatabase = new tempdatabase(context);
         // lấy đc data các món người dùng đã chọn
@@ -232,39 +248,85 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
 
     }
 
-    private void bindSetData(final ViewHolder holder, int position) {
-        holder.foodName.setText(foods.get(position).getName());
-        holder.foodDes.setText(foods.get(position).getDiscription());
-        holder.foodPri.setText(foods.get(position).getPrice() + "đ");
-        holder.progressBar.setVisibility(View.VISIBLE);
-        Picasso.with(context).load(foods.get(position).getImage()).into(holder.foodImg, new Callback() {
+    private void bindSetData(final ViewHolder holder, final int position) {
+        if(getUserId().equals(context.getResources().getString(R.string.idadmin))){
+            if (holder.btnPlus.getVisibility() == View.VISIBLE) {
+                holder.btnPlus.setVisibility(View.INVISIBLE);
+                holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+                   @Override
+                   public boolean onLongClick(View v) {
+                       //Hien dialog canh bao
+                       final alert_dialog alert_dialog = new alert_dialog((Activity)context);
+                       alert_dialog.show();
+                       alert_dialog.no.setOnClickListener(new View.OnClickListener() {
+                           @Override
+                           public void onClick(View v) {
+                               alert_dialog.dismiss();
+                           }
+                       });
+                       alert_dialog.yes.setOnClickListener(new View.OnClickListener() {
+                           @Override
+                           public void onClick(View v) {
+                               //delete User if dialog ok
+                               deleteProduct(holder, position);
+                               alert_dialog.dismiss();
+                           }
+                       });
+                       return false;
+                   }
+               });
+            }
+        }
+
+            holder.foodName.setText(foods.get(position).getName());
+            holder.foodDes.setText(foods.get(position).getDiscription());
+            holder.foodPri.setText(formatter.format(Double.parseDouble(foods.get(position).getPrice())) + "đ");
+            holder.progressBar.setVisibility(View.VISIBLE);
+            Picasso.with(context).load(foods.get(position).getImage()).into(holder.foodImg, new Callback() {
+                @Override
+                public void onSuccess() {
+                    if (holder.progressBar.getVisibility() == View.VISIBLE)
+                        holder.progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
+            //set lại data ordered
+            tempdatabase tempdatabase = new tempdatabase(context);
+            // lấy đc data các món người dùng đã chọn
+            ArrayList<OrderedFood> orderedFoods = tempdatabase.getOrderedFoods();
+            // tiến hành lôi data ra và set lại tvsl và sub button
+            for (int i = 0; i < orderedFoods.size(); i++) {
+                if (holder.foodName.getText().equals(orderedFoods.get(i).getName())) {
+                    holder.tvSl.setText(String.valueOf(orderedFoods.get(i).getAmount()));
+                    if (holder.tvSl.getVisibility() == View.INVISIBLE)
+                        holder.tvSl.setVisibility(View.VISIBLE);
+                    if (holder.btnSub.getVisibility() == View.INVISIBLE)
+                        holder.btnSub.setVisibility(View.VISIBLE);
+                } else {
+
+                }
+            }
+    }
+
+    private void deleteProduct(ViewHolder holder, final int position) {
+        // viết hàm xóa ở đây
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Foods").child("Popular").child(""+foods.get(position).getKeyNe());
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onSuccess() {
-                if (holder.progressBar.getVisibility() == View.VISIBLE)
-                    holder.progressBar.setVisibility(View.GONE);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dataSnapshot.getRef().removeValue();
             }
 
             @Override
-            public void onError() {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-        //set lại data ordered
-        tempdatabase tempdatabase = new tempdatabase(context);
-        // lấy đc data các món người dùng đã chọn
-        ArrayList<OrderedFood> orderedFoods = tempdatabase.getOrderedFoods();
-        // tiến hành lôi data ra và set lại tvsl và sub button
-        for (int i = 0; i < orderedFoods.size(); i++) {
-            if (holder.foodName.getText().equals(orderedFoods.get(i).getName())) {
-                holder.tvSl.setText(String.valueOf(orderedFoods.get(i).getAmount()));
-                if (holder.tvSl.getVisibility() == View.INVISIBLE)
-                    holder.tvSl.setVisibility(View.VISIBLE);
-                if (holder.btnSub.getVisibility() == View.INVISIBLE)
-                    holder.btnSub.setVisibility(View.VISIBLE);
-            } else {
-
-            }
-        }
     }
 
     @Override
@@ -272,5 +334,17 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
         return foods.size();
     }
 
+    private String getUserId() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid;
+        if (user != null) {
+            // User is signed in
+            uid = user.getUid();
+        } else {
+            // No user is signed in
+            uid = null;
+        }
+        return "" + uid;
+    }
 
 }
