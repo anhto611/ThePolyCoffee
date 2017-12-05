@@ -55,8 +55,8 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
     private static final int SELECT_FILE = 2;
     private ImageView foodImg;
     Uri imageHoldUri = null;
-    private int currentPage;
     private String linkImg = "";
+    private int currentPage;
     private Activity activity;
     String hinh[] = {"https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FChilly%20juice.jpg?alt=media&token=3a0f2533-2e9c-4d18-9ce2-92969b02ff76"
             , "https://firebasestorage.googleapis.com/v0/b/the-poly-coffe.appspot.com/o/populars%2FChocolate%20cup.jpg?alt=media&token=8fce5e19-0d1e-41a0-a6ca-deae1a5a1b65",
@@ -332,7 +332,7 @@ public class Order extends AppCompatActivity implements ViewPager.OnPageChangeLi
     }
 
     //Code click vao TextView Edit Photo:
-    private void profilePicSelection() {
+    public void profilePicSelection() {
         //DISPLAY DIALOG TO CHOOSE CAMERA OR GALLERY
         final CharSequence[] items = {"Take Photo", "Choose from Library",
                 "Cancel"};

@@ -2,6 +2,8 @@ package com.project.pro112.hydrateam.thepolycoffee.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.activity.shopping.UpdateProDuct;
 import com.project.pro112.hydrateam.thepolycoffee.dialog.alert_dialog;
 import com.project.pro112.hydrateam.thepolycoffee.models.Food;
 import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
@@ -45,6 +48,11 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
     RecyclerViewAdapterPolularDish adapter;
     DecimalFormat formatter = new DecimalFormat("#.#");
     private ArrayList<Food> foods;
+    private ImageView foodImg;
+    Uri imageHoldUri = null;
+    private static final int REQUEST_CAMERA = 3;
+    private static final int SELECT_FILE = 2;
+    private String linkImg = "";
 
     public RecyclerViewAdapterPolularDish(Context context, FragmentManager fragmentManager, ArrayList<Food> foods) {
         this.context = context;
@@ -275,9 +283,14 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
                        return false;
                    }
                });
+                holder.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        updateProduct(holder,position);
+                    }
+                });
             }
         }
-
             holder.foodName.setText(foods.get(position).getName());
             holder.foodDes.setText(foods.get(position).getDiscription());
             holder.foodPri.setText(formatter.format(Double.parseDouble(foods.get(position).getPrice())) + "đ");
@@ -310,6 +323,19 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
 
                 }
             }
+    }
+
+    private void updateProduct(ViewHolder holder, final int position) {
+        Intent intent = new Intent(((Activity) context), UpdateProDuct.class);
+        intent.putExtra("position", position);
+        intent.putExtra("key",foods.get(position).getKeyNe());
+        intent.putExtra("name", foods.get(position).getName());
+        intent.putExtra("image", foods.get(position).getImage());
+        intent.putExtra("des", foods.get(position).getDiscription());
+        intent.putExtra("price", foods.get(position).getPrice());
+        intent.putExtra("type", "populars");
+        intent.putExtra("typeN", "Popular");
+        ((Activity)context).startActivity(intent);
     }
 
     private void deleteProduct(ViewHolder holder, final int position) {
@@ -346,5 +372,4 @@ public class RecyclerViewAdapterPolularDish extends RecyclerView.Adapter<Recycle
         }
         return "" + uid;
     }
-
 }

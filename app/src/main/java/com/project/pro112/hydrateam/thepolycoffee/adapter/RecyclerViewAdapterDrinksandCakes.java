@@ -2,6 +2,7 @@ package com.project.pro112.hydrateam.thepolycoffee.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.activity.shopping.UpdateProDuct;
 import com.project.pro112.hydrateam.thepolycoffee.dialog.alert_dialog;
 import com.project.pro112.hydrateam.thepolycoffee.models.Food;
 import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFood;
@@ -272,6 +274,12 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
                     }
                 });
             }
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    updateProduct(holder,position);
+                }
+            });
         }
 
 
@@ -308,6 +316,24 @@ public class RecyclerViewAdapterDrinksandCakes extends RecyclerView.Adapter<Recy
 
             }
         }
+    }
+
+    private void updateProduct(ViewHolder holder, int position) {
+        Intent intent = new Intent(((Activity) context), UpdateProDuct.class);
+        intent.putExtra("position", position);
+        intent.putExtra("key",foods.get(position).getKeyNe());
+        intent.putExtra("name", foods.get(position).getName());
+        intent.putExtra("image", foods.get(position).getImage());
+        intent.putExtra("des", foods.get(position).getDiscription());
+        intent.putExtra("price", foods.get(position).getPrice());
+        if(isCake) {
+            intent.putExtra("type", "cakes");
+            intent.putExtra("typeN", "Cakes");
+        }else{
+            intent.putExtra("type", "drinks");
+            intent.putExtra("typeN", "Drinks");
+        }
+        ((Activity)context).startActivity(intent);
     }
 
     private void deleteProduct(ViewHolder holder, int position) {
