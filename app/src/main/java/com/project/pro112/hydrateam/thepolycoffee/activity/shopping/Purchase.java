@@ -230,7 +230,6 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         tempdatabase tempdatabase = new tempdatabase(getBaseContext());
-        PushDataToFireBase();
         if (isPushDataDone && tempdatabase.getOrderedFoods().size() == 0) {
             Toast.makeText(this, "Đã xảy ra lỗi, mua hàng thất bại!", Toast.LENGTH_SHORT).show();
         } else if (phoneUser.equals("")) {
@@ -238,6 +237,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
             showDialogUpdatePhone();
         } else {
             // Dat hang thanh công
+            PushDataToFireBase();
             tempdatabase.deleteAlldata();
             setUserRank();
             Intent intent = new Intent(Purchase.this, SuccessfulPurchase.class);
