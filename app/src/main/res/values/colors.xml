@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#b25542</color>
-    <color name="colorPrimaryDark">#b25542</color>
-    <color name="colorAccent">#2e150f</color>
+    <color name="colorPrimary">#B93E2C</color>
+    <color name="colorPrimaryDark">#B93E2C</color>
+    <color name="colorAccent">#e86915</color>
 
     <color name="bg_menu_bottom">#f2f2f2</color>
     <color name="icon_menu_bottom">#b1b1b1</color>
     <color name="textview_normal">#5c5c5c</color>
     <color name="textview_normal_more">#707070</color>
-    <color name="color_main">#B25542</color>
+    <color name="color_main">#B93E2C</color>
     <color name="bg_main">#E0E0E0</color>
     <color name="bg_btn_save_profile">#cfcfcf</color>
     <color name="bg_edt_profile">#cfcfcf</color>

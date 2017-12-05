@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +17,18 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,6 +55,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.ContentValues.TAG;
 import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
 public class Purchase extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
@@ -57,6 +66,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
     private TextView txtaddressOrder;
     private TextView txtnameOrder;
     private TextView txtphoneOrder;
+    private TextView txtChangeRecipients;
     private boolean isPushDataDone;
     private Double totalp;
     private CircleImageView mAvatamini;
@@ -81,6 +91,9 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
     double totalMonney = 0;
     int numofStart = 0;
 
+    int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+    private Marker marker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +112,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         longitude = addressOrder().get(0).getLongitude();
         address = addressOrder().get(0).getAddress();
 
+        choseeAddress();
         txtaddressOrder.setText(address);
 
         mAuth = FirebaseAuth.getInstance();
@@ -136,6 +150,13 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
 
             }
         });
+
+        txtChangeRecipients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeRecipients();
+            }
+        });
     }
 
     private String getUserId() {
@@ -163,6 +184,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         txtaddressOrder = (TextView) findViewById(R.id.addressOrder);
         txtnameOrder = (TextView) findViewById(R.id.nameOrder);
         txtphoneOrder = (TextView) findViewById(R.id.phoneOrder);
+        txtChangeRecipients = (TextView) findViewById(R.id.changeCustomer);
         mAvatamini = (CircleImageView) findViewById(R.id.ic_avatar_mini);
         isPushDataDone = false;
     }
@@ -177,7 +199,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
             totalp = totalp + 10000;
         }
         DecimalFormat formatter = new DecimalFormat("#.#");
-        total.setText(formatter.format(totalp) + "đ");
+        total.setText(formatter.format(totalp) + " VNĐ");
     }
 
     //Setup tool bar
@@ -258,8 +280,54 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         mMap = googleMap;
         // Add a marker, and move the camera.
         LatLng sydney = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(sydney).title(address));
+        marker = mMap.addMarker(new MarkerOptions().position(sydney).title(address));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+    }
+
+    // A place has been received; use requestCode to track the request.
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlaceAutocomplete.getPlace(Purchase.this, data);
+
+                //Get latitude and longitude
+                latitude = place.getLatLng().latitude;
+                longitude = place.getLatLng().longitude;
+                //Get Address
+                address = place.getAddress().toString();
+                txtaddressOrder.setText(address);
+                LatLng sydney = new LatLng(latitude, longitude);
+                //Thay doi marker tren map
+                if (marker != null) marker.remove();
+                marker = mMap.addMarker(new MarkerOptions().position(sydney).title(address));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(Purchase.this, data);
+                // TODO: Handle the error.
+                Log.i(TAG, status.getStatusMessage());
+
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
+    }
+
+    private void findPlace() {
+        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
+                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_NONE)
+                .setCountry("VN")
+                .build();
+        try {
+            Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                    .setFilter(typeFilter)
+                    .build(Purchase.this);
+            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException e) {
+            // TODO: Handle the error.
+        } catch (GooglePlayServicesNotAvailableException e) {
+            // TODO: Handle the error.
+        }
     }
 
     private void PushDataToFireBase() {
@@ -288,6 +356,9 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
             Map mParent = new HashMap();
             mParent.put("Date", "" + getCurrentTime());
             mParent.put("Total", totalp);
+            mParent.put("CustomerName", nameUser);
+            mParent.put("PhoneNumber", phoneUser);
+            mParent.put("Address", address);
             mParent.put("Foods", myMapFoods);
             myRef.child("Orders").child("" + getUserId()).push().setValue(mParent);
         } else {
@@ -351,5 +422,46 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         }
         mReference = database.getReference().child("UserRank").child(user_id);
         mReference.setValue(new UserRank(totalMonney, numofStart, nameRank));
+    }
+
+    private void choseeAddress() {
+        txtaddressOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findPlace();
+            }
+        });
+    }
+
+    private void changeRecipients(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(Purchase.this).inflate(R.layout.dialog_change_recipients, null);
+        builder.setView(view);
+        builder.setCancelable(false);
+        final AlertDialog alertDialog = builder.create();
+        final EditText edtInputPhone = (EditText) view.findViewById(R.id.changePhoneOrder);
+        final EditText edtInputName = (EditText) view.findViewById(R.id.changeNameOrder);
+        Button btnCancel = (Button) view.findViewById(R.id.changePhoneCancel);
+        Button btnUpdate = (Button) view.findViewById(R.id.changePhoneYes);
+
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAvatamini.setImageDrawable(getResources().getDrawable(R.drawable.ic_logo_man));
+                nameUser = edtInputName.getText().toString();
+                txtnameOrder.setText(nameUser);
+                phoneUser = edtInputPhone.getText().toString();
+                txtphoneOrder.setText(phoneUser);
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 }

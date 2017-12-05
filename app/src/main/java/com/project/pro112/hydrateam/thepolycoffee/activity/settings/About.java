@@ -1,6 +1,5 @@
 package com.project.pro112.hydrateam.thepolycoffee.activity.settings;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,12 +31,12 @@ public class About extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Typeface face2 = Typeface.createFromAsset(getAssets(),
-                "fonts/JosefinSans-Regular.ttf");
-        txtParaOne.setTypeface(face2);
-        txtParaTwo.setTypeface(face2);
-        txtParaThree.setTypeface(face2);
-        txtParaFour.setTypeface(face2);
+//        Typeface face2 = Typeface.createFromAsset(getAssets(),
+//                "fonts/JosefinSans-Regular.ttf");
+//        txtParaOne.setTypeface(face2);
+//        txtParaTwo.setTypeface(face2);
+//        txtParaThree.setTypeface(face2);
+//        txtParaFour.setTypeface(face2);
     }
 
     @Override

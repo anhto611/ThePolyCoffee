@@ -69,8 +69,10 @@
         <activity android:name=".activity.home.LoadNews" />
         <activity android:name=".activity.settings.Support" />
         <activity android:name=".activity.settings.About" />
-        <activity android:name=".activity.shopping.Cart" />
-        <activity android:name=".activity.shopping.Purchase" />
+        <activity android:name=".activity.shopping.Cart"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.shopping.Purchase"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -78,7 +80,8 @@
 
         <activity android:name=".activity.video.PlayVideoYoutube" />
         <activity android:name=".activity.home.PurchaseHistoryViewProDuct" />
-        <activity android:name=".activity.shopping.SuccessfulPurchase"></activity>
+        <activity android:name=".activity.shopping.SuccessfulPurchase"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

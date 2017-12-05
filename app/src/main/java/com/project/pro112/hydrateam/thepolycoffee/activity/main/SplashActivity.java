@@ -45,4 +45,16 @@ public class SplashActivity extends AppCompatActivity
             splashTimer.cancel();
         splashTimer.purge();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(0,0);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0,0);
+    }
 }

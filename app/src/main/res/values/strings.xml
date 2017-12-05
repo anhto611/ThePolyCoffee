@@ -27,9 +27,12 @@
     <string name="editprofile_save_profile">Save Profile</string>
     <string name="home_name">Name</string>
     <string name="purchase_update_phone">Update your phone number before making a purchase!</string>
+    <string name="purchase_change_recipients">Change recipients!</string>
     <string name="purchase_input_phone">Input your Phone number</string>
+    <string name="purchase_input_name">Input your Name</string>
     <string name="purchase_btn_cancel">Cancel</string>
     <string name="purchase_btn_update">Update</string>
+    <string name="purchase_btn_change">Change</string>
     <string name="home_rank">Rank</string>
     <string name="shopping_tv_search">Choose your address!</string>
     <string name="idadmin">NzvyGNkPilTCTgmKZHVaXLHVmAH2</string>

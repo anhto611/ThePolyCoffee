@@ -23,7 +23,6 @@
     <TextView
         android:id="@+id/btnS"
         android:text="View cart"
-        android:background="@color/color_main"
         android:textColor="#FFFFFF"
         android:textAllCaps="false"
         android:textStyle="bold"
