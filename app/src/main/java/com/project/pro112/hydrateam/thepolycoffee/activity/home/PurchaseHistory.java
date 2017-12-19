@@ -31,6 +31,7 @@ public class PurchaseHistory extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private FragmentManager fragmentManager;
     private ArrayList<DateAndTotal> arrayList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,7 @@ public class PurchaseHistory extends AppCompatActivity {
     }
 
     private void setUpToolbar() {
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         txtTitle = (TextView) findViewById(R.id.tvTitleToolbar);
         toolbar.setTitle("");
         txtTitle.setText("Purchase history");
@@ -53,44 +54,50 @@ public class PurchaseHistory extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void setUpdata() {
-        if(getUserId()!= null){
+        if (getUserId() != null) {
             arrayList = new ArrayList<>();
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef;
-            myRef = database.getReference("Orders/"+getUserId());
+            myRef = database.getReference("Orders/" + getUserId());
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()){
+                    for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                         DateAndTotal dateAndTotal = new DateAndTotal();
                         String dateNe = (String) messageSnapshot.child("Date").getValue();
                         Long total = (Long) messageSnapshot.child("Total").getValue();
                         dateAndTotal.setDateNe(dateNe);
                         dateAndTotal.setTotal(total);
-                        dateAndTotal.setKeyOrder(messageSnapshot.getKey()+"");
+                        dateAndTotal.setKeyOrder(messageSnapshot.getKey() + "");
                         arrayList.add(dateAndTotal);
                     }
-                    HistoryListDateAdapter historyListDateAdapter = new HistoryListDateAdapter(getBaseContext(), fragmentManager, arrayList);
+                    ArrayList<DateAndTotal> listHistory = new ArrayList<>(arrayList.size());
+                    for (int i = arrayList.size() - 1; i >= 0; i--) {
+                        listHistory.add(arrayList.get(i));
+                    }
+                    HistoryListDateAdapter historyListDateAdapter = new HistoryListDateAdapter(getBaseContext(), fragmentManager, listHistory);
                     mRecyclerView.setLayoutManager(linearLayoutManager);
                     mRecyclerView.setHasFixedSize(true);
                     mRecyclerView.setAdapter(historyListDateAdapter);
                 }
+
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
             });
-        }else{
+        } else {
             Toast.makeText(this, "Bạn chưa đăng nhập", Toast.LENGTH_SHORT).show();
         }
     }
+
     private String getUserId() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid;
@@ -101,8 +108,9 @@ public class PurchaseHistory extends AppCompatActivity {
             // No user is signed in
             uid = null;
         }
-        return ""+uid;
+        return "" + uid;
     }
+
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
         linearLayoutManager = new LinearLayoutManager(this);

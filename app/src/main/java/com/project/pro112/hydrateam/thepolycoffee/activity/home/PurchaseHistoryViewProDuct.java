@@ -19,7 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.pro112.hydrateam.thepolycoffee.R;
+import com.project.pro112.hydrateam.thepolycoffee.adapter.HistoryListDateAdapter;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterHistoryProduct;
+import com.project.pro112.hydrateam.thepolycoffee.models.DateAndTotal;
 import com.project.pro112.hydrateam.thepolycoffee.models.OrderedFireBaseFood;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 public class PurchaseHistoryViewProDuct extends AppCompatActivity {
     Toolbar toolbar;
     TextView txtTitle;
+    TextView customerName, deliveryAddress, customerPhone;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager linearLayoutManager;
     private FragmentManager fragmentManager;
@@ -63,12 +66,33 @@ public class PurchaseHistoryViewProDuct extends AppCompatActivity {
     private void setUpdata() {
         Intent intent = getIntent();
         String keyNe = intent.getStringExtra("keyNe");
-        Toast.makeText(this, keyNe + "", Toast.LENGTH_SHORT).show();
 
         if (getUserId() != null) {
             arrayList = new ArrayList<>();
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef;
+
+            myRef = database.getReference("Orders/" + getUserId() + "/" + keyNe);
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        String name = (String) dataSnapshot.child("CustomerName").getValue();
+                        String address = (String) dataSnapshot.child("Address").getValue();
+                        String phone = (String) dataSnapshot.child("PhoneNumber").getValue();
+
+                        customerName.setText(name);
+                        deliveryAddress.setText(address);
+                        customerPhone.setText(phone);
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
             myRef = database.getReference("Orders/" + getUserId() + "/" + keyNe + "/Foods");
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -125,5 +149,9 @@ public class PurchaseHistoryViewProDuct extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
         linearLayoutManager = new LinearLayoutManager(this);
         fragmentManager = this.getFragmentManager();
+
+        customerName = (TextView) findViewById(R.id.customerName);
+        deliveryAddress = (TextView) findViewById(R.id.deliveryAddress);
+        customerPhone = (TextView) findViewById(R.id.customerPhone);
     }
 }

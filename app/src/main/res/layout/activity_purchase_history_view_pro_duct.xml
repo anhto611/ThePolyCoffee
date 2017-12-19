@@ -16,5 +16,34 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivery address"
+            android:paddingBottom="8dp"/>
+        <TextView
+            android:id="@+id/customerName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivery address"/>
+        <TextView
+            android:id="@+id/deliveryAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivery address"
+            android:maxLines="2"/>
+        <TextView
+            android:id="@+id/customerPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivery address"/>
+    </LinearLayout>
 </LinearLayout>
