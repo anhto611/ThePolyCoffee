@@ -13,37 +13,56 @@
         android:layout_height="wrap_content">
     </include>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mRecyclerView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delivery address"
-            android:paddingBottom="8dp"/>
-        <TextView
-            android:id="@+id/customerName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delivery address"/>
-        <TextView
-            android:id="@+id/deliveryAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delivery address"
-            android:maxLines="2"/>
-        <TextView
-            android:id="@+id/customerPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delivery address"/>
-    </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/background_cardview_drinks_and_cakes">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery address"
+                    android:paddingBottom="8dp"/>
+                <TextView
+                    android:id="@+id/customerName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery address"/>
+                <TextView
+                    android:id="@+id/deliveryAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery address"
+                    android:maxLines="2"/>
+                <TextView
+                    android:id="@+id/customerPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery address"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
 </LinearLayout>

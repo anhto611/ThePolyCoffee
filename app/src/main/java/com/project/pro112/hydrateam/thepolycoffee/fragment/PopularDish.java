@@ -18,7 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.pro112.hydrateam.thepolycoffee.R;
 import com.project.pro112.hydrateam.thepolycoffee.adapter.RecyclerViewAdapterPolularDish;
-import com.project.pro112.hydrateam.thepolycoffee.interfaces.CheckButtonViewCartToHideOrShow;
 import com.project.pro112.hydrateam.thepolycoffee.models.Food;
 import com.project.pro112.hydrateam.thepolycoffee.tool.SpaceBetweenGrid;
 
@@ -29,7 +28,7 @@ import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PopularDish extends Fragment implements CheckButtonViewCartToHideOrShow{
+public class PopularDish extends Fragment{
 
 
     public PopularDish() {
@@ -49,7 +48,7 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
         mRecyclerView = view.findViewById(R.id.mRecyclerView);
         fragmentManager = getFragmentManager();
         setUpRecyclerView();
-        hideButtonViewCart();
+//        hideButtonViewCart();
         return view;
     }
 
@@ -103,25 +102,20 @@ public class PopularDish extends Fragment implements CheckButtonViewCartToHideOr
         mRecyclerView.addItemDecoration(new SpaceBetweenGrid(spanCount, spacing, includeEdge));
     }
 
-    private void hideButtonViewCart() {
-        this.mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                // có data số 7 đổi lại lại số lượng - 1
-                if(dy > 0 && linearButtonViewCart.getVisibility() == View.VISIBLE)
-                    linearButtonViewCart.setVisibility(View.INVISIBLE);
-                else if(dy < 0 && linearButtonViewCart.getVisibility() == View.INVISIBLE)
-                    linearButtonViewCart.setVisibility(View.VISIBLE);
-            }
-
-        });
-    }
-
-    @Override
-    public int getPosition() {
-        return mLayoutManager.findLastCompletelyVisibleItemPosition();
-    }
+//    private void hideButtonViewCart() {
+//        this.mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                // có data số 7 đổi lại lại số lượng - 1
+//                if(dy > 0 && linearButtonViewCart.getVisibility() == View.VISIBLE)
+//                    linearButtonViewCart.setVisibility(View.INVISIBLE);
+//                else if(dy < 0 && linearButtonViewCart.getVisibility() == View.INVISIBLE)
+//                    linearButtonViewCart.setVisibility(View.VISIBLE);
+//            }
+//
+//        });
+//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

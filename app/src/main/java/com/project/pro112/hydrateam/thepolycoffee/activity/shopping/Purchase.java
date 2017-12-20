@@ -59,7 +59,7 @@ import static android.content.ContentValues.TAG;
 import static com.project.pro112.hydrateam.thepolycoffee.activity.shopping.Order.linearButtonViewCart;
 
 public class Purchase extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
-    private ScrollView scrollView;
+
     private Button order;
     private GoogleMap mMap;
     private TextView total;
@@ -101,12 +101,9 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         initView();
         setUpToolbar();
         //như bên cart
-        setUpHideButtonWhenSrollToTheBottom();
+//        setUpHideButtonWhenSrollToTheBottom();
         setTotal();
         setUpMaps();
-//        Toast.makeText(this, "User id: "+getUserId()+"", Toast.LENGTH_SHORT).show();
-//        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-//        Toast.makeText(this, "Date: "+currentDateTimeString, Toast.LENGTH_SHORT).show();
 
         latitude = addressOrder().get(0).getLatitude();
         longitude = addressOrder().get(0).getLongitude();
@@ -179,7 +176,6 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         order = (Button) findViewById(R.id.btnS);
         order.setText("Order");
         order.setOnClickListener(this);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
         total = (TextView) findViewById(R.id.total);
         txtaddressOrder = (TextView) findViewById(R.id.addressOrder);
         txtnameOrder = (TextView) findViewById(R.id.nameOrder);
@@ -189,6 +185,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         isPushDataDone = false;
     }
 
+    // Tinh tong tien + phi giao hang
     public void setTotal() {
         LinearLayout linearLayout = linearButtonViewCart;
         TextView tv = (TextView) linearLayout.getChildAt(0);
@@ -220,33 +217,33 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    private void setUpHideButtonWhenSrollToTheBottom() {
-        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                View child = scrollView.getChildAt(0);
-                if (child != null) {
-                    int childHeight = child.getHeight();
-                    if (scrollView.getHeight() < childHeight) {
-                        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-                            @Override
-                            public void onScrollChanged() {
-                                if (scrollView != null) {
-                                    if (scrollView.getChildAt(0).getBottom() == (scrollView.getHeight() + scrollView.getScrollY())) {
-                                        order.setVisibility(View.INVISIBLE);
-                                    } else {
-                                        order.setVisibility(View.VISIBLE);
-                                    }
-                                }
-                            }
-                        });
-                    } else {
-                        order.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-    }
+//    private void setUpHideButtonWhenSrollToTheBottom() {
+//        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                View child = scrollView.getChildAt(0);
+//                if (child != null) {
+//                    int childHeight = child.getHeight();
+//                    if (scrollView.getHeight() < childHeight) {
+//                        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+//                            @Override
+//                            public void onScrollChanged() {
+//                                if (scrollView != null) {
+//                                    if (scrollView.getChildAt(0).getBottom() == (scrollView.getHeight() + scrollView.getScrollY())) {
+//                                        order.setVisibility(View.INVISIBLE);
+//                                    } else {
+//                                        order.setVisibility(View.VISIBLE);
+//                                    }
+//                                }
+//                            }
+//                        });
+//                    } else {
+//                        order.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            }
+//        });
+//    }
 
     // click vào nút order
     @Override
@@ -408,6 +405,7 @@ public class Purchase extends AppCompatActivity implements View.OnClickListener,
         alertDialog.show();
     }
 
+    // Thiet lap point rank
     private void setUserRank() {
         double totalMonney;
         int numofStart;

@@ -2,11 +2,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F1ECE9"
     tools:context="com.project.pro112.hydrateam.thepolycoffee.fragment.Drinks">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mRecyclerView"
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/scrollContent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="75dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="false"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </FrameLayout>

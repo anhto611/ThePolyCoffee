@@ -2,6 +2,7 @@ package com.project.pro112.hydrateam.thepolycoffee.activity.shopping;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,8 +28,7 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerView2;
     private LinearLayoutManager mLayoutManager;
-    private android.support.v4.app.FragmentManager fragmentManager;
-    private NestedScrollView scrollView;
+    private FragmentManager fragmentManager;
 
     private ImageView cartisEmpty;
 
@@ -41,7 +41,7 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
         setUpToolbar();
         setUpRecyclerView();
         // Dấu nút giao hàng khi rê xuống bottom
-        setUpHideButtonWhenSrollToTheBottom();
+//        setUpHideButtonWhenSrollToTheBottom();
 
     }
 
@@ -98,7 +98,6 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
         btnDelivery.setOnClickListener(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
         mRecyclerView2 = (RecyclerView) findViewById(R.id.mRecyclerView2);
-        scrollView = (NestedScrollView) findViewById(R.id.scrollView);
     }
 
     //delivery and purchase click
@@ -115,33 +114,33 @@ public class Cart extends AppCompatActivity implements View.OnClickListener {
         setViewCartEmpty();
     }
 
-    private void setUpHideButtonWhenSrollToTheBottom() {
-        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                View child = scrollView.getChildAt(0);
-                if (child != null) {
-                    int childHeight = child.getHeight();
-                    if (scrollView.getHeight() < childHeight) {
-                        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-                            @Override
-                            public void onScrollChanged() {
-                                if (scrollView != null) {
-                                    if (scrollView.getChildAt(0).getBottom() == (scrollView.getHeight() + scrollView.getScrollY())) {
-                                        btnDelivery.setVisibility(View.INVISIBLE);
-                                    } else {
-                                        btnDelivery.setVisibility(View.VISIBLE);
-                                    }
-                                }
-                            }
-                        });
-                    } else {
-                        btnDelivery.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-    }
+//    private void setUpHideButtonWhenSrollToTheBottom() {
+//        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                View child = scrollView.getChildAt(0);
+//                if (child != null) {
+//                    int childHeight = child.getHeight();
+//                    if (scrollView.getHeight() < childHeight) {
+//                        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+//                            @Override
+//                            public void onScrollChanged() {
+//                                if (scrollView != null) {
+//                                    if (scrollView.getChildAt(0).getBottom() == (scrollView.getHeight() + scrollView.getScrollY())) {
+//                                        btnDelivery.setVisibility(View.INVISIBLE);
+//                                    } else {
+//                                        btnDelivery.setVisibility(View.VISIBLE);
+//                                    }
+//                                }
+//                            }
+//                        });
+//                    } else {
+//                        btnDelivery.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            }
+//        });
+//    }
 
     private void setViewCartEmpty(){
         tempdatabase tempdatabase = new tempdatabase(Cart.this);
